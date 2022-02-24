@@ -1,0 +1,48 @@
+# Default values for convoy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  replicaCount: 2
+  port: 3000
+  env:
+    - convoy_db_dsn
+    - convoy_redis_dsn
+    - convoy_env
+    - convoy_sentry_dsn
+    - convoy_signature_header
+    - convoy_signature_hash
+    - convoy_api_username
+    - convoy_api_password
+    - convoy_ui_username
+    - convoy_ui_password
+    - convoy_jwt_key
+    - convoy_jwt_expiry
+    - convoy_retry_strategy
+    - convoy_interval_seconds
+    - convoy_retry_limit
+    - convoy_disable_endpoint
+  resources:
+    limits:
+      cpu: 300m
+      memory: 300Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+
+image:
+  repository: ghcr.io/frain-dev/convoy
+  pullPolicy: IfNotPresent
+  tag: stable
+
+imagePullSecrets:
+  - name: convoy
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
