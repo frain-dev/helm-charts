@@ -6,22 +6,43 @@ app:
   replicaCount: 2
   port: 3000
   env:
-    - convoy_db_dsn
-    - convoy_redis_dsn
+    - ssl
+    - worker_port
     - convoy_env
+    - convoy_base_url
+    - convoy_db_type
+    - convoy_db_dsn
     - convoy_sentry_dsn
-    - convoy_signature_header
+    - convoy_mutiple_tenants
+    - convoy_limiter_provider
+    - convoy_cache_provider
+    - convoy_queue_provider
+    - convoy_redis_dsn
+    - convoy_logger_level
+    - convoy_logger_provider
+    - convoy_ssl_key_file
+    - convoy_ssl_cert_file
+    - convoy_strategy_type
     - convoy_signature_hash
-    - convoy_api_username
-    - convoy_api_password
-    - convoy_ui_username
-    - convoy_ui_password
-    - convoy_jwt_key
-    - convoy_jwt_expiry
-    - convoy_retry_strategy
-    - convoy_interval_seconds
-    - convoy_retry_limit
     - convoy_disable_endpoint
+    - convoy_signature_header
+    - convoy_interval_seconds
+    - convoy_smtp_url
+    - convoy_smtp_from
+    - convoy_smtp_port
+    - convoy_retry_limit
+    - convoy_require_auth
+    - convoy_smtp_provider
+    - convoy_smtp_username
+    - convoy_smtp_password
+    - convoy_smtp_reply_to
+    - convoy_api_key_config
+    - convoy_newrelic_app_name
+    - convoy_basic_auth_config
+    - convoy_newrelic_license_key
+    - convoy_native_realm_enabled
+    - convoy_newrelic_config_enabled
+    - convoy_newrelic_distributed_tracer_enabled
   resources:
     limits:
       cpu: 300m
