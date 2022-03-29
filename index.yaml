@@ -12,6 +12,16 @@ entries:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.5.1/convoy-v0.5.1.tgz
     version: v0.5.1
   - apiVersion: v2
+    appVersion: v0.4.21
+    created: "2022-03-29T08:47:54.702000404Z"
+    description: A Helm chart for Kubernetes
+    digest: 2c5fcc4b2faf00f6ad62522981c724ece8bf839c57b1342e65c7d7862b6990cf
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.4.21/convoy-v0.4.21.tgz
+    version: v0.4.21
+  - apiVersion: v2
     appVersion: v0.4.20
     created: "2022-03-26T23:26:39.374396563Z"
     description: A Helm chart for Kubernetes
