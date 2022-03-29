@@ -53,14 +53,14 @@ spec:
                   key: {{ $env }}
             {{- end }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: http
+            exec:
+              command: 
+              - ls -la
             initialDelaySeconds: 30
           readinessProbe:
-            httpGet:
-              path: /health
-              port: http
+            exec:
+              command: 
+              - ls -la
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
