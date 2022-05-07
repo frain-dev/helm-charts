@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: v0.6.0-rc
+    created: "2022-05-07T00:33:21.849018205Z"
+    description: A Helm chart for Kubernetes
+    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.6.0-rc/convoy-v0.6.0-rc.tgz
+    version: v0.6.0-rc
+  - apiVersion: v2
     appVersion: v0.5.5
     created: "2022-04-29T10:21:15.589940802Z"
     description: A Helm chart for Kubernetes
