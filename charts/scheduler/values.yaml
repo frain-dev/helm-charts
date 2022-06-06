@@ -52,7 +52,7 @@ app:
       memory: 100Mi
 
 image:
-  repository: ghcr.io/frain-dev/convoy
+  repository: ghcr.io/frain-dev/convoy-cloud
   pullPolicy: IfNotPresent
   tag: stable
 
