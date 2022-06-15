@@ -57,7 +57,7 @@ image:
   tag: stable
 
 imagePullSecrets:
-  - name: convoy
+  - name: ghcr-token
 nameOverride: ""
 fullnameOverride: ""
 
