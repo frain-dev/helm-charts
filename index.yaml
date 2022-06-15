@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: v0.6.0-rc-2
+    created: "2022-06-15T15:43:38.354208855Z"
+    description: A Helm chart for Kubernetes
+    digest: f96bf7f38d85b95d63edfd2f244649bed7f3cd3f86e2fe276a744f954e96ea1f
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.6.0-rc-2/convoy-v0.6.0-rc-2.tgz
+    version: v0.6.0-rc-2
+  - apiVersion: v2
     appVersion: v0.6.0-rc-1
     created: "2022-06-15T13:45:05.827666264Z"
     description: A Helm chart for Kubernetes
@@ -13,9 +23,9 @@ entries:
     version: v0.6.0-rc-1
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-05-07T00:33:21.849018205Z"
+    created: "2022-06-15T12:34:13.817600938Z"
     description: A Helm chart for Kubernetes
-    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
+    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
     name: convoy
     type: application
     urls:
@@ -23,9 +33,9 @@ entries:
     version: v0.6.0-rc
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-06-15T12:34:13.817600938Z"
+    created: "2022-05-07T00:33:21.849018205Z"
     description: A Helm chart for Kubernetes
-    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
+    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
     name: convoy
     type: application
     urls:
@@ -122,6 +132,16 @@ entries:
     - https://github.com/frain-dev/convoy-helm-chart/releases/download/convoy-0.4.9/convoy-0.4.9.tgz
     version: 0.4.9
   convoy-scheduler:
+  - apiVersion: v2
+    appVersion: v0.6.0-rc-2
+    created: "2022-06-15T15:43:38.131568472Z"
+    description: A Helm chart for Kubernetes
+    digest: cd4562ff557f770ea3075b7d2ac9010fc16547deb028820d3d6969d3d698e6ae
+    name: convoy-scheduler
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.6.0-rc-2/convoy-scheduler-v0.6.0-rc-2.tgz
+    version: v0.6.0-rc-2
   - apiVersion: v2
     appVersion: v0.6.0-rc-1
     created: "2022-06-15T13:45:05.673316825Z"
