@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: v0.6.0-rc-7
+    created: "2022-06-24T12:35:13.044693157Z"
+    description: A Helm chart for Kubernetes
+    digest: bcf727082b0f76696bd31138046511e381d4ce2390d6e7e09c8ce8c278097105
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.6.0-rc-7/convoy-v0.6.0-rc-7.tgz
+    version: v0.6.0-rc-7
+  - apiVersion: v2
     appVersion: v0.6.0-rc-6
     created: "2022-06-21T13:00:40.791931901Z"
     description: A Helm chart for Kubernetes
@@ -172,6 +182,16 @@ entries:
     - https://github.com/frain-dev/convoy-helm-chart/releases/download/convoy-0.4.9/convoy-0.4.9.tgz
     version: 0.4.9
   convoy-scheduler:
+  - apiVersion: v2
+    appVersion: v0.6.0-rc-7
+    created: "2022-06-24T12:35:12.965185371Z"
+    description: A Helm chart for Kubernetes
+    digest: 24ad4391d996d7eabb82b4b39b5b9b626c81ef82e2e1d6b03f731b7b922fed2a
+    name: convoy-scheduler
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.6.0-rc-7/convoy-scheduler-v0.6.0-rc-7.tgz
+    version: v0.6.0-rc-7
   - apiVersion: v2
     appVersion: v0.6.0-rc-6
     created: "2022-06-21T13:00:40.683372618Z"
