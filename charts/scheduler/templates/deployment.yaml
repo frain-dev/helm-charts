@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "convoy-scheduler.fullname" . }}
+  name: {{ include "convoy-indexer.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "convoy-scheduler.name" . }}
-    helm.sh/chart: {{ include "convoy-scheduler.chart" . }}
+    app.kubernetes.io/name: {{ include "convoy-indexer.name" . }}
+    helm.sh/chart: {{ include "convoy-indexer.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "convoy-scheduler.name" . }}
+      app.kubernetes.io/name: {{ include "convoy-indexer.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       annotations:
         updatedAt: {{ now | quote }}
       labels:
-        app.kubernetes.io/name: {{ include "convoy-scheduler.name" . }}
+        app.kubernetes.io/name: {{ include "convoy-indexer.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
@@ -35,7 +35,7 @@ spec:
             - name: convoy-config
               mountPath: /config
           command: ["/cmd"]
-          args: ["scheduler", "--config", "/config/convoy.json", "--time", "6h", "--timer", "30m"]
+          args: ["index", "--config", "/config/convoy.json"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
