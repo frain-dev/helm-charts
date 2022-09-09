@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: v0.6.7
+    created: "2022-09-09T16:19:19.657299455Z"
+    description: A Helm chart for Kubernetes
+    digest: 7e9e41ff3f1660e5a0b1fe735936bfdac190c7f95565d81c3c2114a1123b4d35
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.6.7/convoy-v0.6.7.tgz
+    version: v0.6.7
+  - apiVersion: v2
     appVersion: v0.6.6
     created: "2022-08-29T10:43:02.033897689Z"
     description: A Helm chart for Kubernetes
@@ -113,9 +123,9 @@ entries:
     version: v0.6.0-rc-1
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-06-15T12:34:13.817600938Z"
+    created: "2022-05-07T00:33:21.849018205Z"
     description: A Helm chart for Kubernetes
-    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
+    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
     name: convoy
     type: application
     urls:
@@ -123,9 +133,9 @@ entries:
     version: v0.6.0-rc
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-05-07T00:33:21.849018205Z"
+    created: "2022-06-15T12:34:13.817600938Z"
     description: A Helm chart for Kubernetes
-    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
+    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
     name: convoy
     type: application
     urls:
@@ -243,6 +253,16 @@ entries:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-indexer-v0.6.4/convoy-indexer-v0.6.4.tgz
     version: v0.6.4
   convoy-scheduler:
+  - apiVersion: v2
+    appVersion: v0.6.7
+    created: "2022-09-09T16:19:19.550801293Z"
+    description: A Helm chart for Kubernetes
+    digest: bd928fa2b349dbd15f68f85c604c0d38260dc4a8e6441316dabdf1e9ce9ced74
+    name: convoy-scheduler
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.6.7/convoy-scheduler-v0.6.7.tgz
+    version: v0.6.7
   - apiVersion: v2
     appVersion: v0.6.6
     created: "2022-08-29T10:43:01.933381559Z"
