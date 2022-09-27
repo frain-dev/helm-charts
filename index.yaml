@@ -12,6 +12,16 @@ entries:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.7.0-rc-2/convoy-v0.7.0-rc-2.tgz
     version: v0.7.0-rc-2
   - apiVersion: v2
+    appVersion: v0.7.0-rc.2
+    created: "2022-09-27T16:40:10.77502824Z"
+    description: A Helm chart for Kubernetes
+    digest: ac8d84ecb502d1da14612dc1a293788803cdcbfc0cbee50cfaf2aed0b737abcf
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.7.0-rc.2/convoy-v0.7.0-rc.2.tgz
+    version: v0.7.0-rc.2
+  - apiVersion: v2
     appVersion: v0.6.7
     created: "2022-09-09T16:19:19.657299455Z"
     description: A Helm chart for Kubernetes
@@ -133,9 +143,9 @@ entries:
     version: v0.6.0-rc-1
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-05-07T00:33:21.849018205Z"
+    created: "2022-06-15T12:34:13.817600938Z"
     description: A Helm chart for Kubernetes
-    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
+    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
     name: convoy
     type: application
     urls:
@@ -143,9 +153,9 @@ entries:
     version: v0.6.0-rc
   - apiVersion: v2
     appVersion: v0.6.0-rc
-    created: "2022-06-15T12:34:13.817600938Z"
+    created: "2022-05-07T00:33:21.849018205Z"
     description: A Helm chart for Kubernetes
-    digest: 3dd4cdfcc59869ea1009f41bab9780424bbd69748d70b647426ec1bb756864c7
+    digest: d1739caa164e8e27f5bfa7a463f35864f2a2c496137886eaef3500eb62d91903
     name: convoy
     type: application
     urls:
@@ -273,6 +283,16 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.7.0-rc-2/convoy-scheduler-v0.7.0-rc-2.tgz
     version: v0.7.0-rc-2
+  - apiVersion: v2
+    appVersion: v0.7.0-rc.2
+    created: "2022-09-27T16:40:10.66337215Z"
+    description: A Helm chart for Kubernetes
+    digest: 6de074ad06a56809ce5121694560b91e668b2a494b00f3ca53827487d2ec19a9
+    name: convoy-scheduler
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.7.0-rc.2/convoy-scheduler-v0.7.0-rc.2.tgz
+    version: v0.7.0-rc.2
   - apiVersion: v2
     appVersion: v0.6.7
     created: "2022-09-09T16:19:19.550801293Z"
