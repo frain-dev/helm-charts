@@ -453,4 +453,15 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-scheduler-v0.5.2/convoy-scheduler-v0.5.2.tgz
     version: v0.5.2
+  convoy-stream:
+  - apiVersion: v2
+    appVersion: v0.7.0-rc.2.1
+    created: "2022-10-11T09:03:35.961071107Z"
+    description: A Helm chart for Kubernetes
+    digest: 55928605a53905a0cefc9ced9d57d8bd309e4eb329020d05fabd7e1792838a9c
+    name: convoy-stream
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-stream-v0.7.0-rc.2.1/convoy-stream-v0.7.0-rc.2.1.tgz
+    version: v0.7.0-rc.2.1
 generated: "2022-03-16T16:30:12.929205444Z"
