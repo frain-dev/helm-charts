@@ -8,6 +8,7 @@ app:
   env:
     - ssl
     - worker_port
+    - socket_port
     - convoy_env
     - convoy_host
     - convoy_db_type
