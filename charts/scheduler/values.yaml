@@ -53,7 +53,7 @@ app:
 
 image:
   repository: ghcr.io/frain-dev/convoy-cloud
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: stable
 
 imagePullSecrets:
