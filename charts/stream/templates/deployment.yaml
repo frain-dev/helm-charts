@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "convoy-stream.fullname" . }}
+  name: {{ include "stream.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "convoy-stream.name" . }}
-    helm.sh/chart: {{ include "convoy-stream.chart" . }}
+    app.kubernetes.io/name: {{ include "stream.name" . }}
+    helm.sh/chart: {{ include "stream.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "convoy-stream.name" . }}
+      app.kubernetes.io/name: {{ include "stream.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         prometheus.io/port: "80"
         updatedAt: {{ now | quote }}
       labels:
-        app.kubernetes.io/name: {{ include "convoy-stream.name" . }}
+        app.kubernetes.io/name: {{ include "stream.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:

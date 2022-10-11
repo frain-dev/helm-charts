@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "convoy-stream.fullname" . }}
-  labels: {{ include "convoy-stream.labels" . | nindent 4 }}
+  name: { { include "stream.fullname" . } }
+  labels: { { include "stream.labels" . | nindent 4 } }
 spec:
-  type: {{ .Values.service.type }}
+  type: { { .Values.service.type } }
   ports:
-    - port: {{ .Values.service.port }}
+    - port: { { .Values.service.port } }
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{ include "convoy-stream.selectorLabels" . | nindent 4 }}
+  selector: { { include "stream.selectorLabels" . | nindent 4 } }
