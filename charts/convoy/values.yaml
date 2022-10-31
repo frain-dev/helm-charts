@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 app:
-  replicaCount: 1
+  replicaCount: 5
   port: 3000
   env:
     - ssl
