@@ -7,6 +7,7 @@ app:
   port: 3000
   env:
     - ssl
+    - http_proxy
     - worker_port
     - socket_port
     - convoy_env
