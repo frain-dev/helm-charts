@@ -534,6 +534,17 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-stream-v0.7.0-rc.2.1/convoy-stream-v0.7.0-rc.2.1.tgz
     version: v0.7.0-rc.2.1
+  convoy-worker:
+  - apiVersion: v2
+    appVersion: v0.7
+    created: "2022-12-19T21:16:37.204123849Z"
+    description: A Helm chart for Kubernetes
+    digest: 8c17afbc4846cc31f4d400a620e56e6f02e9925cb555d04ad954beb7aacdc96e
+    name: convoy-worker
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-worker-v0.7/convoy-worker-v0.7.tgz
+    version: v0.7
   stream:
   - apiVersion: v2
     appVersion: v0.7
