@@ -29,39 +29,39 @@ ingress:
   enabled: false
 
 config:
-  {
-  "host": "http://localhost",
-  "database": {
-    "type": "postgres",
-    "dsn": "postgres://postgres:postgres@localhost/convoy"
-  },
-  "cache": {
-    "type": "redis",
-    "redis": {
-      "dsn": "redis://localhost:6379"
-    }
-  },
-  "queue": {
-    "type": "redis",
-    "redis": {
-      "dsn": "redis://localhost:6379"
-    }
-  },
-  "smtp": {
-    "provider": "sendgrid",
-    "url": "smtp.sendgrid.net",
-    "port": 2525,
-    "username": "username",
-    "password": "password",
-    "from": "e@mail.com"
-  },
-  "disable_endpoint": false,
-  "auth": {
-    "native": {
-      "enabled": true
-    },
-    "jwt": {
-      "enabled": true
-    }
-  }
-}
+ {
+     "host": "http://localhost",
+     "database": {
+         "type": "postgres",
+         "dsn": "postgres://postgres:postgres@localhost/convoy"
+     },
+     "cache": {
+         "type": "redis",
+         "redis": {
+             "dsn": "redis://localhost:6379"
+         }
+     },
+     "queue": {
+         "type": "redis",
+         "redis": {
+             "dsn": "redis://localhost:6379"
+         }
+     },
+     "smtp": {
+         "provider": "sendgrid",
+         "url": "smtp.sendgrid.net",
+         "port": 2525,
+         "username": "username",
+         "password": "password",
+         "from": "e@mail.com"
+     },
+     "disable_endpoint": false,
+     "auth": {
+         "native": {
+             "enabled": true
+         },
+         "jwt": {
+             "enabled": true
+         }
+     }
+ }
