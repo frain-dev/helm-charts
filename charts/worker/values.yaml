@@ -1,0 +1,39 @@
+# Default values for convoy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  replicaCount: 5
+  port: 3000
+  env:
+    - http_proxy
+    - worker_port
+    - convoy_env
+    - convoy_db_type
+    - convoy_db_dsn
+    - convoy_redis_dsn
+    - convoy_logger_level
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
+image:
+  repository: ghcr.io/frain-dev/convoy-cloud
+  pullPolicy: Always
+  tag: stable
+
+imagePullSecrets:
+  - name: ghcr-token
+nameOverride: "convoy-worker"
+fullnameOverride: "convoy-worker"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false

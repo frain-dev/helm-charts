@@ -41,7 +41,7 @@ spec:
             - name: convoy-config
               mountPath: /config
           command: ["/cmd"]
-          args: ["server", "--config", "/config/convoy.json", "-w", "false"]
+          args: ["worker", "--config", "/config/convoy.json"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
