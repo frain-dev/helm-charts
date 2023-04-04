@@ -1,59 +1,25 @@
-# Default values for convoy.
+# Default values for convoy-server.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 app:
-  replicaCount: 5
-  port: 3000
-  env:
-    - ssl
-    - http_proxy
-    - worker_port
-    - socket_port
-    - convoy_env
-    - convoy_host
-    - convoy_db_type
-    - convoy_db_dsn
-    - convoy_sentry_dsn
-    - convoy_mutiple_tenants
-    - convoy_limiter_provider
-    - convoy_cache_provider
-    - convoy_queue_provider
-    - convoy_redis_dsn
-    - convoy_logger_level
-    - convoy_logger_provider
-    - convoy_ssl_key_file
-    - convoy_ssl_cert_file
-    - convoy_disable_endpoint
-    - convoy_smtp_url
-    - convoy_smtp_from
-    - convoy_smtp_port
-    - convoy_smtp_provider
-    - convoy_smtp_username
-    - convoy_smtp_password
-    - convoy_smtp_reply_to
-    - convoy_newrelic_app_name
-    - convoy_newrelic_license_key
-    - convoy_native_realm_enabled
-    - convoy_newrelic_config_enabled
-    - convoy_newrelic_distributed_tracer_enabled
+  replicaCount: 1
+  port: 5005
   resources:
     limits:
-      cpu: 200m
-      memory: 200Mi
+      cpu: 110m
+      memory: 110Mi
     requests:
       cpu: 100m
       memory: 100Mi
 
 image:
-  repository: ghcr.io/frain-dev/convoy-cloud
+  repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
   pullPolicy: Always
-  tag: stable
+  tag: v0.9.1
 
-imagePullSecrets:
-  - name: ghcr-token
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "convoy"
+fullnameOverride: "convoy"
 
 service:
   type: ClusterIP
@@ -61,3 +27,41 @@ service:
 
 ingress:
   enabled: false
+
+config:
+  {
+  "host": "http://localhost",
+  "database": {
+    "type": "postgres",
+    "dsn": "postgres://postgres:postgres@localhost/convoy"
+  },
+  "cache": {
+    "type": "redis",
+    "redis": {
+      "dsn": "redis://localhost:6379"
+    }
+  },
+  "queue": {
+    "type": "redis",
+    "redis": {
+      "dsn": "redis://localhost:6379"
+    }
+  },
+  "smtp": {
+    "provider": "sendgrid",
+    "url": "smtp.sendgrid.net",
+    "port": 2525,
+    "username": "username",
+    "password": "password",
+    "from": "e@mail.com"
+  },
+  "disable_endpoint": false,
+  "auth": {
+    "native": {
+      "enabled": true
+    },
+    "jwt": {
+      "enabled": true
+    }
+  }
+}

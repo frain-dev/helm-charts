@@ -35,7 +35,7 @@ spec:
             - name: convoy-config
               mountPath: /config
           command: ["/cmd"]
-          args: ["scheduler", "--config", "/config/convoy.json", "--time", "6h", "--timer", "30m"]
+          args: ["scheduler", "--config", "/config/convoy.json"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -45,34 +45,6 @@ spec:
               value: "{{ .Chart.Name }}"
             - name: PORT
               value: {{ .Values.app.port | quote }}
-            {{- range $env := .Values.app.env }}
-            - name: {{ $env | upper }}
-              valueFrom:
-                secretKeyRef:
-                  name: convoy
-                  key: {{ $env }}
-            {{- end }}
-          livenessProbe:
-            exec:
-              command: 
-              - ls -la
-            initialDelaySeconds: 30
-          readinessProbe:
-            exec:
-              command: 
-              - ls -la
-            initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+     

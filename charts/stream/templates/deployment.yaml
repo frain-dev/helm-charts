@@ -33,15 +33,13 @@ spec:
                 path: convoy.json
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: convoy-config
               mountPath: /config
           command: ["/cmd"]
-          args: ["stream"]
+          args: ["stream", "--config", "/config/convoy.json"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -51,13 +49,6 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
-            {{- range $env := .Values.app.env }}
-            - name: {{ $env | upper }}
-              valueFrom:
-                secretKeyRef:
-                  name: convoy
-                  key: {{ $env }}
-            {{- end }}
           livenessProbe:
             httpGet:
               path: /health
@@ -70,15 +61,3 @@ spec:
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
