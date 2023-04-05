@@ -3,18 +3,18 @@ config:
     "host": "http://localhost",
     "database": {
       "type": "postgres",
-      "dsn": "postgres://postgres:postgres@localhost/convoy"
+      "dsn": "postgres://postgres:postgres@postgresql/convoy?sslmode=disable"
     },
     "cache": {
       "type": "redis",
       "redis": {
-        "dsn": "redis://localhost:6379"
+        "dsn": "redis://redis-master:6379"
       }
     },
     "queue": {
       "type": "redis",
       "redis": {
-        "dsn": "redis://localhost:6379"
+        "dsn": "redis://redis-master:6379"
       }
     },
     "smtp": {
@@ -35,3 +35,20 @@ config:
       }
     }
   }
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgresql"
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "postgres"
+        database: "convoy"
+        password: "postgres"
+        username: "postgres"
+
+redis:
+  architecture: standalone
+  fullnameOverride: "redis"
+  auth:
+    enabled: false
