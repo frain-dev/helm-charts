@@ -24,7 +24,7 @@ jobs:
         uses: helm/chart-testing-action@v2.2.1
 
       - name: Add Bitnami Charts Repo
-        run: helm add repo bitnami https://charts.bitnami.com/bitnami
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Run chart-testing (list-changed)
         id: list-changed
