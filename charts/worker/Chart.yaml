@@ -1,6 +1,6 @@
 apiVersion: v2
 name: convoy-worker
-description: A Helm chart for Kubernetes
+description: Convoy Worker Chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #

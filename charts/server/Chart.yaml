@@ -1,6 +1,6 @@
 apiVersion: v2
 name: convoy-server
-description: A Helm chart for Kubernetes
+description: Convoy Server Chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #
