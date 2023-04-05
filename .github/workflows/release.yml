@@ -1,9 +1,15 @@
 name: Release Charts
 
 on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Manual workflow name"
+        required: true
   push:
-    branches:
-      - release-*
+    tags:
+      # Release binary for every tag.
+      - v*
 
 jobs:
   release:
