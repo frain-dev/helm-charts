@@ -1,63 +1,54 @@
-# Default values for convoy.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+config:
+  {
+    "host": "http://localhost",
+    "database": {
+      "type": "postgres",
+      "dsn": "postgres://postgres:postgres@postgresql/convoy?sslmode=disable"
+    },
+    "cache": {
+      "type": "redis",
+      "redis": {
+        "dsn": "redis://redis-master:6379"
+      }
+    },
+    "queue": {
+      "type": "redis",
+      "redis": {
+        "dsn": "redis://redis-master:6379"
+      }
+    },
+    "smtp": {
+      "provider": "sendgrid",
+      "url": "smtp.sendgrid.net",
+      "port": 2525,
+      "username": "username",
+      "password": "password",
+      "from": "e@mail.com"
+    },
+    "disable_endpoint": false,
+    "auth": {
+      "native": {
+        "enabled": true
+      },
+      "jwt": {
+        "enabled": true
+      }
+    }
+  }
 
-app:
-  replicaCount: 5
-  port: 3000
-  env:
-    - ssl
-    - http_proxy
-    - worker_port
-    - socket_port
-    - convoy_env
-    - convoy_host
-    - convoy_db_type
-    - convoy_db_dsn
-    - convoy_sentry_dsn
-    - convoy_mutiple_tenants
-    - convoy_limiter_provider
-    - convoy_cache_provider
-    - convoy_queue_provider
-    - convoy_redis_dsn
-    - convoy_logger_level
-    - convoy_logger_provider
-    - convoy_ssl_key_file
-    - convoy_ssl_cert_file
-    - convoy_disable_endpoint
-    - convoy_smtp_url
-    - convoy_smtp_from
-    - convoy_smtp_port
-    - convoy_smtp_provider
-    - convoy_smtp_username
-    - convoy_smtp_password
-    - convoy_smtp_reply_to
-    - convoy_newrelic_app_name
-    - convoy_newrelic_license_key
-    - convoy_native_realm_enabled
-    - convoy_newrelic_config_enabled
-    - convoy_newrelic_distributed_tracer_enabled
-  resources:
-    limits:
-      cpu: 200m
-      memory: 200Mi
-    requests:
-      cpu: 100m
-      memory: 100Mi
+postgresql:
+  enabled: true
+  fullnameOverride: "postgresql"
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "postgres"
+        database: "convoy"
+        password: "postgres"
+        username: "postgres"
 
-image:
-  repository: ghcr.io/frain-dev/convoy-cloud
-  pullPolicy: Always
-  tag: stable
-
-imagePullSecrets:
-  - name: ghcr-token
-nameOverride: ""
-fullnameOverride: ""
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
+redis:
+  architecture: standalone
+  fullnameOverride: "redis"
+  auth:
+    enabled: false

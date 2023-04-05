@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "convoy-server.fullname" . }}-test-connection"
+  labels:
+    {{- include "convoy-server.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "convoy-server.fullname" . }}:{{ .Values.service.port }}/health']
+  restartPolicy: Never

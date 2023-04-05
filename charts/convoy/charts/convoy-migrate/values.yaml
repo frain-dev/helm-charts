@@ -1,0 +1,25 @@
+# Default values for convoy-scheduler.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  replicaCount: 1
+  port: 3000
+  resources:
+    limits:
+      cpu: 110m
+      memory: 110Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
+image:
+  repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+  pullPolicy: Always
+  tag: v0.9.1
+
+nameOverride: "convoy-migrate"
+fullnameOverride: "convoy-migrate"
+
+ingress:
+  enabled: false
