@@ -1,24 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: {{ include "convoy-migrate.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
     helm.sh/chart: {{ include "convoy-migrate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.app.replicaCount }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  backoffLimit: 10
   template:
-    metadata:
-      annotations:
-        updatedAt: {{ now | quote }}
-      labels:
-        app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
         - name: convoy-config
@@ -27,6 +18,7 @@ spec:
             items: 
               - key: convoy.json
                 path: convoy.json
+      restartPolicy: OnFailure
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -36,10 +28,5 @@ spec:
               mountPath: /config
           command: ["/cmd"]
           args: ["migrate", "up", "--config", "/config/convoy.json"]
-          ports:
-            - name: http
-              containerPort: {{ .Values.app.port }}
-              protocol: TCP
           resources:
-            {{- toYaml .Values.app.resources | nindent 12 }}
-     
+            {{- toYaml .Values.app.resources | nindent 16 }}
