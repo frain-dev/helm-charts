@@ -2,6 +2,38 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: 0.9.2
+    created: "2023-04-06T15:35:14.076854534Z"
+    dependencies:
+    - name: convoy-server
+      repository: ""
+      version: 0.9.2
+    - name: convoy-scheduler
+      repository: ""
+      version: 0.9.2
+    - name: convoy-worker
+      repository: ""
+      version: 0.9.2
+    - name: convoy-stream
+      repository: ""
+      version: 0.9.2
+    - name: convoy-migrate
+      repository: ""
+      version: 0.9.2
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.2.7
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.9.3
+    description: Chart holding common resources required to run convoy
+    digest: 483e827e8e75ba5523fbb3f1d3e1083f83ff296d5de26efea4f510db120d1795
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.9.2/convoy-v0.9.2.tgz
+    version: v0.9.2
+  - apiVersion: v2
     appVersion: 0.9.1
     created: "2023-04-06T14:10:16.593146319Z"
     description: Chart holding common resources required to run convoy
