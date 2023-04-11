@@ -35,8 +35,8 @@ jobs:
       - name: Add Bitnami Charts Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Echo
-        run: ls -la
+      - name: Add Bitnami Charts Repo
+        run: helm dependency update ./charts/convoy
       
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.0.0

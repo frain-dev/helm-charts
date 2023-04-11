@@ -16,7 +16,7 @@ app:
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
   pullPolicy: Always
-  tag: v0.9.2
+  tag: v0.9.1
 
 nameOverride: "convoy-server"
 fullnameOverride: "convoy-server"
