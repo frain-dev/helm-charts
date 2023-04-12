@@ -1,6 +1,6 @@
 apiVersion: v2
-name: convoy
-description: Chart holding common resources required to run convoy
+name: Convoy
+description: Open Source Webhooks Gateway
 
 # A chart can be either an 'application' or a 'library' chart.
 #

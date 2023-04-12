@@ -19,7 +19,6 @@ jobs:
         uses: actions/checkout@v1
         with:
           fetch-depth: 0
-          token: ${{ secrets.PAT }}
 
       - name: Configure Git
         run: |
@@ -30,7 +29,6 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.8.1
-          token: ${{ secrets.PAT }}
       
       - name: Add Bitnami Charts Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -38,8 +36,34 @@ jobs:
       - name: Add Bitnami Charts Repo
         run: helm dependency update ./charts/convoy
       
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.0.0
+      - name: Package and upload helm chart
         env:
-          CR_TOKEN: "${{ secrets.PAT }}"
+          CR_TOKEN: ${{ secrets.PAT }}
+          CR_VERSION: "1.5.0"
+        run: |
+          curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"
+          tar -xzf cr.tar.gz
+          rm -f cr.tar.gz
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+          
+          # package chart
+          ./cr package charts/convoy
+
+          # upload chart to github relases
+          ./cr upload \
+              --owner "$owner" \
+              --git-repo "$repo" \
+              --release-name-template "convoy-{{ .Version }}"
+
+          # update index and push to github pages
+          git config user.email "$owner@users.noreply.github.com"
+          git config user.name "$owner"
+          ./cr index \
+              --owner "$owner" \
+              --git-repo "$repo" \
+              --release-name-template "convoy-{{ .Version }}" \
+              --index-path ./index.yaml \
+              --charts-repo https://$owner.github.io/$repo \
+              --push
         
