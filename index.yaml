@@ -1,5 +1,38 @@
 apiVersion: v1
 entries:
+  Convoy:
+  - apiVersion: v2
+    appVersion: 0.9.2
+    created: "2023-04-12T16:21:50.259287103Z"
+    dependencies:
+    - name: convoy-server
+      repository: ""
+      version: 0.9.2
+    - name: convoy-scheduler
+      repository: ""
+      version: 0.9.2
+    - name: convoy-worker
+      repository: ""
+      version: 0.9.2
+    - name: convoy-stream
+      repository: ""
+      version: 0.9.2
+    - name: convoy-migrate
+      repository: ""
+      version: 0.9.2
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.2.7
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.9.3
+    description: Open Source Webhooks Gateway
+    digest: af6c47f7a96c084ebf17f4882065adaf50f28e8a71df32fa91b358d695cd0991
+    name: Convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-v0.9.2/Convoy-v0.9.2.tgz
+    version: v0.9.2
   convoy:
   - apiVersion: v2
     appVersion: 0.9.2
@@ -658,4 +691,4 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/stream-v0.7.0-rc.2.1/stream-v0.7.0-rc.2.1.tgz
     version: v0.7.0-rc.2.1
-generated: "2022-03-16T16:30:12.929205444Z"
+generated: "2023-04-12T16:21:50.259455106Z"
