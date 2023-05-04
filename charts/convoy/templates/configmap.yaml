@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: convoy-config
-data:
-  convoy.json: {{ toJson .Values.config | quote }}
