@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "convoy.fullname" . }}
+  name: {{ include "convoy-worker.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "convoy.name" . }}
-    helm.sh/chart: {{ include "convoy.chart" . }}
+    app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
+    helm.sh/chart: {{ include "convoy-worker.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "convoy.name" . }}
+      app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         prometheus.io/port: "80"
         updatedAt: {{ now | quote }}
       labels:
-        app.kubernetes.io/name: {{ include "convoy.name" . }}
+        app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
