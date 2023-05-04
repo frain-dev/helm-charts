@@ -1,5 +1,5 @@
 apiVersion: v2
-name: convoy-server
+name: server
 description: Convoy Server Chart
 
 # A chart can be either an 'application' or a 'library' chart.

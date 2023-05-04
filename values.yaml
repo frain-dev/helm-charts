@@ -54,20 +54,27 @@ redis:
     enabled: false
 
 
-convoy-worker:
+worker:
   image:
+    # -- Repository to be used by the worker. Latest tag is used by default
     repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
-    tag:
+    # -- Tag for the worker image
+    tag: ""
 
   ingress:
+    # -- Enable ingress for the worker
     enabled: false
 
   service:
+    # -- Type of service for the worker
     type: ClusterIP
+    # -- Port for the worker service
     port: 80
 
   autoscaling:
+    # -- Enable autoscaling for the worker
     enabled: false
 #    minReplicas: 1
 #    maxReplicas: 10
