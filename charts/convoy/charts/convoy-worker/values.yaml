@@ -7,11 +7,11 @@ app:
   port: 5006
   resources:
     limits:
-      cpu: 110m
-      memory: 110Mi
+      cpu: 50m
+      memory: 60Mi
     requests:
-      cpu: 100m
-      memory: 100Mi
+      cpu: 40m
+      memory: 50Mi
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
