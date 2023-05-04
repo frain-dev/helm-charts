@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "convoy-worker.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
+    helm.sh/chart: {{ include "convoy-worker.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "80"
+        updatedAt: {{ now | quote }}
+      labels:
+        app.kubernetes.io/name: {{ include "convoy-worker.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: convoy-config
+          configMap:
+            name: convoy-config
+            items: 
+              - key: convoy.json
+                path: convoy.json
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: convoy-config
+              mountPath: /config
+          command: ["/cmd"]
+          args: ["worker", "--config", "/config/convoy.json"]
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.port }}
+              protocol: TCP
+          env:
+            - name: SERVICE_NAME
+              value: {{ .Chart.Name }}
+            - name: PORT
+              value: {{ .Values.app.port | quote }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}

@@ -1,0 +1,80 @@
+config:
+  {
+    "host": "http://localhost",
+    "database": {
+      "type": "postgres",
+      "dsn": "postgres://postgres:postgres@postgresql/convoy?sslmode=disable"
+    },
+    "cache": {
+      "type": "redis",
+      "redis": {
+        "dsn": "redis://redis-master:6379"
+      }
+    },
+    "queue": {
+      "type": "redis",
+      "redis": {
+        "dsn": "redis://redis-master:6379"
+      }
+    },
+    "smtp": {
+      "provider": "sendgrid",
+      "url": "smtp.sendgrid.net",
+      "port": 2525,
+      "username": "username",
+      "password": "password",
+      "from": "e@mail.com"
+    },
+    "disable_endpoint": false,
+    "auth": {
+      "native": {
+        "enabled": true
+      },
+      "jwt": {
+        "enabled": true
+      }
+    }
+  }
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgresql"
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "postgres"
+        database: "convoy"
+        password: "postgres"
+        username: "postgres"
+
+redis:
+  architecture: standalone
+  fullnameOverride: "redis"
+  auth:
+    enabled: false
+
+
+convoy-worker:
+  image:
+    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    pullPolicy: IfNotPresent
+    tag:
+
+  ingress:
+    enabled: false
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  autoscaling:
+    enabled: false
+#    minReplicas: 1
+#    maxReplicas: 10
+#    targetCPUUtilizationPercentage: 80
+#    targetMemoryUtilizationPercentage: 80
+
+
+
+
+

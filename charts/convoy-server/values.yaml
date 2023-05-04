@@ -1,0 +1,36 @@
+# Default values for convoy-server.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  replicaCount: 1
+  port: 5005
+  resources:
+    limits:
+      cpu: 50m
+      memory: 60Mi
+    requests:
+      cpu: 40m
+      memory: 50Mi
+
+image:
+  repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+  pullPolicy: Always
+  tag: v0.9.2
+
+nameOverride: "convoy-server"
+fullNameOverride: "convoy-server"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

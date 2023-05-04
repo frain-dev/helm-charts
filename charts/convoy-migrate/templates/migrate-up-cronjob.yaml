@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "convoy-migrate.fullname" . }}-up
+  labels:
+    app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
+    helm.sh/chart: {{ include "convoy-migrate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10  
+      template:
+        metadata:
+          annotations:
+            updatedAt: {{ now | quote }}
+          labels:  
+            app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
+            helm.sh/chart: {{ include "convoy-migrate.chart" . }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            app.kubernetes.io/managed-by: {{ .Release.Service }}
+        spec:
+          restartPolicy: OnFailure
+          volumes:
+            - name: convoy-config
+              configMap:
+                name: convoy-config
+                items: 
+                  - key: convoy.json
+                    path: convoy.json
+          containers:
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+              volumeMounts:
+                - name: convoy-config
+                  mountPath: /config
+              command: ["/cmd"]
+              args: ["migrate", "up", "--config", "/config/convoy.json"]
+              ports:
+                - name: http
+                  containerPort: {{ .Values.app.port }}
+                  protocol: TCP
+              resources:
+                {{- toYaml .Values.app.resources | nindent 16 }}
