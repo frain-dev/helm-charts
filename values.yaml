@@ -118,6 +118,38 @@ stream:
   autoscaling:
     # -- Enable autoscaling for the stream
     enabled: false
+    #    minReplicas: 1
+    #    maxReplicas: 10
+    #    targetCPUUtilizationPercentage: 80
+    #    targetMemoryUtilizationPercentage: 80
+
+
+server:
+    image:
+        # -- Repository to be used by the server. Latest tag is used by default
+        repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+        # -- Pull policy for the server image
+        pullPolicy: IfNotPresent
+        # -- Tag for the server image
+        tag: ""
+
+    ingress:
+        # -- Enable ingress for the server
+        enabled: false
+
+    service:
+        # -- Type of service for the server
+        type: ClusterIP
+        # -- Port for the server service
+        port: 80
+
+    autoscaling:
+        # -- Enable autoscaling for the server
+        enabled: false
+  #    minReplicas: 1
+  #    maxReplicas: 10
+  #    targetCPUUtilizationPercentage: 80
+  #    targetMemoryUtilizationPercentage: 80
 
 
 
