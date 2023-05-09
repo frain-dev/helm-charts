@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "convoy-migrate.fullname" . }}
+  annotations:
+    "helm.sh/hook": pre-install
+  labels:
+    app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
+    helm.sh/chart: {{ include "convoy-migrate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          env:
+            {{- if .Values.global.externalDatabase.enabled }}
+            - name: CONVOY_DB_SCHEME
+              value: {{ .Values.global.externalDatabase.scheme | quote }}
+            - name: CONVOY_DB_HOST
+              value: {{ .Values.global.externalDatabase.host | quote }}
+            - name: CONVOY_DB_PORT
+              value: {{ .Values.global.externalDatabase.port | quote }}
+            - name: CONVOY_DB_USERNAME
+              value: {{ .Values.global.externalDatabase.username | quote }}
+            - name: CONVOY_DB_PASSWORD
+              value: {{ .Values.global.externalDatabase.password | quote }}
+            - name: CONVOY_DB_DATABASE
+              value: {{ .Values.global.externalDatabase.database | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.app.resources | nindent 16 }}
