@@ -34,7 +34,8 @@ spec:
             - name: SERVICE_NAME
               value: "{{ .Chart.Name }}"
             - name: PORT
-              value: {{ .Values.app.port | quote }}{{- if .Values.global.externalDatabase.enabled }}
+              value: {{ .Values.app.port | quote }}
+            {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
               value: {{ .Values.global.externalDatabase.scheme | quote }}
             - name: CONVOY_DB_HOST
