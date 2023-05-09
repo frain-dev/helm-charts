@@ -24,22 +24,14 @@ spec:
         app.kubernetes.io/name: {{ include "convoy-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      volumes:
-        - name: convoy-config
-          configMap:
-            name: convoy-config
-            items: 
-              - key: convoy.json
-                path: convoy.json
+
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name: convoy-config
-              mountPath: /config
+
           command: ["/cmd"]
-          args: ["server", "--config", "/config/convoy.json", "-w", "false"]
+          args: ["server"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
