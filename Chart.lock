@@ -1,24 +1,9 @@
 dependencies:
-- name: convoy-server
-  repository: ""
-  version: 0.9.2
-- name: convoy-scheduler
-  repository: ""
-  version: 0.9.2
-- name: convoy-worker
-  repository: ""
-  version: 0.9.2
-- name: convoy-stream
-  repository: ""
-  version: 0.9.2
-- name: convoy-migrate
-  repository: ""
-  version: 0.9.2
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 12.2.7
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 17.9.3
-digest: sha256:480749b8493cf3105cab7850fd1be52bc37a8b47e160924cf6d8ea469f0c8579
-generated: "2023-04-06T16:31:53.366842439+01:00"
+digest: sha256:ddd243e95479cab183d208893a3b623ad3cd5871a8ce1697d551f7ff254354b5
+generated: "2023-05-09T18:06:40.39542+04:00"

@@ -5,7 +5,7 @@ description: Open Source Webhooks Gateway
 type: application
 
 
-version: "v1.0.0"
+version: "1.0.0"
 
 appVersion: "0.9.2"
 
@@ -23,3 +23,13 @@ maintainers:
   - name: Obinna Odirionye
     email: odirionye@gmail.com
     url: https://iamobinna.com
+
+dependencies:
+  - name: postgresql
+    version: 12.2.7
+    repository: https://charts.bitnami.com/bitnami
+
+  - name: redis
+    version: 17.9.3
+    repository: https://charts.bitnami.com/bitnami
+

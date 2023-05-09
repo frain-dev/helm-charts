@@ -1,57 +1,68 @@
-config:
-  {
-    "host": "http://localhost",
-    "database": {
-      "type": "postgres",
-      "dsn": "postgres://postgres:postgres@postgresql/convoy?sslmode=disable"
-    },
-    "cache": {
-      "type": "redis",
-      "redis": {
-        "dsn": "redis://redis-master:6379"
-      }
-    },
-    "queue": {
-      "type": "redis",
-      "redis": {
-        "dsn": "redis://redis-master:6379"
-      }
-    },
-    "smtp": {
-      "provider": "sendgrid",
-      "url": "smtp.sendgrid.net",
-      "port": 2525,
-      "username": "username",
-      "password": "password",
-      "from": "e@mail.com"
-    },
-    "disable_endpoint": false,
-    "auth": {
-      "native": {
-        "enabled": true
-      },
-      "jwt": {
-        "enabled": true
-      }
-    }
-  }
+global:
+  externalDatabase:
+    # -- Enable external database, This will use postgresql chart, Change values if you use an external database
+    enabled: &postgresEnabled true
+    # -- Host for the external database
+    host: "localhost"
+    # -- Password for the external database
+    postgresPassword: &postgresPassword "postgres"
+    # -- Database name for the external database
+    database: &postgresDatabase "convoy"
+    # -- Username for the external database
+    password: &userPassword "postgres"
+    # -- Username for the external database
+    username: &username "postgres"
+    # -- scheme for the external database. This is postgres by default
+    scheme: "postgres"
+    # -- Port for the external database
+    port: 5432
+
+  nativeRedis:
+    # -- Enable redis, This will use redis chart, Disable if you use an external redis
+    enabled: &redisEnabled true
+    # -- Host for the redis
+    host: "localhost"
+    # -- password for the redis.
+    password: &redisPassword "convoy"
+
+  externalRedis:
+    # -- Enable external redis, Enable this if you use an external redis and disable Native redis
+    enabled: false
+    # -- Host for the external redis
+    host: ""
+    # -- scheme for the external redis. This can be redis or rediss
+    scheme: ""
+    # -- username for the external redis.
+    username: ""
+    # -- password for the external redis.
+    password: ""
+    # -- Database name for the external redis.
+    database: ""
+    # -- Port for the external redis
+    port: ""
+
+
 
 postgresql:
-  enabled: true
+  enabled: *postgresEnabled
   fullnameOverride: "postgresql"
   global:
     postgresql:
       auth:
-        postgresPassword: "postgres"
-        database: "convoy"
-        password: "postgres"
-        username: "postgres"
+        postgresPassword: *postgresPassword
+        username: *username
+        password: *userPassword
+        database: *postgresDatabase
+
+
 
 redis:
   architecture: standalone
   fullnameOverride: "redis"
   auth:
-    enabled: false
+    enabled: *redisEnabled
+    password: *redisPassword
+
 
 
 worker:
@@ -66,6 +77,9 @@ worker:
   ingress:
     # -- Enable ingress for the worker
     enabled: false
+  postgres:
+    # -- Enable postgresql for the worker
+    enabled: true
 
   service:
     # -- Type of service for the worker
@@ -80,6 +94,32 @@ worker:
 #    maxReplicas: 10
 #    targetCPUUtilizationPercentage: 80
 #    targetMemoryUtilizationPercentage: 80
+
+
+stream:
+  image:
+    # -- Repository to be used by the stream. Latest tag is used by default
+    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    # -- Pull policy for the stream image
+    pullPolicy: IfNotPresent
+    # -- Tag for the stream image
+    tag: ""
+
+  ingress:
+    # -- Enable ingress for the stream
+    enabled: false
+
+  service:
+    # -- Type of service for the stream
+    type: ClusterIP
+    # -- Port for the stream service
+    port: 80
+
+  autoscaling:
+    # -- Enable autoscaling for the stream
+    enabled: false
+
+
 
 
 
