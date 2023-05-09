@@ -151,6 +151,14 @@ server:
   #    targetCPUUtilizationPercentage: 80
   #    targetMemoryUtilizationPercentage: 80
 
+scheduler:
+  image:
+    # -- Repository to be used by the scheduler. Latest tag is used by default
+    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    # -- Pull policy for the scheduler image
+    pullPolicy: IfNotPresent
+    # -- Tag for the scheduler image
+    tag: ""
 
 
 
