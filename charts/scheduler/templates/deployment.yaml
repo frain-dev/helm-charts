@@ -20,13 +20,6 @@ spec:
         app.kubernetes.io/name: {{ include "convoy-scheduler.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      volumes:
-        - name: convoy-config
-          configMap:
-            name: convoy-config
-            items: 
-              - key: convoy.json
-                path: convoy.json
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -47,4 +40,3 @@ spec:
               value: {{ .Values.app.port | quote }}
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
-     
