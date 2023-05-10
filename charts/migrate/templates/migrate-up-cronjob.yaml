@@ -14,12 +14,12 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      backoffLimit: 10  
+      backoffLimit: 10
       template:
         metadata:
           annotations:
             updatedAt: {{ now | quote }}
-          labels:  
+          labels:
             app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
             helm.sh/chart: {{ include "convoy-migrate.chart" . }}
             app.kubernetes.io/instance: {{ .Release.Name }}
@@ -30,18 +30,31 @@ spec:
             - name: convoy-config
               configMap:
                 name: convoy-config
-                items: 
+                items:
                   - key: convoy.json
                     path: convoy.json
           containers:
             - name: {{ .Chart.Name }}
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-              volumeMounts:
-                - name: convoy-config
-                  mountPath: /config
+
               command: ["/cmd"]
-              args: ["migrate", "up", "--config", "/config/convoy.json"]
+              args: ["migrate", "up"]
+              env:
+               {{- if .Values.global.externalDatabase.enabled }}
+                - name: CONVOY_DB_SCHEME
+                  value: {{ .Values.global.externalDatabase.scheme | quote }}
+                - name: CONVOY_DB_HOST
+                  value: {{ .Values.global.externalDatabase.host | quote }}
+                - name: CONVOY_DB_PORT
+                  value: {{ .Values.global.externalDatabase.port | quote }}
+                - name: CONVOY_DB_USERNAME
+                  value: {{ .Values.global.externalDatabase.username | quote }}
+                - name: CONVOY_DB_PASSWORD
+                  value: {{ .Values.global.externalDatabase.password | quote }}
+                - name: CONVOY_DB_DATABASE
+                  value: {{ .Values.global.externalDatabase.database | quote }}
+              {{- end }}
               ports:
                 - name: http
                   containerPort: {{ .Values.app.port }}

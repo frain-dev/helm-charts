@@ -162,12 +162,12 @@ scheduler:
 
 migrate:
     image:
-        # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
-        repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
-        # -- Pull policy for the migrate image
-        pullPolicy: IfNotPresent
-        # -- Tag for the migrate image
-        tag: ""
+      # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
+      repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+      # -- Pull policy for the migrate image
+      pullPolicy: IfNotPresent
+      # -- Tag for the migrate image
+      tag: ""
 
 
 

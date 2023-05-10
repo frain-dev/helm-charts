@@ -2,8 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "convoy-migrate.fullname" . }}
-  annotations:
-    "helm.sh/hook": pre-install
   labels:
     app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
     helm.sh/chart: {{ include "convoy-migrate.chart" . }}
@@ -18,8 +16,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          command: ["/cmd"]
+          args: ["migrate", "up"]
           env:
-            {{- if .Values.global.externalDatabase.enabled }}
+           {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
               value: {{ .Values.global.externalDatabase.scheme | quote }}
             - name: CONVOY_DB_HOST
@@ -32,6 +32,6 @@ spec:
               value: {{ .Values.global.externalDatabase.password | quote }}
             - name: CONVOY_DB_DATABASE
               value: {{ .Values.global.externalDatabase.database | quote }}
-            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.app.resources | nindent 16 }}
