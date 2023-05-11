@@ -26,13 +26,6 @@ spec:
             app.kubernetes.io/managed-by: {{ .Release.Service }}
         spec:
           restartPolicy: OnFailure
-          volumes:
-            - name: convoy-config
-              configMap:
-                name: convoy-config
-                items:
-                  - key: convoy.json
-                    path: convoy.json
           containers:
             - name: {{ .Chart.Name }}
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -54,7 +47,31 @@ spec:
                   value: {{ .Values.global.externalDatabase.password | quote }}
                 - name: CONVOY_DB_DATABASE
                   value: {{ .Values.global.externalDatabase.database | quote }}
-              {{- end }}
+                {{- end }}
+                {{- if .Values.global.nativeRedis.enabled }}
+                - name: CONVOY_REDIS_HOST
+                  value: {{ .Values.global.nativeRedis.host | quote }}
+                - name: CONVOY_REDIS_PASSWORD
+                  value: {{ .Values.global.nativeRedis.password | quote }}
+                - name: CONVOY_REDIS_TYPE
+                  value: "NATIVE"
+                {{- end }}
+                {{- if .Values.global.externalRedis.enabled }}
+                - name: CONVOY_REDIS_TYPE
+                  value: "EXTERNAL"
+                - name: CONVOY_REDIS_HOST
+                  value: {{ .Values.global.externalRedis.host | quote }}
+                - name: CONVOY_REDIS_PASSWORD
+                  value: {{ .Values.global.externalRedis.password | quote }}
+                - name: CONVOY_REDIS_PORT
+                  value: {{ .Values.global.externalRedis.port | quote }}
+                - name: CONVOY_REDIS_SCHEME
+                  value: {{ .Values.global.externalRedis.scheme | quote }}
+                - name: CONVOY_REDIS_USERNAME
+                  value: {{ .Values.global.externalRedis.username | quote }}
+                - name: CONVOY_REDIS_DATABASE
+                  value: {{ .Values.global.externalRedis.database | quote }}
+                {{- end }}
               ports:
                 - name: http
                   containerPort: {{ .Values.app.port }}
