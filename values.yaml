@@ -3,11 +3,11 @@ global:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
     enabled: &postgresEnabled true
     # -- Host for the external database
-    host: "localhost"
+    host: "postgresql"
     # -- Password for the external database
     postgresPassword: &postgresPassword "postgres"
     # -- Database name for the external database
-    database: &postgresDatabase "convoy"
+    database: &postgresDatabase "convoy?sslmode=disable"
     # -- Username for the external database
     password: &userPassword "postgres"
     # -- Username for the external database
@@ -21,7 +21,7 @@ global:
     # -- Enable redis, This will use redis chart, Disable if you use an external redis
     enabled: &redisEnabled true
     # -- Host for the redis
-    host: "localhost"
+    host: "redis-master"
     # -- password for the redis.
     password: &redisPassword "convoy"
 
@@ -41,9 +41,9 @@ global:
     # -- Port for the external redis
     port: ""
 
-
-
+# @ignored
 postgresql:
+
   enabled: *postgresEnabled
   fullnameOverride: "postgresql"
   global:
@@ -55,7 +55,7 @@ postgresql:
         database: *postgresDatabase
 
 
-
+# @ignored
 redis:
   architecture: standalone
   fullnameOverride: "redis"
@@ -68,11 +68,11 @@ redis:
 worker:
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
-    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    repository: rtukpe/convoy-helm-test
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
     # -- Tag for the worker image
-    tag: ""
+    tag: v1
 
   ingress:
     # -- Enable ingress for the worker
@@ -99,11 +99,11 @@ worker:
 stream:
   image:
     # -- Repository to be used by the stream. Latest tag is used by default
-    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    repository: rtukpe/convoy-helm-test
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
     # -- Tag for the stream image
-    tag: ""
+    tag: v1
 
   ingress:
     # -- Enable ingress for the stream
@@ -127,11 +127,11 @@ stream:
 server:
     image:
         # -- Repository to be used by the server. Latest tag is used by default
-        repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+        repository: rtukpe/convoy-helm-test
         # -- Pull policy for the server image
         pullPolicy: IfNotPresent
         # -- Tag for the server image
-        tag: ""
+        tag: v1
 
     ingress:
         # -- Enable ingress for the server
@@ -154,20 +154,20 @@ server:
 scheduler:
   image:
     # -- Repository to be used by the scheduler. Latest tag is used by default
-    repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+    repository: rtukpe/convoy-helm-test
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
     # -- Tag for the scheduler image
-    tag: ""
+    tag: v1
 
 migrate:
     image:
       # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
-      repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+      repository: rtukpe/convoy-helm-test
       # -- Pull policy for the migrate image
       pullPolicy: IfNotPresent
       # -- Tag for the migrate image
-      tag: ""
+      tag: v1
 
 
 
