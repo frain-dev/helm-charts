@@ -22,7 +22,7 @@ Open Source Webhooks Gateway
 
 ## Installation
 ```bash
-helm dependency update # this is update the helm dependencies
+helm dependency update
 helm upgrade convoy ./ --install --namespace convoy --create-namespace
 ```
 
