@@ -24,6 +24,8 @@ global:
     host: "redis-master"
     # -- password for the redis.
     password: &redisPassword "convoy"
+    # -- Port for the redis
+    port: 6379
 
   externalRedis:
     # -- Enable external redis, Enable this if you use an external redis and disable Native redis
@@ -72,7 +74,7 @@ worker:
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
     # -- Tag for the worker image
-    tag: v1
+    tag: v3
 
   ingress:
     # -- Enable ingress for the worker
@@ -103,7 +105,7 @@ stream:
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
     # -- Tag for the stream image
-    tag: v1
+    tag: v3
 
   ingress:
     # -- Enable ingress for the stream
@@ -131,7 +133,7 @@ server:
         # -- Pull policy for the server image
         pullPolicy: IfNotPresent
         # -- Tag for the server image
-        tag: v1
+        tag: v3
 
     ingress:
         # -- Enable ingress for the server
@@ -158,7 +160,7 @@ scheduler:
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
     # -- Tag for the scheduler image
-    tag: v1
+    tag: v3
 
 migrate:
     image:
@@ -167,7 +169,7 @@ migrate:
       # -- Pull policy for the migrate image
       pullPolicy: IfNotPresent
       # -- Tag for the migrate image
-      tag: v1
+      tag: v3
 
 
 
