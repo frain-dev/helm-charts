@@ -80,5 +80,5 @@ helm upgrade convoy ./ --install --namespace convoy --create-namespace
 ## Uninstalling
 
 ```bash
-helm uninstall convoy -n convoy
+helm delete convoy -n convoy
 ```
