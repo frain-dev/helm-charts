@@ -62,6 +62,8 @@ spec:
               value: {{ .Values.global.externalDatabase.password | quote }}
             - name: CONVOY_DB_DATABASE
               value: {{ .Values.global.externalDatabase.database | quote }}
+            - name: CONVOY_DB_OPTIONS
+              value: {{ .Values.global.externalDatabase.options | quote }}
             {{- end }}
             {{- if .Values.global.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST

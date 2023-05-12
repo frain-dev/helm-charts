@@ -7,13 +7,15 @@ global:
     # -- Password for the external database
     postgresPassword: &postgresPassword "postgres"
     # -- Database name for the external database
-    database: &postgresDatabase "convoy?sslmode=disable"
+    database: &postgresDatabase "convoy"
     # -- Username for the external database
     password: &userPassword "postgres"
     # -- Username for the external database
     username: &username "postgres"
     # -- scheme for the external database. This is postgres by default
     scheme: "postgres"
+    # -- Query params for the external database
+    options: &options "sslmode=disable"
     # -- Port for the external database
     port: 5432
 
@@ -74,7 +76,7 @@ worker:
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
     # -- Tag for the worker image
-    tag: v3
+    tag: v6
 
   ingress:
     # -- Enable ingress for the worker
@@ -105,7 +107,7 @@ stream:
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
     # -- Tag for the stream image
-    tag: v3
+    tag: v6
 
   ingress:
     # -- Enable ingress for the stream
@@ -133,7 +135,7 @@ server:
         # -- Pull policy for the server image
         pullPolicy: IfNotPresent
         # -- Tag for the server image
-        tag: v3
+        tag: v6
 
     ingress:
         # -- Enable ingress for the server
@@ -160,7 +162,7 @@ scheduler:
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
     # -- Tag for the scheduler image
-    tag: v3
+    tag: v6
 
 migrate:
     image:
@@ -169,7 +171,7 @@ migrate:
       # -- Pull policy for the migrate image
       pullPolicy: IfNotPresent
       # -- Tag for the migrate image
-      tag: v3
+      tag: v6
 
 
 
