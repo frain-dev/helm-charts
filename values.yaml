@@ -1,0 +1,183 @@
+global:
+  convoy:
+    # -- Docker image tags for all convoy services
+    tags: &tag "v9"
+  externalDatabase:
+    # -- Enable external database, This will use postgresql chart, Change values if you use an external database
+    enabled: &postgresEnabled true
+    # -- Host for the external database
+    host: "postgresql"
+    # -- Password for the external database
+    postgresPassword: &postgresPassword "postgres"
+    # -- Database name for the external database
+    database: &postgresDatabase "convoy"
+    # -- Username for the external database
+    password: &userPassword "postgres"
+    # -- Username for the external database
+    username: &username "postgres"
+    # -- scheme for the external database. This is postgres by default
+    scheme: "postgres"
+    # -- Query params for the external database
+    options: &options "sslmode=disable"
+    # -- Port for the external database
+    port: 5432
+
+  nativeRedis:
+    # -- Enable redis, This will use redis chart, Disable if you use an external redis
+    enabled: &redisEnabled true
+    # -- Host for the redis
+    host: "redis-master"
+    # -- password for the redis.
+    password: &redisPassword "convoy"
+    # -- Port for the redis
+    port: 6379
+
+  externalRedis:
+    # -- Enable external redis, Enable this if you use an external redis and disable Native redis
+    enabled: false
+    # -- Host for the external redis
+    host: ""
+    # -- scheme for the external redis. This can be redis or rediss
+    scheme: ""
+    # -- username for the external redis.
+    username: ""
+    # -- password for the external redis.
+    password: ""
+    # -- Database name for the external redis.
+    database: ""
+    # -- Port for the external redis
+    port: ""
+
+# @ignored
+postgresql:
+
+  enabled: *postgresEnabled
+  fullnameOverride: "postgresql"
+  global:
+    postgresql:
+      auth:
+        postgresPassword: *postgresPassword
+        username: *username
+        password: *userPassword
+        database: *postgresDatabase
+
+
+# @ignored
+redis:
+  architecture: standalone
+  fullnameOverride: "redis"
+  auth:
+    enabled: *redisEnabled
+    password: *redisPassword
+
+
+
+worker:
+  image:
+    # -- Repository to be used by the worker. Latest tag is used by default
+    repository: rtukpe/convoy-helm-test
+    # -- Pull policy for the worker image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
+
+  ingress:
+    # -- Enable ingress for the worker
+    enabled: false
+  postgres:
+    # -- Enable postgresql for the worker
+    enabled: true
+
+  service:
+    # -- Type of service for the worker
+    type: ClusterIP
+    # -- Port for the worker service
+    port: 80
+
+  autoscaling:
+    # -- Enable autoscaling for the worker
+    enabled: false
+#    minReplicas: 1
+#    maxReplicas: 10
+#    targetCPUUtilizationPercentage: 80
+#    targetMemoryUtilizationPercentage: 80
+
+
+stream:
+  image:
+    # -- Repository to be used by the stream. Latest tag is used by default
+    repository: rtukpe/convoy-helm-test
+    # -- Pull policy for the stream image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
+
+  ingress:
+    # -- Enable ingress for the stream
+    enabled: false
+
+  service:
+    # -- Type of service for the stream
+    type: ClusterIP
+    # -- Port for the stream service
+    port: 80
+
+  autoscaling:
+    # -- Enable autoscaling for the stream
+    enabled: false
+    #    minReplicas: 1
+    #    maxReplicas: 10
+    #    targetCPUUtilizationPercentage: 80
+    #    targetMemoryUtilizationPercentage: 80
+
+
+server:
+    image:
+        # -- Repository to be used by the server. Latest tag is used by default
+        repository: rtukpe/convoy-helm-test
+        # -- Pull policy for the server image
+        pullPolicy: IfNotPresent
+        # @ignored
+        tag: *tag
+
+    ingress:
+        # -- Enable ingress for the server
+        enabled: false
+
+    service:
+        # -- Type of service for the server
+        type: ClusterIP
+        # -- Port for the server service
+        port: 80
+
+    autoscaling:
+        # -- Enable autoscaling for the server
+        enabled: false
+  #    minReplicas: 1
+  #    maxReplicas: 10
+  #    targetCPUUtilizationPercentage: 80
+  #    targetMemoryUtilizationPercentage: 80
+
+scheduler:
+  image:
+    # -- Repository to be used by the scheduler. Latest tag is used by default
+    repository: rtukpe/convoy-helm-test
+    # -- Pull policy for the scheduler image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
+
+migrate:
+    image:
+      # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
+      repository: rtukpe/convoy-helm-test
+      # -- Pull policy for the migrate image
+      pullPolicy: IfNotPresent
+      # @ignored
+      tag: *tag
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 apiVersion: v2
-name: convoy-stream
-description: Convoy Cli Server Chart
+name: scheduler
+description: Convoy Scheduler chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -1,6 +1,4 @@
-# Default values for convoy.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+
 
 app:
   replicaCount: 1
@@ -27,3 +25,4 @@ service:
 
 ingress:
   enabled: false
+  tls: false
