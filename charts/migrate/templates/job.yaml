@@ -4,8 +4,8 @@ metadata:
   name: {{ include "convoy-migrate.fullname" . }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    helm.sh/hook-weight: "0"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation
   labels:
     app.kubernetes.io/name: {{ include "convoy-migrate.name" . }}
     helm.sh/chart: {{ include "convoy-migrate.chart" . }}

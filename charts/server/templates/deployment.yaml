@@ -31,9 +31,9 @@ spec:
             - /bin/sh
             - -c
             - |
-              until kubectl wait --for=condition=complete --timeout=600s job/migrate; do
+              until kubectl wait --for=condition=complete --timeout=600s job/convoy-migrate; do
                 echo "Waiting for migrate job to complete..."
-                sleep 10
+                sleep 5
               done
 
       containers:
