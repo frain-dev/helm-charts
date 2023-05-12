@@ -1,4 +1,7 @@
 global:
+  convoy:
+    # -- Docker image tags for all convoy services
+    tags: &tag "v9"
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
     enabled: &postgresEnabled true
@@ -75,8 +78,8 @@ worker:
     repository: rtukpe/convoy-helm-test
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
-    # -- Tag for the worker image
-    tag: v8
+    # @ignored
+    tag: *tag
 
   ingress:
     # -- Enable ingress for the worker
@@ -106,8 +109,8 @@ stream:
     repository: rtukpe/convoy-helm-test
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
-    # -- Tag for the stream image
-    tag: v8
+    # @ignored
+    tag: *tag
 
   ingress:
     # -- Enable ingress for the stream
@@ -134,8 +137,8 @@ server:
         repository: rtukpe/convoy-helm-test
         # -- Pull policy for the server image
         pullPolicy: IfNotPresent
-        # -- Tag for the server image
-        tag: v8
+        # @ignored
+        tag: *tag
 
     ingress:
         # -- Enable ingress for the server
@@ -161,8 +164,8 @@ scheduler:
     repository: rtukpe/convoy-helm-test
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
-    # -- Tag for the scheduler image
-    tag: v8
+    # @ignored
+    tag: *tag
 
 migrate:
     image:
@@ -170,8 +173,8 @@ migrate:
       repository: rtukpe/convoy-helm-test
       # -- Pull policy for the migrate image
       pullPolicy: IfNotPresent
-      # -- Tag for the migrate image
-      tag: v8
+      # @ignored
+      tag: *tag
 
 
 
