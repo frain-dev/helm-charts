@@ -1,7 +1,9 @@
 global:
   convoy:
     # -- Docker image tags for all convoy services
-    tags: &tag "v9"
+    image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
+    tag: &tag "v23.05.3"
+  
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
     enabled: &postgresEnabled true
@@ -18,7 +20,7 @@ global:
     # -- scheme for the external database. This is postgres by default
     scheme: "postgres"
     # -- Query params for the external database
-    options: &options "sslmode=disable"
+    options: &options "sslmode=require&connect_timeout=30"
     # -- Port for the external database
     port: 5432
 
@@ -50,7 +52,6 @@ global:
 
 # @ignored
 postgresql:
-
   enabled: *postgresEnabled
   fullnameOverride: "postgresql"
   global:
@@ -75,7 +76,7 @@ redis:
 worker:
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
-    repository: rtukpe/convoy-helm-test
+    repository: *image
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
     # @ignored
@@ -106,7 +107,7 @@ worker:
 stream:
   image:
     # -- Repository to be used by the stream. Latest tag is used by default
-    repository: rtukpe/convoy-helm-test
+    repository: *image
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
     # @ignored
@@ -134,7 +135,7 @@ stream:
 server:
     image:
         # -- Repository to be used by the server. Latest tag is used by default
-        repository: rtukpe/convoy-helm-test
+        repository: *image
         # -- Pull policy for the server image
         pullPolicy: IfNotPresent
         # @ignored
@@ -161,7 +162,7 @@ server:
 scheduler:
   image:
     # -- Repository to be used by the scheduler. Latest tag is used by default
-    repository: rtukpe/convoy-helm-test
+    repository: *image
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
     # @ignored
@@ -170,7 +171,7 @@ scheduler:
 migrate:
     image:
       # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
-      repository: rtukpe/convoy-helm-test
+      repository: *image
       # -- Pull policy for the migrate image
       pullPolicy: IfNotPresent
       # @ignored
