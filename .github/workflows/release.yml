@@ -34,7 +34,7 @@ jobs:
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Add Bitnami Charts Repo
-        run: helm dependency update ./charts/convoy
+        run: helm dependency update .
       
       - name: Package and upload helm chart
         env:
@@ -48,7 +48,7 @@ jobs:
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
           
           # package chart
-          ./cr package charts/convoy
+          ./cr package .
 
           # upload chart to github relases
           ./cr upload \
