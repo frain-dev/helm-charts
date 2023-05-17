@@ -54,7 +54,7 @@ jobs:
           ./cr upload \
               --owner "$owner" \
               --git-repo "$repo" \
-              --release-name-template "convoy-{{ .Version }}"
+              --release-name-template "convoy"
 
           # update index and push to github pages
           git config user.email "$owner@users.noreply.github.com"
@@ -62,7 +62,7 @@ jobs:
           ./cr index \
               --owner "$owner" \
               --git-repo "$repo" \
-              --release-name-template "convoy-{{ .Version }}" \
+              --release-name-template "convoy" \
               --index-path ./index.yaml \
               --charts-repo https://$owner.github.io/$repo \
               --push
