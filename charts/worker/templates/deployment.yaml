@@ -40,7 +40,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/cmd"]
-          args: ["worker"]
+          args: ["worker", "--log-level", "debug"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -51,6 +51,10 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.env.proxy | quote }}
+            - name: CONVOY_LOGGER_LEVEL
+              value: {{ .Values.env.log_level | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

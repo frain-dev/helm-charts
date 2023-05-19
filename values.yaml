@@ -39,7 +39,7 @@ global:
     enabled: false
     # -- Host for the external redis
     host: ""
-    # -- scheme for the external redis. This can be redis or rediss
+    # -- scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
     scheme: ""
     # -- username for the external redis.
     username: ""
@@ -81,6 +81,10 @@ worker:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+
+  env:
+    proxy: ""
+    log_level: "debug"
 
   ingress:
     # -- Enable ingress for the worker
@@ -140,6 +144,36 @@ server:
         pullPolicy: IfNotPresent
         # @ignored
         tag: *tag
+
+    env:
+      log_level: "debug"
+      environment: "production"
+      host: "your-host-name"
+      auth:
+        jwt:
+          enabled: true
+        native:
+          enabled: true
+      search:
+        enabled: false
+        type: ""
+        api_key: ""
+        host: ""
+      smtp:
+        enabled: true
+        from: ""
+        password: ""
+        port: 465
+        provider: ""
+        url: ""
+        username: ""
+      tracer:
+        enabled: false
+        app_name: ""
+        config_enabled: true
+        distributed_tracer_enabled: true
+        license_key: ""
+        type: ""
 
     ingress:
         # -- Enable ingress for the server

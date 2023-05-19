@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
           command: ["/cmd"]
-          args: ["server"]
+          args: ["server", "--log-level", "debug"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -52,6 +52,11 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: CONVOY_HOST
+              value: {{ .Values.env.host | quote }}
+            - name: CONVOY_LOGGER_LEVEL
+              value: {{ .Values.env.log_level | quote }}
+
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
               value: {{ .Values.global.externalDatabase.scheme | quote }}
@@ -68,6 +73,7 @@ spec:
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
             {{- end }}
+
             {{- if .Values.global.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST
               value: {{ .Values.global.nativeRedis.host | quote }}
@@ -78,6 +84,7 @@ spec:
             - name: CONVOY_REDIS_TYPE
               value: "NATIVE"
             {{- end }}
+
             {{- if .Values.global.externalRedis.enabled }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
@@ -94,6 +101,46 @@ spec:
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
             {{- end }}
+
+            {{- if .Values.env.tracer.enabled }}
+            - name: CONVOY_NEWRELIC_APP_NAME
+              value: {{ .Values.env.tracer.app_name | quote }}
+            - name: CONVOY_NEWRELIC_LICENSE_KEY
+              value: {{ .Values.env.tracer.license_key | quote }}
+            - name: CONVOY_NEWRELIC_CONFIG_ENABLED
+              value: {{ .Values.env.tracer.config_enabled | quote }}
+            - name: CONVOY_NEWRELIC_DISTRIBUTED_TRACER_ENABLED
+              value: {{ .Values.env.tracer.distributed_tracer_enabled | quote }}
+            - name: CONVOY_TRACER_PROVIDER
+              value: {{ .Values.env.tracer.type | quote }}
+            {{- end }}
+
+            {{- if .Values.env.smtp.enabled }}
+            - name: CONVOY_SMTP_URL
+              value: {{ .Values.env.smtp.url | quote }}
+            - name: CONVOY_SMTP_USERNAME
+              value: {{ .Values.env.smtp.username | quote }}
+            - name: CONVOY_SMTP_PASSWORD
+              value: {{ .Values.env.smtp.password | quote }}
+            - name: CONVOY_SMTP_FROM
+              value: {{ .Values.env.smtp.from | quote }}
+            - name: CONVOY_SMTP_PORT
+              value: {{ .Values.env.smtp.port | quote }}
+            - name: CONVOY_SMTP_REPLY_TO
+              value: {{ .Values.env.smtp.from | quote }}
+            - name: CONVOY_SMTP_PROVIDER
+              value: {{ .Values.env.smtp.provider | quote }}
+            {{- end }}
+
+            {{- if .Values.env.search.enabled }}
+            - name: CONVOY_SEARCH_TYPE
+              value: {{ .Values.env.search.type | quote }}
+            - name: CONVOY_TYPESENSE_HOST
+              value: {{ .Values.env.search.host | quote }}
+            - name: CONVOY_TYPESENSE_API_KEY
+              value: {{ .Values.env.search.api_key | quote }}
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /health
