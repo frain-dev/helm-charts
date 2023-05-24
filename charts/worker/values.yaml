@@ -16,6 +16,14 @@ app:
 env:
   proxy: ""
   log_level: "debug"
+  smtp:
+    enabled: true
+    from: ""
+    password: ""
+    port: 0
+    provider: ""
+    url: ""
+    username: ""
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy

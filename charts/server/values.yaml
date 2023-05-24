@@ -26,14 +26,6 @@ env:
     type: ""
     api_key: ""
     host: ""
-  smtp:
-    enabled: false
-    from: ""
-    password: ""
-    port: 0
-    provider: ""
-    url: ""
-    username: ""
   tracer:
     enabled: false
     app_name: ""

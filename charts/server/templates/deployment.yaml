@@ -115,23 +115,6 @@ spec:
               value: {{ .Values.env.tracer.type | quote }}
             {{- end }}
 
-            {{- if .Values.env.smtp.enabled }}
-            - name: CONVOY_SMTP_URL
-              value: {{ .Values.env.smtp.url | quote }}
-            - name: CONVOY_SMTP_USERNAME
-              value: {{ .Values.env.smtp.username | quote }}
-            - name: CONVOY_SMTP_PASSWORD
-              value: {{ .Values.env.smtp.password | quote }}
-            - name: CONVOY_SMTP_FROM
-              value: {{ .Values.env.smtp.from | quote }}
-            - name: CONVOY_SMTP_PORT
-              value: {{ .Values.env.smtp.port | quote }}
-            - name: CONVOY_SMTP_REPLY_TO
-              value: {{ .Values.env.smtp.from | quote }}
-            - name: CONVOY_SMTP_PROVIDER
-              value: {{ .Values.env.smtp.provider | quote }}
-            {{- end }}
-
             {{- if .Values.env.search.enabled }}
             - name: CONVOY_SEARCH_TYPE
               value: {{ .Values.env.search.type | quote }}

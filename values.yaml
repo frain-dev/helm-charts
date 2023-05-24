@@ -2,7 +2,7 @@ global:
   convoy:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
-    tag: &tag "v23.05.3"
+    tag: &tag "v23.05.4"
   
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
@@ -85,13 +85,18 @@ worker:
   env:
     proxy: ""
     log_level: "debug"
+    smtp:
+      enabled: true
+      from: ""
+      password: ""
+      port: 0
+      provider: ""
+      url: ""
+      username: ""
 
   ingress:
     # -- Enable ingress for the worker
     enabled: false
-  postgres:
-    # -- Enable postgresql for the worker
-    enabled: true
 
   service:
     # -- Type of service for the worker
@@ -103,7 +108,7 @@ worker:
     # -- Enable autoscaling for the worker
     enabled: true
     minReplicas: 1
-    maxReplicas: 10
+    maxReplicas: 100
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
@@ -116,16 +121,9 @@ ingest:
     # @ignored
     tag: *tag
 
-  env:
-    proxy: ""
-    log_level: "debug"
-
   ingress:
     # -- Enable ingress for the worker
     enabled: false
-  postgres:
-    # -- Enable postgresql for the worker
-    enabled: true
 
   service:
     # -- Type of service for the worker
@@ -171,61 +169,53 @@ stream:
 
 
 server:
-    image:
-        # -- Repository to be used by the server. Latest tag is used by default
-        repository: *image
-        # -- Pull policy for the server image
-        pullPolicy: IfNotPresent
-        # @ignored
-        tag: *tag
+  image:
+    # -- Repository to be used by the server. Latest tag is used by default
+    repository: *image
+    # -- Pull policy for the server image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
 
-    env:
-      log_level: "debug"
-      environment: "production"
-      host: "your-host-name"
-      auth:
-        jwt:
-          enabled: true
-        native:
-          enabled: true
-      search:
-        enabled: false
-        type: ""
-        api_key: ""
-        host: ""
-      smtp:
+  env:
+    log_level: "debug"
+    environment: "production"
+    host: "your-host-name"
+    auth:
+      jwt:
         enabled: true
-        from: ""
-        password: ""
-        port: 465
-        provider: ""
-        url: ""
-        username: ""
-      tracer:
-        enabled: false
-        app_name: ""
-        config_enabled: true
-        distributed_tracer_enabled: true
-        license_key: ""
-        type: ""
+      native:
+        enabled: true
+    search:
+      enabled: false
+      type: ""
+      api_key: ""
+      host: ""
+    tracer:
+      enabled: false
+      app_name: ""
+      config_enabled: true
+      distributed_tracer_enabled: true
+      license_key: ""
+      type: ""
 
-    ingress:
-        # -- Enable ingress for the server
-        enabled: false
+  ingress:
+    # -- Enable ingress for the server
+    enabled: false
 
-    service:
-        # -- Type of service for the server
-        type: ClusterIP
-        # -- Port for the server service
-        port: 80
+  service:
+    # -- Type of service for the server
+    type: ClusterIP
+    # -- Port for the server service
+    port: 80
 
-    autoscaling:
-        # -- Enable autoscaling for the server
-      enabled: true
-      minReplicas: 1
-      maxReplicas: 10
-      targetCPUUtilizationPercentage: 80
-      targetMemoryUtilizationPercentage: 80
+  autoscaling:
+    # -- Enable autoscaling for the server
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
 scheduler:
   image:
@@ -237,16 +227,12 @@ scheduler:
     tag: *tag
 
 migrate:
-    image:
-      # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
-      repository: *image
-      # -- Pull policy for the migrate image
-      pullPolicy: IfNotPresent
-      # @ignored
-      tag: *tag
-
-
-
-
+  image:
+    # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
+    repository: *image
+    # -- Pull policy for the migrate image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
 
 
