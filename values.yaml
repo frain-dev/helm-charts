@@ -20,7 +20,7 @@ global:
     # -- scheme for the external database. This is postgres by default
     scheme: "postgres"
     # -- Query params for the external database
-    options: &options "sslmode=require&connect_timeout=30"
+    options: &options "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
     port: 5432
 
@@ -101,11 +101,45 @@ worker:
 
   autoscaling:
     # -- Enable autoscaling for the worker
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+ingest:
+  image:
+    # -- Repository to be used by the worker. Latest tag is used by default
+    repository: *image
+    # -- Pull policy for the worker image
+    pullPolicy: IfNotPresent
+    # @ignored
+    tag: *tag
+
+  env:
+    proxy: ""
+    log_level: "debug"
+
+  ingress:
+    # -- Enable ingress for the worker
     enabled: false
-#    minReplicas: 1
-#    maxReplicas: 10
-#    targetCPUUtilizationPercentage: 80
-#    targetMemoryUtilizationPercentage: 80
+  postgres:
+    # -- Enable postgresql for the worker
+    enabled: true
+
+  service:
+    # -- Type of service for the worker
+    type: ClusterIP
+    # -- Port for the worker service
+    port: 80
+
+  autoscaling:
+    # -- Enable autoscaling for the worker
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
 
 stream:
@@ -187,11 +221,11 @@ server:
 
     autoscaling:
         # -- Enable autoscaling for the server
-        enabled: false
-  #    minReplicas: 1
-  #    maxReplicas: 10
-  #    targetCPUUtilizationPercentage: 80
-  #    targetMemoryUtilizationPercentage: 80
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 10
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
 
 scheduler:
   image:
