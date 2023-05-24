@@ -5,9 +5,9 @@ description: Open Source Webhooks Gateway
 type: application
 
 
-version: "1.0.0"
+version: "1.0.1"
 
-appVersion: "23.05.3"
+appVersion: "23.05.4"
 
 
 
