@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.05.4](https://img.shields.io/badge/AppVersion-23.05.4-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.05.5](https://img.shields.io/badge/AppVersion-23.05.5-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -21,7 +21,7 @@ Open Source Webhooks Gateway
 ## Values
 
 | Key                                                  | Type   | Default                                                 | Description                                                                                                    |
-|------------------------------------------------------|--------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+|:-----------------------------------------------------|:-------|:--------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------|
 | global.convoy.image                                  | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services                                                                      |
 | global.convoy.tag                                    | string | `"v23.05.5"`                                            |                                                                                                                |
 | global.externalDatabase.database                     | string | `"convoy"`                                              | Database name for the external database                                                                        |
