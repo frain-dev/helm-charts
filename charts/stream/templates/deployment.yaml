@@ -50,6 +50,7 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
               value: {{ .Values.global.externalDatabase.scheme | quote }}
@@ -66,6 +67,7 @@ spec:
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
             {{- end }}
+
             {{- if .Values.global.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST
               value: {{ .Values.global.nativeRedis.host | quote }}
@@ -76,6 +78,7 @@ spec:
             - name: CONVOY_REDIS_TYPE
               value: "NATIVE"
             {{- end }}
+
             {{- if .Values.global.externalRedis.enabled }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
@@ -91,6 +94,19 @@ spec:
               value: {{ .Values.global.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
+            {{- end }}
+
+            {{- if .Values.env.tracer.enabled }}
+            - name: CONVOY_NEWRELIC_APP_NAME
+              value: {{ .Values.env.tracer.app_name | quote }}
+            - name: CONVOY_NEWRELIC_LICENSE_KEY
+              value: {{ .Values.env.tracer.license_key | quote }}
+            - name: CONVOY_NEWRELIC_CONFIG_ENABLED
+              value: {{ .Values.env.tracer.config_enabled | quote }}
+            - name: CONVOY_NEWRELIC_DISTRIBUTED_TRACER_ENABLED
+              value: {{ .Values.env.tracer.distributed_tracer_enabled | quote }}
+            - name: CONVOY_TRACER_PROVIDER
+              value: {{ .Values.env.tracer.type | quote }}
             {{- end }}
           livenessProbe:
             httpGet:

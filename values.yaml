@@ -2,8 +2,8 @@ global:
   convoy:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
-    tag: &tag "v23.05.4"
-  
+    tag: &tag "v23.05.5"
+
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
     enabled: &postgresEnabled true
@@ -93,6 +93,13 @@ worker:
       provider: ""
       url: ""
       username: ""
+    tracer:
+      enabled: false
+      app_name: ""
+      config_enabled: true
+      distributed_tracer_enabled: true
+      license_key: ""
+      type: ""
 
   ingress:
     # -- Enable ingress for the worker
@@ -108,9 +115,10 @@ worker:
     # -- Enable autoscaling for the worker
     enabled: true
     minReplicas: 1
-    maxReplicas: 100
+    maxReplicas: 10
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
+
 
 ingest:
   image:
@@ -124,6 +132,16 @@ ingest:
   ingress:
     # -- Enable ingress for the worker
     enabled: false
+
+  env:
+    interval: 60
+    tracer:
+      enabled: false
+      app_name: ""
+      config_enabled: true
+      distributed_tracer_enabled: true
+      license_key: ""
+      type: ""
 
   service:
     # -- Type of service for the worker
@@ -148,6 +166,15 @@ stream:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+
+  env:
+    tracer:
+      enabled: false
+      app_name: ""
+      config_enabled: true
+      distributed_tracer_enabled: true
+      license_key: ""
+      type: ""
 
   ingress:
     # -- Enable ingress for the stream
@@ -213,7 +240,7 @@ server:
     # -- Enable autoscaling for the server
     enabled: true
     minReplicas: 1
-    maxReplicas: 100
+    maxReplicas: 10
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
@@ -234,5 +261,3 @@ migrate:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
-
-

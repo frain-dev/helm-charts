@@ -7,11 +7,11 @@ app:
   port: 5006
   resources:
     limits:
-      cpu: 50m
-      memory: 60Mi
+      cpu: 500m
+      memory: 600Mi
     requests:
-      cpu: 40m
-      memory: 50Mi
+      cpu: 400m
+      memory: 500Mi
 
 env:
   proxy: ""
@@ -24,6 +24,13 @@ env:
     provider: ""
     url: ""
     username: ""
+  tracer:
+    enabled: false
+    app_name: ""
+    config_enabled: true
+    distributed_tracer_enabled: true
+    license_key: ""
+    type: ""
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy

@@ -13,6 +13,15 @@ app:
       cpu: 40m
       memory: 50Mi
 
+env:
+  tracer:
+    enabled: true
+    app_name: ""
+    config_enabled: true
+    distributed_tracer_enabled: true
+    license_key: ""
+    type: ""
+
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
   pullPolicy: Always

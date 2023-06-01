@@ -14,8 +14,14 @@ app:
       memory: 500Mi
 
 env:
-  proxy: ""
-  log_level: "debug"
+  interval: 500
+  tracer:
+    enabled: false
+    app_name: ""
+    config_enabled: true
+    distributed_tracer_enabled: true
+    license_key: ""
+    type: ""
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
