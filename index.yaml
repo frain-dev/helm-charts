@@ -3,7 +3,7 @@ entries:
   convoy:
     - apiVersion: v2
       appVersion: 23.05.5
-      created: "2023-06-01T16:08:50.972587917+01:00"
+      created: "2023-06-02T11:28:23.755937809+01:00"
       dependencies:
         - name: postgresql
           repository: https://charts.bitnami.com/bitnami
@@ -28,11 +28,11 @@ entries:
       name: convoy
       type: application
       urls:
-        - https://github.com/frain-dev/helm-charts/releases/download/convoy-1.0.2/convoy-1.0.2.tgz
+        - https://frain-dev.github.io/helm-charts/.cr-release-packages/convoy-1.0.2.tgz
       version: 1.0.2
     - apiVersion: v2
-      appVersion: 23.05.3
-      created: "2023-05-17T18:28:00.828284219+01:00"
+      appVersion: 23.05.5
+      created: "2023-06-02T11:28:23.706613289+01:00"
       dependencies:
         - name: postgresql
           repository: https://charts.bitnami.com/bitnami
@@ -42,7 +42,7 @@ entries:
           repository: https://charts.bitnami.com/bitnami
           version: 17.9.3
       description: Open Source Webhooks Gateway
-      digest: e6de8c2489e466a4635656c7d119ae21abbb29ebaa3b0602ed4123a6d494140b
+      digest: d326de39f14e57e18f7d1a6d6cc60fd97755709b5f0d228a9b71e5252d10d637
       keywords:
         - Webhooks
         - Kubernetes
@@ -57,11 +57,11 @@ entries:
       name: convoy
       type: application
       urls:
-        - https://frain-dev.github.io/helm-charts/convoy-1.0.0.tgz
-      version: 1.0.0
+        - https://frain-dev.github.io/helm-charts/.cr-release-packages/convoy-1.0.1.tgz
+      version: 1.0.1
     - apiVersion: v2
-      appVersion: 23.05.3
-      created: "2023-05-17T18:28:00.885294082+01:00"
+      appVersion: 23.05.5
+      created: "2023-06-02T11:28:23.62490191+01:00"
       dependencies:
         - name: postgresql
           repository: https://charts.bitnami.com/bitnami
@@ -71,7 +71,7 @@ entries:
           repository: https://charts.bitnami.com/bitnami
           version: 17.9.3
       description: Open Source Webhooks Gateway
-      digest: c2493c29191bc8056ecad6420fe5cc2e7fae9198733ffc93e153e68ec902adae
+      digest: ade56d160926ce260148b424906ead66a197e986727eb4e8552a7bfcbb6a9642
       keywords:
         - Webhooks
         - Kubernetes
@@ -94,7 +94,7 @@ entries:
         licenses: Apache-2.0
       apiVersion: v2
       appVersion: 15.2.0
-      created: "2023-05-17T18:28:00.899164717+01:00"
+      created: "2023-06-02T11:28:23.771874767+01:00"
       dependencies:
         - name: common
           repository: https://charts.bitnami.com/bitnami
@@ -130,7 +130,7 @@ entries:
         licenses: Apache-2.0
       apiVersion: v2
       appVersion: 7.0.10
-      created: "2023-05-17T18:28:00.919092642+01:00"
+      created: "2023-06-02T11:28:23.789658951+01:00"
       dependencies:
         - name: common
           repository: https://charts.bitnami.com/bitnami
@@ -156,4 +156,4 @@ entries:
       urls:
         - https://frain-dev.github.io/helm-charts/charts/redis-17.9.3.tgz
       version: 17.9.3
-generated: "2023-06-01T16:08:50.972598448+01:00"
+generated: "2023-06-02T11:28:23.547115735+01:00"
