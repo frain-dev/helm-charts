@@ -1,16 +1,9 @@
 apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
-
 type: application
-
-
 version: "1.0.2"
-
 appVersion: "23.05.5"
-
-
-
 keywords:
   - Webhooks
   - Kubernetes
@@ -23,7 +16,6 @@ maintainers:
   - name: Obinna Odirionye
     email: odirionye@gmail.com
     url: https://iamobinna.com
-
 dependencies:
   - name: postgresql
     version: 12.5.6
