@@ -1,159 +1,101 @@
 apiVersion: v1
 entries:
   convoy:
-    - apiVersion: v2
-      appVersion: 23.05.5
-      created: "2023-06-02T11:28:23.755937809+01:00"
-      dependencies:
-        - name: postgresql
-          repository: https://charts.bitnami.com/bitnami
-          version: 12.2.7
-        - condition: redis.enabled
-          name: redis
-          repository: https://charts.bitnami.com/bitnami
-          version: 17.9.3
-      description: Open Source Webhooks Gateway
-      digest: ed266e44375a57b2da2f8dd5eeb58577125679b7181129ac34874c006e835764
-      keywords:
-        - Webhooks
-        - Kubernetes
-        - Convoy
-      maintainers:
-        - email: engineering@getconvoy.io
-          name: Convoy Engineering Team
-          url: https://getconvoy.io
-        - email: odirionye@gmail.com
-          name: Obinna Odirionye
-          url: https://iamobinna.com
-      name: convoy
-      type: application
-      urls:
-        - https://frain-dev.github.io/helm-charts/.cr-release-packages/convoy-1.0.2.tgz
-      version: 1.0.2
-    - apiVersion: v2
-      appVersion: 23.05.5
-      created: "2023-06-02T11:28:23.706613289+01:00"
-      dependencies:
-        - name: postgresql
-          repository: https://charts.bitnami.com/bitnami
-          version: 12.2.7
-        - condition: redis.enabled
-          name: redis
-          repository: https://charts.bitnami.com/bitnami
-          version: 17.9.3
-      description: Open Source Webhooks Gateway
-      digest: d326de39f14e57e18f7d1a6d6cc60fd97755709b5f0d228a9b71e5252d10d637
-      keywords:
-        - Webhooks
-        - Kubernetes
-        - Convoy
-      maintainers:
-        - email: engineering@getconvoy.io
-          name: Convoy Engineering Team
-          url: https://getconvoy.io
-        - email: odirionye@gmail.com
-          name: Obinna Odirionye
-          url: https://iamobinna.com
-      name: convoy
-      type: application
-      urls:
-        - https://frain-dev.github.io/helm-charts/.cr-release-packages/convoy-1.0.1.tgz
-      version: 1.0.1
-    - apiVersion: v2
-      appVersion: 23.05.5
-      created: "2023-06-02T11:28:23.62490191+01:00"
-      dependencies:
-        - name: postgresql
-          repository: https://charts.bitnami.com/bitnami
-          version: 12.2.7
-        - condition: redis.enabled
-          name: redis
-          repository: https://charts.bitnami.com/bitnami
-          version: 17.9.3
-      description: Open Source Webhooks Gateway
-      digest: ade56d160926ce260148b424906ead66a197e986727eb4e8552a7bfcbb6a9642
-      keywords:
-        - Webhooks
-        - Kubernetes
-        - Convoy
-      maintainers:
-        - email: engineering@getconvoy.io
-          name: Convoy Engineering Team
-          url: https://getconvoy.io
-        - email: odirionye@gmail.com
-          name: Obinna Odirionye
-          url: https://iamobinna.com
-      name: convoy
-      type: application
-      urls:
-        - https://frain-dev.github.io/helm-charts/.cr-release-packages/convoy-1.0.0.tgz
-      version: 1.0.0
-  postgresql:
-    - annotations:
-        category: Database
-        licenses: Apache-2.0
-      apiVersion: v2
-      appVersion: 15.2.0
-      created: "2023-06-02T11:28:23.771874767+01:00"
-      dependencies:
-        - name: common
-          repository: https://charts.bitnami.com/bitnami
-          tags:
-            - bitnami-common
-          version: 2.x.x
-      description: PostgreSQL (Postgres) is an open source object-relational database
-        known for reliability and data integrity. ACID-compliant, it supports foreign
-        keys, joins, views, triggers and stored procedures.
-      digest: ed202d9b5b88fe63cccd98fe9535d4661f675b3efc69279045e4502c7c7be286
-      home: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
-      icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
-      keywords:
-        - postgresql
-        - postgres
-        - database
-        - sql
-        - replication
-        - cluster
-      maintainers:
-        - name: Bitnami
-          url: https://github.com/bitnami/charts
-      name: postgresql
-      sources:
-        - https://github.com/bitnami/containers/tree/main/bitnami/postgresql
-        - https://www.postgresql.org/
-      urls:
-        - https://frain-dev.github.io/helm-charts/charts/postgresql-12.2.7.tgz
+  - apiVersion: v2
+    appVersion: 23.05.5
+    created: "2023-06-05T10:02:23.741869808+01:00"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
       version: 12.2.7
-  redis:
-    - annotations:
-        category: Database
-        licenses: Apache-2.0
-      apiVersion: v2
-      appVersion: 7.0.10
-      created: "2023-06-02T11:28:23.789658951+01:00"
-      dependencies:
-        - name: common
-          repository: https://charts.bitnami.com/bitnami
-          tags:
-            - bitnami-common
-          version: 2.x.x
-      description: Redis(R) is an open source, advanced key-value store. It is often
-        referred to as a data structure server since keys can contain strings, hashes,
-        lists, sets and sorted sets.
-      digest: 89f78d58150ee397ffdc7813aa8d064ac03c6bcaed4384b752954c9be7150eec
-      home: https://github.com/bitnami/charts/tree/main/bitnami/redis
-      icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
-      keywords:
-        - redis
-        - keyvalue
-        - database
-      maintainers:
-        - name: Bitnami
-          url: https://github.com/bitnami/charts
+    - condition: redis.enabled
       name: redis
-      sources:
-        - https://github.com/bitnami/containers/tree/main/bitnami/redis
-      urls:
-        - https://frain-dev.github.io/helm-charts/charts/redis-17.9.3.tgz
+      repository: https://charts.bitnami.com/bitnami
       version: 17.9.3
-generated: "2023-06-02T11:28:23.547115735+01:00"
+    description: Open Source Webhooks Gateway
+    digest: c1e8c9e550825b31559c7b20a39d881e937c2093df4bbab90662f27c54181660
+    keywords:
+    - Webhooks
+    - Kubernetes
+    - Convoy
+    maintainers:
+    - email: engineering@getconvoy.io
+      name: Convoy Engineering Team
+      url: https://getconvoy.io
+    - email: odirionye@gmail.com
+      name: Obinna Odirionye
+      url: https://iamobinna.com
+    name: convoy
+    type: application
+    urls:
+    - https://frain-dev.github.io/helm-charts/convoy-1.0.2.tgz
+    version: 1.0.2
+  postgresql:
+  - annotations:
+      category: Database
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 15.2.0
+    created: "2023-06-05T10:02:23.755732227+01:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: PostgreSQL (Postgres) is an open source object-relational database
+      known for reliability and data integrity. ACID-compliant, it supports foreign
+      keys, joins, views, triggers and stored procedures.
+    digest: ed202d9b5b88fe63cccd98fe9535d4661f675b3efc69279045e4502c7c7be286
+    home: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - name: Bitnami
+      url: https://github.com/bitnami/charts
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/containers/tree/main/bitnami/postgresql
+    - https://www.postgresql.org/
+    urls:
+    - https://frain-dev.github.io/helm-charts/charts/postgresql-12.2.7.tgz
+    version: 12.2.7
+  redis:
+  - annotations:
+      category: Database
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 7.0.10
+    created: "2023-06-05T10:02:23.773507267+01:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Redis(R) is an open source, advanced key-value store. It is often
+      referred to as a data structure server since keys can contain strings, hashes,
+      lists, sets and sorted sets.
+    digest: 89f78d58150ee397ffdc7813aa8d064ac03c6bcaed4384b752954c9be7150eec
+    home: https://github.com/bitnami/charts/tree/main/bitnami/redis
+    icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+    keywords:
+    - redis
+    - keyvalue
+    - database
+    maintainers:
+    - name: Bitnami
+      url: https://github.com/bitnami/charts
+    name: redis
+    sources:
+    - https://github.com/bitnami/containers/tree/main/bitnami/redis
+    urls:
+    - https://frain-dev.github.io/helm-charts/charts/redis-17.9.3.tgz
+    version: 17.9.3
+generated: "2023-06-05T10:02:23.698941683+01:00"
