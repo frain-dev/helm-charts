@@ -18,7 +18,7 @@ env:
       enabled: true
     native:
       enabled: true
-  log_level: "debug"
+  log_level: "error"
   environment: ""
   host: ""
   search:

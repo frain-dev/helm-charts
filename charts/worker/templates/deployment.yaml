@@ -40,7 +40,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/cmd"]
-          args: ["worker", "--log-level", "debug"]
+          args: ["worker"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}

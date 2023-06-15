@@ -7,7 +7,7 @@ global:
     tag: &tag "v23.06.2"
 
     # -- Logger Level for all convoy services
-    log_level: &logLevel ""
+    log_level: &logLevel "error"
 
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
@@ -103,7 +103,8 @@ worker:
 
   env:
     proxy: ""
-    log_level: "debug"
+    # @ignored
+    log_level: *logLevel
     smtp:
       enabled: true
       from: ""
@@ -157,7 +158,6 @@ ingest:
     interval: 60
     # @ignored
     log_level: *logLevel
-    # @ignored
     tracer:
       type: *tracerType
       enabled: *tracerEnabled

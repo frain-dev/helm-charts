@@ -15,7 +15,7 @@ app:
 
 env:
   proxy: ""
-  log_level: "debug"
+  log_level: "error"
   smtp:
     enabled: true
     from: ""
