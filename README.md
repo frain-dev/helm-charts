@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.06.2](https://img.shields.io/badge/AppVersion-23.06.2-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.06.2](https://img.shields.io/badge/AppVersion-23.06.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -23,7 +23,7 @@ Open Source Webhooks Gateway
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
-| global.convoy.log_level | string | `""` | Logger Level for all convoy services |
+| global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
 | global.convoy.tag | string | `"v23.06.2"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
@@ -57,6 +57,12 @@ Open Source Webhooks Gateway
 | ingest.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | ingest.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | ingest.env.interval | int | `60` |  |
+| ingest.env.tracer.app_name | string | `""` |  |
+| ingest.env.tracer.config_enabled | bool | `true` |  |
+| ingest.env.tracer.distributed_tracer_enabled | bool | `true` |  |
+| ingest.env.tracer.enabled | bool | `false` |  |
+| ingest.env.tracer.license_key | string | `""` |  |
+| ingest.env.tracer.type | string | `""` |  |
 | ingest.ingress.enabled | bool | `false` | Enable ingress for the worker |
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
@@ -103,7 +109,6 @@ Open Source Webhooks Gateway
 | worker.autoscaling.minReplicas | int | `1` |  |
 | worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| worker.env.log_level | string | `"debug"` |  |
 | worker.env.proxy | string | `""` |  |
 | worker.env.smtp.enabled | bool | `true` |  |
 | worker.env.smtp.from | string | `""` |  |
