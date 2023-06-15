@@ -14,6 +14,7 @@ app:
       memory: 500Mi
 
 env:
+  log_level: "debug"
   interval: 500
   tracer:
     enabled: false

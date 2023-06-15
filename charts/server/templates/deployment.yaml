@@ -124,6 +124,33 @@ spec:
               value: {{ .Values.env.search.api_key | quote }}
             {{- end }}
 
+
+            {{- if .Values.env.storage.enabled }}
+            - name: CONVOY_STORAGE_POLICY_TYPE
+              value: {{ .Values.env.storage.type | quote }}
+
+            {{- if eq .Values.env.storage.type "on_prem"}}
+            - name: CONVOY_STORAGE_PREM_PATH
+              value: {{ .Values.env.storage.on_prem.path | quote }}
+            {{- end }}
+
+            {{- if eq .Values.env.storage.type "s3" }}
+            - name: CONVOY_STORAGE_AWS_BUCKET
+              value: {{ .Values.env.storage.s3.bucket | quote }}
+            - name: CONVOY_STORAGE_AWS_ACCESS_KEY
+              value: {{ .Values.env.storage.s3.accessKey | quote }}
+            - name: CONVOY_STORAGE_AWS_SECRET_KEY
+              value: {{ .Values.env.storage.s3.secretKey | quote }}
+            - name: CONVOY_STORAGE_AWS_REGION
+              value: {{ .Values.env.storage.s3.region | quote }}
+            - name: CONVOY_STORAGE_AWS_SESSION_TOKEN
+              value: {{ .Values.env.storage.s3.session_token | quote }}
+            - name: CONVOY_STORAGE_AWS_ENDPOINT
+              value: {{ .Values.env.storage.s3.endpoint | quote }}
+            {{- end }}
+
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /health

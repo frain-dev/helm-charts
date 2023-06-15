@@ -2,8 +2,8 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "1.0.2"
-appVersion: "23.05.5"
+version: "1.0.4"
+appVersion: "23.06.2"
 keywords:
   - Webhooks
   - Kubernetes

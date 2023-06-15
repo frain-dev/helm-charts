@@ -33,6 +33,19 @@ env:
     distributed_tracer_enabled: false
     license_key: ""
     type: ""
+  storage:
+    enabled: false
+    type: ""
+    on_prem:
+      path: ""
+    s3:
+      bucket: ""
+      accessKey: ""
+      secretKey: ""
+      region: ""
+      session_token: ""
+      endpoint: ""
+
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy

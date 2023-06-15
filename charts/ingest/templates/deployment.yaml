@@ -51,8 +51,6 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
-            - name: HTTP_PROXY
-              value: {{ .Values.env.proxy | quote }}
             - name: CONVOY_LOGGER_LEVEL
               value: {{ .Values.env.log_level | quote }}
 

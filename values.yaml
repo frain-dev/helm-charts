@@ -2,7 +2,25 @@ global:
   convoy:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
-    tag: &tag "v23.05.5"
+
+    # -- Docker image tags for all convoy services
+    tag: &tag "v23.06.2"
+
+    # -- Logger Level for all convoy services
+    log_level: &logLevel ""
+
+    # -- Tracing config for all convoy services
+    tracer_enabled: &tracerEnabled false
+    # -- Tracing provider type
+    tracer_type: &tracerType ""
+    # -- NewRelic application name
+    tracer_app_name: &tracerAppName ""
+    # -- NewRelic tracing config enabled
+    tracer_config_enabled: &tracerConfigEnabled true
+    # -- NewRelic distributed tracing config enabled
+    tracer_distributed_tracer_enabled: &tracerDistributedTracingEnabled true
+    # -- NewRelic license key
+    tracer_license_key: &tracerLicenseKey ""
 
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
@@ -50,6 +68,7 @@ global:
     # -- Port for the external redis
     port: ""
 
+
 # @ignored
 postgresql:
   enabled: *postgresEnabled
@@ -72,8 +91,8 @@ redis:
     password: *redisPassword
 
 
-
 worker:
+  # @ignored
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
     repository: *image
@@ -94,12 +113,12 @@ worker:
       url: ""
       username: ""
     tracer:
-      enabled: false
-      app_name: ""
-      config_enabled: true
-      distributed_tracer_enabled: true
-      license_key: ""
-      type: ""
+      type: *tracerType
+      enabled: *tracerEnabled
+      app_name: *tracerAppName
+      license_key: *tracerLicenseKey
+      config_enabled: *tracerConfigEnabled
+      distributed_tracer_enabled: *tracerDistributedTracingEnabled
 
   ingress:
     # -- Enable ingress for the worker
@@ -113,7 +132,7 @@ worker:
 
   autoscaling:
     # -- Enable autoscaling for the worker
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
@@ -121,6 +140,7 @@ worker:
 
 
 ingest:
+  # @ignored
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
     repository: *image
@@ -135,13 +155,16 @@ ingest:
 
   env:
     interval: 60
+    # @ignored
+    log_level: *logLevel
+    # @ignored
     tracer:
-      enabled: false
-      app_name: ""
-      config_enabled: true
-      distributed_tracer_enabled: true
-      license_key: ""
-      type: ""
+      type: *tracerType
+      enabled: *tracerEnabled
+      app_name: *tracerAppName
+      license_key: *tracerLicenseKey
+      config_enabled: *tracerConfigEnabled
+      distributed_tracer_enabled: *tracerDistributedTracingEnabled
 
   service:
     # -- Type of service for the worker
@@ -159,6 +182,7 @@ ingest:
 
 
 stream:
+  # @ignored
   image:
     # -- Repository to be used by the stream. Latest tag is used by default
     repository: *image
@@ -168,13 +192,14 @@ stream:
     tag: *tag
 
   env:
+    # @ignored
     tracer:
-      enabled: false
-      app_name: ""
-      config_enabled: true
-      distributed_tracer_enabled: true
-      license_key: ""
-      type: ""
+      type: *tracerType
+      enabled: *tracerEnabled
+      app_name: *tracerAppName
+      license_key: *tracerLicenseKey
+      config_enabled: *tracerConfigEnabled
+      distributed_tracer_enabled: *tracerDistributedTracingEnabled
 
   ingress:
     # -- Enable ingress for the stream
@@ -196,6 +221,7 @@ stream:
 
 
 server:
+  # @ignored
   image:
     # -- Repository to be used by the server. Latest tag is used by default
     repository: *image
@@ -205,9 +231,10 @@ server:
     tag: *tag
 
   env:
-    log_level: "debug"
+    # @ignored
+    log_level: *logLevel
     environment: "production"
-    host: "your-host-name"
+    host: ""
     auth:
       jwt:
         enabled: true
@@ -219,12 +246,24 @@ server:
       api_key: ""
       host: ""
     tracer:
+      type: *tracerType
+      enabled: *tracerEnabled
+      app_name: *tracerAppName
+      license_key: *tracerLicenseKey
+      config_enabled: *tracerConfigEnabled
+      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+    storage:
       enabled: false
-      app_name: ""
-      config_enabled: true
-      distributed_tracer_enabled: true
-      license_key: ""
       type: ""
+      on_prem:
+        path: ""
+      s3:
+        bucket: ""
+        accessKey: ""
+        secretKey: ""
+        region: ""
+        session_token: ""
+        endpoint: ""
 
   ingress:
     # -- Enable ingress for the server
@@ -244,7 +283,9 @@ server:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+
 scheduler:
+  # @ignored
   image:
     # -- Repository to be used by the scheduler. Latest tag is used by default
     repository: *image
@@ -253,7 +294,9 @@ scheduler:
     # @ignored
     tag: *tag
 
+
 migrate:
+  # @ignored
   image:
     # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
     repository: *image

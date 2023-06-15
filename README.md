@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.05.5](https://img.shields.io/badge/AppVersion-23.05.5-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.06.2](https://img.shields.io/badge/AppVersion-23.06.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -23,7 +23,14 @@ Open Source Webhooks Gateway
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
-| global.convoy.tag | string | `"v23.05.5"` |  |
+| global.convoy.log_level | string | `""` | Logger Level for all convoy services |
+| global.convoy.tag | string | `"v23.06.2"` | Docker image tags for all convoy services |
+| global.convoy.tracer_app_name | string | `""` | NewRelic application name |
+| global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
+| global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
+| global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
+| global.convoy.tracer_license_key | string | `""` | NewRelic license key |
+| global.convoy.tracer_type | string | `""` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
 | global.externalDatabase.enabled | bool | `true` | Enable external database, This will use postgresql chart, Change values if you use an external database |
 | global.externalDatabase.host | string | `"postgresql"` | Host for the external database |
@@ -50,21 +57,11 @@ Open Source Webhooks Gateway
 | ingest.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | ingest.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | ingest.env.interval | int | `60` |  |
-| ingest.env.tracer.app_name | string | `""` |  |
-| ingest.env.tracer.config_enabled | bool | `true` |  |
-| ingest.env.tracer.distributed_tracer_enabled | bool | `true` |  |
-| ingest.env.tracer.enabled | bool | `false` |  |
-| ingest.env.tracer.license_key | string | `""` |  |
-| ingest.env.tracer.type | string | `""` |  |
-| ingest.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| ingest.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
 | ingest.ingress.enabled | bool | `false` | Enable ingress for the worker |
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
-| migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
-| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. Latest tag is used by default. it will install before any other services. |
-| scheduler.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the scheduler image |
-| scheduler.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the scheduler. Latest tag is used by default |
+| migrate | object | `{}` |  |
+| scheduler | object | `{}` |  |
 | server.autoscaling.enabled | bool | `true` | Enable autoscaling for the server |
 | server.autoscaling.maxReplicas | int | `10` |  |
 | server.autoscaling.minReplicas | int | `1` |  |
@@ -73,36 +70,35 @@ Open Source Webhooks Gateway
 | server.env.auth.jwt.enabled | bool | `true` |  |
 | server.env.auth.native.enabled | bool | `true` |  |
 | server.env.environment | string | `"production"` |  |
-| server.env.host | string | `"your-host-name"` |  |
-| server.env.log_level | string | `"debug"` |  |
+| server.env.host | string | `""` |  |
 | server.env.search.api_key | string | `""` |  |
 | server.env.search.enabled | bool | `false` |  |
 | server.env.search.host | string | `""` |  |
 | server.env.search.type | string | `""` |  |
+| server.env.storage.enabled | bool | `false` |  |
+| server.env.storage.on_prem.path | string | `""` |  |
+| server.env.storage.s3.accessKey | string | `""` |  |
+| server.env.storage.s3.bucket | string | `""` |  |
+| server.env.storage.s3.endpoint | string | `""` |  |
+| server.env.storage.s3.region | string | `""` |  |
+| server.env.storage.s3.secretKey | string | `""` |  |
+| server.env.storage.s3.session_token | string | `""` |  |
+| server.env.storage.type | string | `""` |  |
 | server.env.tracer.app_name | string | `""` |  |
 | server.env.tracer.config_enabled | bool | `true` |  |
 | server.env.tracer.distributed_tracer_enabled | bool | `true` |  |
 | server.env.tracer.enabled | bool | `false` |  |
 | server.env.tracer.license_key | string | `""` |  |
 | server.env.tracer.type | string | `""` |  |
-| server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
-| server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. Latest tag is used by default |
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 | stream.autoscaling.enabled | bool | `false` | Enable autoscaling for the stream |
-| stream.env.tracer.app_name | string | `""` |  |
-| stream.env.tracer.config_enabled | bool | `true` |  |
-| stream.env.tracer.distributed_tracer_enabled | bool | `true` |  |
-| stream.env.tracer.enabled | bool | `false` |  |
-| stream.env.tracer.license_key | string | `""` |  |
-| stream.env.tracer.type | string | `""` |  |
-| stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
-| stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. Latest tag is used by default |
+| stream.env | object | `{}` |  |
 | stream.ingress.enabled | bool | `false` | Enable ingress for the stream |
 | stream.service.port | int | `80` | Port for the stream service |
 | stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
-| worker.autoscaling.enabled | bool | `true` | Enable autoscaling for the worker |
+| worker.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | worker.autoscaling.maxReplicas | int | `10` |  |
 | worker.autoscaling.minReplicas | int | `1` |  |
 | worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
@@ -122,8 +118,6 @@ Open Source Webhooks Gateway
 | worker.env.tracer.enabled | bool | `false` |  |
 | worker.env.tracer.license_key | string | `""` |  |
 | worker.env.tracer.type | string | `""` |  |
-| worker.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
 | worker.ingress.enabled | bool | `false` | Enable ingress for the worker |
 | worker.service.port | int | `80` | Port for the worker service |
 | worker.service.type | string | `"ClusterIP"` | Type of service for the worker |
