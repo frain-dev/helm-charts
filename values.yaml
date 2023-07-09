@@ -41,6 +41,10 @@ global:
     options: &options "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
     port: 5432
+    # -- secret name for username and password. assumes secret contains keys: "CONVOY_DB_USERNAME", "CONVOY_DB_PASSWORD"
+    secret:
+      enabled: false
+      name: convoy
 
   nativeRedis:
     # -- Enable redis, This will use redis chart, Disable if you use an external redis
@@ -67,7 +71,10 @@ global:
     database: ""
     # -- Port for the external redis
     port: ""
-
+    # -- secret name for username and password. assumes secret contains keys: "CONVOY_REDIS_USERNAME", "CONVOY_REDIS_PASSWORD"
+    secret:
+      enabled: false
+      name: convoy
 
 # @ignored
 postgresql:

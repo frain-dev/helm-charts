@@ -39,6 +39,18 @@ spec:
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
             {{- end }}
+            {{- if .Values.global.externalDatabase.secret.enabled }}
+            - name: CONVOY_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.externalDatabase.secret.name }}
+                  key: CONVOY_DB_USERNAME
+            - name: CONVOY_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.externalDatabase.secret.name }}
+                  key: CONVOY_DB_PASSWORD
+            {{- end }}
             {{- if .Values.global.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST
               value: {{ .Values.global.nativeRedis.host | quote }}
@@ -64,6 +76,18 @@ spec:
               value: {{ .Values.global.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
+            {{- end }}
+            {{- if .Values.global.externalRedis.secret.enabled }}
+            - name: CONVOY_REDIS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.externalRedis.secret.name }}
+                  key: CONVOY_REDIS_USERNAME
+            - name: CONVOY_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.externalRedis.secret.name }}
+                  key: CONVOY_REDIS_PASSWORD
             {{- end }}
           resources:
             {{- toYaml .Values.app.resources | nindent 16 }}
