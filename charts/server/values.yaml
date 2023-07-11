@@ -13,6 +13,7 @@ app:
       cpu: 40m
       memory: 50Mi
 env:
+  sign_up_enabled: false
   auth:
     jwt:
       enabled: true

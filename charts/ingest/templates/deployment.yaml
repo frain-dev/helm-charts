@@ -53,6 +53,8 @@ spec:
               value: {{ .Values.app.port | quote }}
             - name: CONVOY_LOGGER_LEVEL
               value: {{ .Values.env.log_level | quote }}
+            - name: CONVOY_ENV
+              value: {{ .Values.env.environment | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

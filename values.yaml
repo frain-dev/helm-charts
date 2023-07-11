@@ -4,10 +4,13 @@ global:
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
 
     # -- Docker image tags for all convoy services
-    tag: &tag "v23.06.2"
+    tag: &tag "v23.06.3"
 
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
+
+    # -- Convoy Environment
+    environment: &environment "oss"
 
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
@@ -24,7 +27,7 @@ global:
 
   externalDatabase:
     # -- Enable external database, This will use postgresql chart, Change values if you use an external database
-    enabled: &postgresEnabled true
+    enabled: true
     # -- Host for the external database
     host: "postgresql"
     # -- Password for the external database
@@ -71,7 +74,8 @@ global:
 
 # @ignored
 postgresql:
-  enabled: *postgresEnabled
+  # -- Set to false if you don't want to create a postgres instance
+  enabled: true
   fullnameOverride: "postgresql"
   global:
     postgresql:
@@ -84,15 +88,15 @@ postgresql:
 
 # @ignored
 redis:
+  # -- Set to false if you don't want to create a redis instance
+  enabled: true
   architecture: standalone
   fullnameOverride: "redis"
   auth:
     enabled: *redisEnabled
     password: *redisPassword
 
-
 worker:
-  # @ignored
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
     repository: *image
@@ -102,11 +106,11 @@ worker:
     tag: *tag
 
   env:
+    environment: *environment
     proxy: ""
-    # @ignored
     log_level: *logLevel
     smtp:
-      enabled: true
+      enabled: false
       from: ""
       password: ""
       port: 0
@@ -120,6 +124,18 @@ worker:
       license_key: *tracerLicenseKey
       config_enabled: *tracerConfigEnabled
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
+    storage:
+      enabled: false
+      type: ""
+      on_prem:
+        path: ""
+      s3:
+        bucket: ""
+        accessKey: ""
+        secretKey: ""
+        region: ""
+        session_token: ""
+        endpoint: ""
 
   ingress:
     # -- Enable ingress for the worker
@@ -134,14 +150,13 @@ worker:
   autoscaling:
     # -- Enable autoscaling for the worker
     enabled: false
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
 
 ingest:
-  # @ignored
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
     repository: *image
@@ -155,9 +170,10 @@ ingest:
     enabled: false
 
   env:
+    environment: *environment
     interval: 60
-    # @ignored
     log_level: *logLevel
+    # @ignored
     tracer:
       type: *tracerType
       enabled: *tracerEnabled
@@ -174,7 +190,7 @@ ingest:
 
   autoscaling:
     # -- Enable autoscaling for the worker
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
@@ -182,7 +198,6 @@ ingest:
 
 
 stream:
-  # @ignored
   image:
     # -- Repository to be used by the stream. Latest tag is used by default
     repository: *image
@@ -192,6 +207,7 @@ stream:
     tag: *tag
 
   env:
+    environment: *environment
     # @ignored
     tracer:
       type: *tracerType
@@ -221,7 +237,6 @@ stream:
 
 
 server:
-  # @ignored
   image:
     # -- Repository to be used by the server. Latest tag is used by default
     repository: *image
@@ -231,10 +246,10 @@ server:
     tag: *tag
 
   env:
-    # @ignored
+    environment: *environment
     log_level: *logLevel
-    environment: "production"
     host: ""
+    sign_up_enabled: false
     auth:
       jwt:
         enabled: true
@@ -245,6 +260,7 @@ server:
       type: ""
       api_key: ""
       host: ""
+    # @ignored
     tracer:
       type: *tracerType
       enabled: *tracerEnabled
@@ -277,15 +293,14 @@ server:
 
   autoscaling:
     # -- Enable autoscaling for the server
-    enabled: true
-    minReplicas: 1
+    enabled: false
+    minReplicas: 2
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
 
 scheduler:
-  # @ignored
   image:
     # -- Repository to be used by the scheduler. Latest tag is used by default
     repository: *image
@@ -296,7 +311,6 @@ scheduler:
 
 
 migrate:
-  # @ignored
   image:
     # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
     repository: *image

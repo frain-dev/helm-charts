@@ -7,13 +7,14 @@ app:
   port: 5006
   resources:
     limits:
-      cpu: 50m
-      memory: 60Mi
+      cpu: 500m
+      memory: 600Mi
     requests:
-      cpu: 40m
-      memory: 50Mi
+      cpu: 400m
+      memory: 500Mi
 
 env:
+  environment: ""
   log_level: "error"
   interval: 500
   tracer:

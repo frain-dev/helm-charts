@@ -50,6 +50,8 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: CONVOY_ENV
+              value: {{ .Values.env.environment | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

@@ -14,6 +14,8 @@ app:
       memory: 500Mi
 
 env:
+  sign_up_enabled: false
+  environment: ""
   proxy: ""
   log_level: "error"
   smtp:
@@ -31,6 +33,18 @@ env:
     distributed_tracer_enabled: true
     license_key: ""
     type: ""
+  storage:
+    enabled: false
+    type: ""
+    on_prem:
+      path: ""
+    s3:
+      bucket: ""
+      accessKey: ""
+      secretKey: ""
+      region: ""
+      session_token: ""
+      endpoint: ""
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy

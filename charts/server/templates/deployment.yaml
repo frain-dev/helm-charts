@@ -52,10 +52,14 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: CONVOY_ENV
+              value: {{ .Values.env.environment | quote }}
             - name: CONVOY_HOST
               value: {{ .Values.env.host | quote }}
             - name: CONVOY_LOGGER_LEVEL
               value: {{ .Values.env.log_level | quote }}
+            - name: CONVOY_SIGNUP_ENABLED
+              value: {{ .Values.env.sign_up_enabled | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
