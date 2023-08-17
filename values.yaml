@@ -2,16 +2,12 @@ global:
   convoy:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
-
     # -- Docker image tags for all convoy services
-    tag: &tag "v23.06.3"
-
+    tag: &tag "v23.08.1"
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
-
     # -- Convoy Environment
     environment: &environment "oss"
-
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
     # -- Tracing provider type
@@ -41,7 +37,7 @@ global:
     # -- scheme for the external database. This is postgres by default
     scheme: "postgres"
     # -- Query params for the external database
-    options: &options "sslmode=disable&connect_timeout=30"
+    options: "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
     port: 5432
 
@@ -58,6 +54,8 @@ global:
   externalRedis:
     # -- Enable external redis, Enable this if you use an external redis and disable Native redis
     enabled: false
+    # -- redis cluster addresses, if set the other values won't be used
+    addresses: ""
     # -- Host for the external redis
     host: ""
     # -- scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
@@ -104,6 +102,15 @@ worker:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+
+  app:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 20Mi
+      requests:
+        cpu: 50m
+        memory: 10Mi
 
   env:
     environment: *environment
@@ -157,6 +164,7 @@ worker:
 
 
 ingest:
+  enabled: false
   image:
     # -- Repository to be used by the worker. Latest tag is used by default
     repository: *image
@@ -168,6 +176,15 @@ ingest:
   ingress:
     # -- Enable ingress for the worker
     enabled: false
+
+  app:
+    resources:
+      limits:
+        cpu: 60m
+        memory: 60Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
 
   env:
     environment: *environment
@@ -198,6 +215,7 @@ ingest:
 
 
 stream:
+  enabled: false
   image:
     # -- Repository to be used by the stream. Latest tag is used by default
     repository: *image
@@ -205,6 +223,16 @@ stream:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+
+  app:
+    port: 5008
+    resources:
+      limits:
+        cpu: 50m
+        memory: 60Mi
+      requests:
+        cpu: 40m
+        memory: 50Mi
 
   env:
     environment: *environment
@@ -230,10 +258,10 @@ stream:
   autoscaling:
     # -- Enable autoscaling for the stream
     enabled: false
-    #    minReplicas: 1
-    #    maxReplicas: 10
-    #    targetCPUUtilizationPercentage: 80
-    #    targetMemoryUtilizationPercentage: 80
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
 
 server:
@@ -244,6 +272,16 @@ server:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+
+  app:
+    port: 5005
+    resources:
+      limits:
+        cpu: 50m
+        memory: 60Mi
+      requests:
+        cpu: 40m
+        memory: 50Mi
 
   env:
     environment: *environment

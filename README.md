@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.5](https://img.shields.io/badge/Version-1.0.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.06.3](https://img.shields.io/badge/AppVersion-23.06.3-informational?style=flat-square)
+![Version: 1.0.6](https://img.shields.io/badge/Version-1.0.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.08.1](https://img.shields.io/badge/AppVersion-23.08.1-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -25,7 +25,7 @@ Open Source Webhooks Gateway
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
-| global.convoy.tag | string | `"v23.06.3"` | Docker image tags for all convoy services |
+| global.convoy.tag | string | `"v23.08.1"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
 | global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
@@ -41,6 +41,7 @@ Open Source Webhooks Gateway
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
 | global.externalDatabase.scheme | string | `"postgres"` | scheme for the external database. This is postgres by default |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
+| global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
 | global.externalRedis.database | string | `""` | Database name for the external redis. |
 | global.externalRedis.enabled | bool | `false` | Enable external redis, Enable this if you use an external redis and disable Native redis |
 | global.externalRedis.host | string | `""` | Host for the external redis |
@@ -52,11 +53,16 @@ Open Source Webhooks Gateway
 | global.nativeRedis.host | string | `"redis-master"` | Host for the redis |
 | global.nativeRedis.password | string | `"convoy"` | password for the redis. |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
+| ingest.app.resources.limits.cpu | string | `"60m"` |  |
+| ingest.app.resources.limits.memory | string | `"60Mi"` |  |
+| ingest.app.resources.requests.cpu | string | `"50m"` |  |
+| ingest.app.resources.requests.memory | string | `"50Mi"` |  |
 | ingest.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | ingest.autoscaling.maxReplicas | int | `10` |  |
 | ingest.autoscaling.minReplicas | int | `1` |  |
 | ingest.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | ingest.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| ingest.enabled | bool | `false` |  |
 | ingest.env.environment | string | `"oss"` |  |
 | ingest.env.interval | int | `60` |  |
 | ingest.env.log_level | string | `"error"` |  |
@@ -69,6 +75,11 @@ Open Source Webhooks Gateway
 | migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. Latest tag is used by default. it will install before any other services. |
 | scheduler.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the scheduler image |
 | scheduler.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the scheduler. Latest tag is used by default |
+| server.app.port | int | `5005` |  |
+| server.app.resources.limits.cpu | string | `"50m"` |  |
+| server.app.resources.limits.memory | string | `"60Mi"` |  |
+| server.app.resources.requests.cpu | string | `"40m"` |  |
+| server.app.resources.requests.memory | string | `"50Mi"` |  |
 | server.autoscaling.enabled | bool | `false` | Enable autoscaling for the server |
 | server.autoscaling.maxReplicas | int | `10` |  |
 | server.autoscaling.minReplicas | int | `2` |  |
@@ -98,13 +109,27 @@ Open Source Webhooks Gateway
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
+| stream.app.port | int | `5008` |  |
+| stream.app.resources.limits.cpu | string | `"50m"` |  |
+| stream.app.resources.limits.memory | string | `"60Mi"` |  |
+| stream.app.resources.requests.cpu | string | `"40m"` |  |
+| stream.app.resources.requests.memory | string | `"50Mi"` |  |
 | stream.autoscaling.enabled | bool | `false` | Enable autoscaling for the stream |
+| stream.autoscaling.maxReplicas | int | `10` |  |
+| stream.autoscaling.minReplicas | int | `1` |  |
+| stream.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| stream.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| stream.enabled | bool | `false` |  |
 | stream.env.environment | string | `"oss"` |  |
 | stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
 | stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. Latest tag is used by default |
 | stream.ingress.enabled | bool | `false` | Enable ingress for the stream |
 | stream.service.port | int | `80` | Port for the stream service |
 | stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
+| worker.app.resources.limits.cpu | string | `"50m"` |  |
+| worker.app.resources.limits.memory | string | `"20Mi"` |  |
+| worker.app.resources.requests.cpu | string | `"50m"` |  |
+| worker.app.resources.requests.memory | string | `"10Mi"` |  |
 | worker.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | worker.autoscaling.maxReplicas | int | `10` |  |
 | worker.autoscaling.minReplicas | int | `2` |  |
@@ -141,3 +166,5 @@ Open Source Webhooks Gateway
 | worker.service.port | int | `80` | Port for the worker service |
 | worker.service.type | string | `"ClusterIP"` | Type of service for the worker |
 
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)

@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
           command: ["/cmd"]
-          args: ["server"]
+          args: ["server", "--log-level", "debug"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -90,20 +90,25 @@ spec:
             {{- end }}
 
             {{- if .Values.global.externalRedis.enabled }}
+            {{- if .Values.global.externalRedis.addresses }}
+            - name: CONVOY_REDIS_CLUSTER_ADDRESSES
+              value: {{ .Values.global.externalRedis.addresses | quote }}
+            {{- else }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
             - name: CONVOY_REDIS_HOST
               value: {{ .Values.global.externalRedis.host | quote }}
             - name: CONVOY_REDIS_PASSWORD
               value: {{ .Values.global.externalRedis.password | quote }}
-            - name: CONVOY_REDIS_PORT
+            - name : CONVOY_REDIS_PORT
               value: {{ .Values.global.externalRedis.port | quote }}
             - name: CONVOY_REDIS_SCHEME
               value: {{ .Values.global.externalRedis.scheme | quote }}
-            - name: CONVOY_REDIS_USERNAME
+            - name : CONVOY_REDIS_USERNAME
               value: {{ .Values.global.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
+            {{- end }}
             {{- end }}
 
             {{- if .Values.env.tracer.enabled }}

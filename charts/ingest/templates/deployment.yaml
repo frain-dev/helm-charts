@@ -1,3 +1,4 @@
+{{- if .Values.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -85,6 +86,10 @@ spec:
             {{- end }}
 
             {{- if .Values.global.externalRedis.enabled }}
+            {{- if .Values.global.externalRedis.addresses }}
+            - name: CONVOY_REDIS_CLUSTER_ADDRESSES
+              value: {{ .Values.global.externalRedis.addresses | quote }}
+            {{- else }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
             - name: CONVOY_REDIS_HOST
@@ -99,6 +104,7 @@ spec:
               value: {{ .Values.global.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
+            {{- end }}
             {{- end }}
 
             {{- if .Values.env.tracer.enabled }}
@@ -130,3 +136,4 @@ spec:
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
+{{- end }}
