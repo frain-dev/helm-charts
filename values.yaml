@@ -144,10 +144,6 @@ worker:
         session_token: ""
         endpoint: ""
 
-  ingress:
-    # -- Enable ingress for the worker
-    enabled: false
-
   service:
     # -- Type of service for the worker
     type: ClusterIP
@@ -172,10 +168,6 @@ ingest:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
-
-  ingress:
-    # -- Enable ingress for the worker
-    enabled: false
 
   app:
     resources:
@@ -246,8 +238,19 @@ stream:
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
 
   ingress:
-    # -- Enable ingress for the stream
+    # -- Enable ingress for the stream server
     enabled: false
+    annotations: [ ]
+    tls:
+      - hosts:
+          - stream.test.com
+        secretName: test-tls-secret
+    hosts:
+      - host: stream.test.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
 
   service:
     # -- Type of service for the stream
@@ -322,6 +325,17 @@ server:
   ingress:
     # -- Enable ingress for the server
     enabled: false
+    annotations: [ ]
+    tls:
+      - hosts:
+          - test.com
+        secretName: test-tls-secret
+    hosts:
+      - host: test.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
 
   service:
     # -- Type of service for the server
