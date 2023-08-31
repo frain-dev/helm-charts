@@ -38,4 +38,14 @@ service:
 
 ingress:
   enabled: false
-  tls: false
+  annotations: []
+  tls:
+    - hosts:
+        - test.com
+      secretName: test-tls-secret
+  hosts:
+    - host: test.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
