@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.6](https://img.shields.io/badge/Version-1.0.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.08.1](https://img.shields.io/badge/AppVersion-23.08.1-informational?style=flat-square)
+![Version: 1.0.7](https://img.shields.io/badge/Version-1.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.08.1](https://img.shields.io/badge/AppVersion-23.08.1-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -68,7 +68,6 @@ Open Source Webhooks Gateway
 | ingest.env.log_level | string | `"error"` |  |
 | ingest.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
 | ingest.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
-| ingest.ingress.enabled | bool | `false` | Enable ingress for the worker |
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
@@ -106,7 +105,14 @@ Open Source Webhooks Gateway
 | server.env.storage.type | string | `""` |  |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
 | server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. Latest tag is used by default |
+| server.ingress.annotations | list | `[]` |  |
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
+| server.ingress.hosts[0].host | string | `"test.com"` |  |
+| server.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
+| server.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
+| server.ingress.ingressClassName | string | `""` |  |
+| server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
+| server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 | stream.app.port | int | `5008` |  |
@@ -123,7 +129,14 @@ Open Source Webhooks Gateway
 | stream.env.environment | string | `"oss"` |  |
 | stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
 | stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. Latest tag is used by default |
-| stream.ingress.enabled | bool | `false` | Enable ingress for the stream |
+| stream.ingress.annotations | list | `[]` |  |
+| stream.ingress.enabled | bool | `false` | Enable ingress for the stream server |
+| stream.ingress.hosts[0].host | string | `"stream.test.com"` |  |
+| stream.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
+| stream.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
+| stream.ingress.ingressClassName | string | `""` |  |
+| stream.ingress.tls[0].hosts[0] | string | `"stream.test.com"` |  |
+| stream.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | stream.service.port | int | `80` | Port for the stream service |
 | stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
 | worker.app.resources.limits.cpu | string | `"50m"` |  |
@@ -162,7 +175,6 @@ Open Source Webhooks Gateway
 | worker.env.tracer.type | string | `""` |  |
 | worker.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
 | worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
-| worker.ingress.enabled | bool | `false` | Enable ingress for the worker |
 | worker.service.port | int | `80` | Port for the worker service |
 | worker.service.type | string | `"ClusterIP"` | Type of service for the worker |
 
