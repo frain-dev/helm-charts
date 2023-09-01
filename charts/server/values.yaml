@@ -63,6 +63,7 @@ service:
 ingress:
   enabled: false
   annotations: []
+  ingressClassName: ""
   tls:
     - hosts:
         - test.com

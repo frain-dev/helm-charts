@@ -241,6 +241,7 @@ stream:
     # -- Enable ingress for the stream server
     enabled: false
     annotations: [ ]
+    ingressClassName: ""
     tls:
       - hosts:
           - stream.test.com
@@ -326,6 +327,7 @@ server:
     # -- Enable ingress for the server
     enabled: false
     annotations: [ ]
+    ingressClassName: ""
     tls:
       - hosts:
           - test.com
