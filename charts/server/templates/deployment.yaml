@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
           command: ["/cmd"]
-          args: ["server", "--log-level", "debug"]
+          args: ["server"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}

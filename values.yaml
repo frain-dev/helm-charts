@@ -22,7 +22,7 @@ global:
     tracer_license_key: &tracerLicenseKey ""
 
   externalDatabase:
-    # -- Enable external database, This will use postgresql chart, Change values if you use an external database
+    # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
     enabled: true
     # -- Host for the external database
     host: "postgresql"
@@ -356,7 +356,7 @@ server:
 
 scheduler:
   image:
-    # -- Repository to be used by the scheduler. Latest tag is used by default
+    # -- Repository to be used by the scheduler. The latest tag is used by default
     repository: *image
     # -- Pull policy for the scheduler image
     pullPolicy: IfNotPresent
@@ -366,7 +366,7 @@ scheduler:
 
 migrate:
   image:
-    # -- Repository to be used by to migrate. Latest tag is used by default. it will install before any other services.
+    # -- Repository to be used by to migrate. The latest tag is used by default. it will install before any other services.
     repository: *image
     # -- Pull policy for the migrate image
     pullPolicy: IfNotPresent
