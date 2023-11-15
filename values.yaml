@@ -30,8 +30,10 @@ global:
     postgresPassword: &postgresPassword "postgres"
     # -- Database name for the external database
     database: &postgresDatabase "convoy"
-    # -- Username for the external database
+    # -- Password for the external database, ignored in case of secret parameter with non-empty value
     password: &userPassword "postgres"
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
     # -- Username for the external database
     username: &username "postgres"
     # -- scheme for the external database. This is postgres by default
@@ -46,8 +48,10 @@ global:
     enabled: &redisEnabled true
     # -- Host for the redis
     host: "redis-master"
-    # -- password for the redis.
+    # -- password for the redis, ignored in case of secret parameter with non-empty value
     password: &redisPassword "convoy"
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
     # -- Port for the redis
     port: 6379
 
@@ -62,15 +66,17 @@ global:
     scheme: ""
     # -- username for the external redis.
     username: ""
-    # -- password for the external redis.
+    # -- password for the external redis, ignored in case of secret parameter with non-empty value
     password: ""
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
     # -- Database name for the external redis.
     database: ""
     # -- Port for the external redis
     port: ""
 
 
-# @ignored
+# @ignored, used in case of external chart
 postgresql:
   # -- Set to false if you don't want to create a postgres instance
   enabled: true
@@ -84,7 +90,7 @@ postgresql:
         database: *postgresDatabase
 
 
-# @ignored
+# @ignored, used in case of external chart
 redis:
   # -- Set to false if you don't want to create a redis instance
   enabled: true
@@ -119,7 +125,10 @@ worker:
     smtp:
       enabled: false
       from: ""
+      # -- Ignored in case of secret parameter with non-empty value
       password: ""
+      # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+      secret: ""
       port: 0
       provider: ""
       url: ""
@@ -139,7 +148,10 @@ worker:
       s3:
         bucket: ""
         accessKey: ""
+        # -- Ignored in case of secret parameter with non-empty value
         secretKey: ""
+        # -- If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key
+        secret: ""
         region: ""
         session_token: ""
         endpoint: ""
@@ -318,7 +330,10 @@ server:
       s3:
         bucket: ""
         accessKey: ""
+        # -- Ignored in case of secret parameter with non-empty value
         secretKey: ""
+        # -- If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key
+        secret: ""
         region: ""
         session_token: ""
         endpoint: ""
