@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
     # -- Docker image tags for all convoy services
-    tag: &tag "v23.08.1"
+    tag: &tag "v23.11.1"
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -297,11 +297,6 @@ server:
         enabled: true
       native:
         enabled: true
-    search:
-      enabled: false
-      type: ""
-      api_key: ""
-      host: ""
     # @ignored
     tracer:
       type: *tracerType

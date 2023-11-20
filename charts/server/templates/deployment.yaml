@@ -124,16 +124,6 @@ spec:
               value: {{ .Values.env.tracer.type | quote }}
             {{- end }}
 
-            {{- if .Values.env.search.enabled }}
-            - name: CONVOY_SEARCH_TYPE
-              value: {{ .Values.env.search.type | quote }}
-            - name: CONVOY_TYPESENSE_HOST
-              value: {{ .Values.env.search.host | quote }}
-            - name: CONVOY_TYPESENSE_API_KEY
-              value: {{ .Values.env.search.api_key | quote }}
-            {{- end }}
-
-
             {{- if .Values.env.storage.enabled }}
             - name: CONVOY_STORAGE_POLICY_TYPE
               value: {{ .Values.env.storage.type | quote }}

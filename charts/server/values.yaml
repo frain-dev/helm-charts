@@ -22,11 +22,6 @@ env:
   log_level: "error"
   environment: ""
   host: ""
-  search:
-    enabled: false
-    type: ""
-    api_key: ""
-    host: ""
   tracer:
     enabled: false
     app_name: ""
