@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.0.7](https://img.shields.io/badge/Version-1.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.08.1](https://img.shields.io/badge/AppVersion-23.08.1-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.11.1](https://img.shields.io/badge/AppVersion-23.11.1-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -9,7 +9,6 @@ Open Source Webhooks Gateway
 | Name | Email | Url |
 | ---- | ------ | --- |
 | Convoy Engineering Team | <engineering@getconvoy.io> | <https://getconvoy.io> |
-| Obinna Odirionye | <odirionye@gmail.com> | <https://iamobinna.com> |
 
 ## Requirements
 
@@ -25,7 +24,7 @@ Open Source Webhooks Gateway
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
-| global.convoy.tag | string | `"v23.08.1"` | Docker image tags for all convoy services |
+| global.convoy.tag | string | `"v23.11.1"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
 | global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
@@ -33,7 +32,7 @@ Open Source Webhooks Gateway
 | global.convoy.tracer_license_key | string | `""` | NewRelic license key |
 | global.convoy.tracer_type | string | `""` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
-| global.externalDatabase.enabled | bool | `true` | Enable external database, This will use postgresql chart, Change values if you use an external database |
+| global.externalDatabase.enabled | bool | `true` | Enable an external database, This will use postgresql chart, Change values if you use an external database |
 | global.externalDatabase.host | string | `"postgresql"` | Host for the external database |
 | global.externalDatabase.options | string | `"sslmode=disable&connect_timeout=30"` | Query params for the external database |
 | global.externalDatabase.password | string | `"postgres"` | Username for the external database |
@@ -71,9 +70,9 @@ Open Source Webhooks Gateway
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
-| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. Latest tag is used by default. it will install before any other services. |
+| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. it will install before any other services. |
 | scheduler.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the scheduler image |
-| scheduler.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the scheduler. Latest tag is used by default |
+| scheduler.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the scheduler. The latest tag is used by default |
 | server.app.port | int | `5005` |  |
 | server.app.resources.limits.cpu | string | `"50m"` |  |
 | server.app.resources.limits.memory | string | `"60Mi"` |  |
@@ -89,10 +88,6 @@ Open Source Webhooks Gateway
 | server.env.environment | string | `"oss"` |  |
 | server.env.host | string | `""` |  |
 | server.env.log_level | string | `"error"` |  |
-| server.env.search.api_key | string | `""` |  |
-| server.env.search.enabled | bool | `false` |  |
-| server.env.search.host | string | `""` |  |
-| server.env.search.type | string | `""` |  |
 | server.env.sign_up_enabled | bool | `false` |  |
 | server.env.storage.enabled | bool | `false` |  |
 | server.env.storage.on_prem.path | string | `""` |  |
@@ -110,6 +105,7 @@ Open Source Webhooks Gateway
 | server.ingress.hosts[0].host | string | `"test.com"` |  |
 | server.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
 | server.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
+| server.ingress.ingressClassName | string | `""` |  |
 | server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
 | server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | server.service.port | int | `80` | Port for the server service |
@@ -133,6 +129,7 @@ Open Source Webhooks Gateway
 | stream.ingress.hosts[0].host | string | `"stream.test.com"` |  |
 | stream.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
 | stream.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
+| stream.ingress.ingressClassName | string | `""` |  |
 | stream.ingress.tls[0].hosts[0] | string | `"stream.test.com"` |  |
 | stream.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | stream.service.port | int | `80` | Port for the stream service |
