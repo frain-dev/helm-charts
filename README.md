@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.11.1](https://img.shields.io/badge/AppVersion-23.11.1-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.11.1](https://img.shields.io/badge/AppVersion-23.11.1-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -35,26 +35,26 @@ Open Source Webhooks Gateway
 | global.externalDatabase.enabled | bool | `true` | Enable an external database, This will use postgresql chart, Change values if you use an external database |
 | global.externalDatabase.host | string | `"postgresql"` | Host for the external database |
 | global.externalDatabase.options | string | `"sslmode=disable&connect_timeout=30"` | Query params for the external database |
-| global.externalDatabase.password | string | `"postgres"` |Password for the external database, ignored in case of secret parameter with non-empty value  |
-| global.externalDatabase.secret | string | `"postgres"` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
 | global.externalDatabase.scheme | string | `"postgres"` | scheme for the external database. This is postgres by default |
+| global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
 | global.externalRedis.database | string | `""` | Database name for the external redis. |
 | global.externalRedis.enabled | bool | `false` | Enable external redis, Enable this if you use an external redis and disable Native redis |
 | global.externalRedis.host | string | `""` | Host for the external redis |
-| global.externalRedis.password | string | `""` | password for the redis, ignored in case of secret parameter with non-empty value |
-| global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| global.externalRedis.password | string | `""` | password for the external redis, ignored in case of secret parameter with non-empty value |
 | global.externalRedis.port | string | `""` | Port for the external redis |
 | global.externalRedis.scheme | string | `""` | scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
+| global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalRedis.username | string | `""` | username for the external redis. |
 | global.nativeRedis.enabled | bool | `true` | Enable redis, This will use redis chart, Disable if you use an external redis |
 | global.nativeRedis.host | string | `"redis-master"` | Host for the redis |
-| global.nativeRedis.password | string | `"convoy"` | password for the external redis, ignored in case of secret parameter with non-empty value |
-| global.nativeRedis.secret | string | `"convoy"` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| global.nativeRedis.password | string | `"convoy"` | password for the redis, ignored in case of secret parameter with non-empty value |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
+| global.nativeRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | ingest.app.resources.limits.cpu | string | `"60m"` |  |
 | ingest.app.resources.limits.memory | string | `"60Mi"` |  |
 | ingest.app.resources.requests.cpu | string | `"50m"` |  |
@@ -74,8 +74,6 @@ Open Source Webhooks Gateway
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
 | migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. it will install before any other services. |
-| scheduler.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the scheduler image |
-| scheduler.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the scheduler. The latest tag is used by default |
 | server.app.port | int | `5005` |  |
 | server.app.resources.limits.cpu | string | `"50m"` |  |
 | server.app.resources.limits.memory | string | `"60Mi"` |  |
@@ -98,8 +96,8 @@ Open Source Webhooks Gateway
 | server.env.storage.s3.bucket | string | `""` |  |
 | server.env.storage.s3.endpoint | string | `""` |  |
 | server.env.storage.s3.region | string | `""` |  |
-| server.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | server.env.storage.s3.secret | string | `""` | If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key |
+| server.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | server.env.storage.s3.session_token | string | `""` |  |
 | server.env.storage.type | string | `""` |  |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
@@ -153,9 +151,9 @@ Open Source Webhooks Gateway
 | worker.env.smtp.enabled | bool | `false` |  |
 | worker.env.smtp.from | string | `""` |  |
 | worker.env.smtp.password | string | `""` | Ignored in case of secret parameter with non-empty value |
-| worker.env.smtp.secret | string | `""` |  If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | worker.env.smtp.port | int | `0` |  |
 | worker.env.smtp.provider | string | `""` |  |
+| worker.env.smtp.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | worker.env.smtp.url | string | `""` |  |
 | worker.env.smtp.username | string | `""` |  |
 | worker.env.storage.enabled | bool | `false` |  |
@@ -164,8 +162,8 @@ Open Source Webhooks Gateway
 | worker.env.storage.s3.bucket | string | `""` |  |
 | worker.env.storage.s3.endpoint | string | `""` |  |
 | worker.env.storage.s3.region | string | `""` |  |
-| worker.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | worker.env.storage.s3.secret | string | `""` | If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key |
+| worker.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | worker.env.storage.s3.session_token | string | `""` |  |
 | worker.env.storage.type | string | `""` |  |
 | worker.env.tracer.app_name | string | `""` |  |

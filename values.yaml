@@ -364,16 +364,6 @@ server:
     targetMemoryUtilizationPercentage: 80
 
 
-scheduler:
-  image:
-    # -- Repository to be used by the scheduler. The latest tag is used by default
-    repository: *image
-    # -- Pull policy for the scheduler image
-    pullPolicy: IfNotPresent
-    # @ignored
-    tag: *tag
-
-
 migrate:
   image:
     # -- Repository to be used by to migrate. The latest tag is used by default. it will install before any other services.
