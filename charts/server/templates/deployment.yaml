@@ -16,9 +16,9 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: /metrics
-        prometheus.io/port: "80"
+      {{- with .Values.app.podAnnotations }}
+        {{- tpl (toYaml . ) $ | nindent 8 }}
+      {{- end }}
         updatedAt: {{ now | quote }}
       labels:
         app.kubernetes.io/name: {{ include "convoy-server.name" . }}
