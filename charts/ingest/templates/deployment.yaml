@@ -145,18 +145,14 @@ spec:
             {{- end }}
 
           livenessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "echo 0"
+            httpGet:
+              path: /health
+              port: http
             initialDelaySeconds: 30
           readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "echo 0"
+            httpGet:
+              path: /health
+              port: http
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
