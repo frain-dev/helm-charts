@@ -12,6 +12,11 @@ app:
     requests:
       cpu: 40m
       memory: 50Mi
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "{{ .Values.app.port }}"
+
 env:
   sign_up_enabled: false
   auth:
