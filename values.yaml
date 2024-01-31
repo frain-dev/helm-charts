@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
     # -- Docker image tags for all convoy services
-    tag: &tag "v23.11.1"
+    tag: &tag "v24.1.1"
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -102,7 +102,7 @@ redis:
 
 worker:
   image:
-    # -- Repository to be used by the worker. Latest tag is used by default
+    # -- Repository to be used by the worker. The latest tag is used by default
     repository: *image
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
@@ -170,11 +170,15 @@ worker:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  podDisruptionBudget: { }
+    # -- Pod disruption budget
+#    maxUnavailable: 1
+#    minAvailable: 1
 
 ingest:
   enabled: false
   image:
-    # -- Repository to be used by the worker. Latest tag is used by default
+    # -- Repository to be used by the worker. The latest tag is used by default
     repository: *image
     # -- Pull policy for the worker image
     pullPolicy: IfNotPresent
@@ -217,11 +221,17 @@ ingest:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  podDisruptionBudget: { }
+  # -- Pod disruption budget
+    #  maxUnavailable: 1
+    #  minAvailable: 1
+
+
 
 stream:
   enabled: false
   image:
-    # -- Repository to be used by the stream. Latest tag is used by default
+    # -- Repository to be used by the stream. The latest tag is used by default
     repository: *image
     # -- Pull policy for the stream image
     pullPolicy: IfNotPresent
@@ -282,7 +292,7 @@ stream:
 
 server:
   image:
-    # -- Repository to be used by the server. Latest tag is used by default
+    # -- Repository to be used by the server. The latest tag is used by default
     repository: *image
     # -- Pull policy for the server image
     pullPolicy: IfNotPresent
@@ -362,6 +372,11 @@ server:
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
+
+  podDisruptionBudget: { }
+    # -- Pod disruption budget
+#    maxUnavailable: 1
+#    minAvailable: 1
 
 
 migrate:

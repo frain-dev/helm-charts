@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 23.11.1](https://img.shields.io/badge/AppVersion-23.11.1-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.1.1](https://img.shields.io/badge/AppVersion-24.1.1-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -24,7 +24,7 @@ Open Source Webhooks Gateway
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
-| global.convoy.tag | string | `"v23.11.1"` | Docker image tags for all convoy services |
+| global.convoy.tag | string | `"v24.1.1"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
 | global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
@@ -69,7 +69,8 @@ Open Source Webhooks Gateway
 | ingest.env.interval | int | `60` |  |
 | ingest.env.log_level | string | `"error"` |  |
 | ingest.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| ingest.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
+| ingest.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. The latest tag is used by default |
+| ingest.podDisruptionBudget | object | `{}` |  |
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
@@ -101,7 +102,7 @@ Open Source Webhooks Gateway
 | server.env.storage.s3.session_token | string | `""` |  |
 | server.env.storage.type | string | `""` |  |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
-| server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. Latest tag is used by default |
+| server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. The latest tag is used by default |
 | server.ingress.annotations | list | `[]` |  |
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
 | server.ingress.hosts[0].host | string | `"test.com"` |  |
@@ -110,6 +111,7 @@ Open Source Webhooks Gateway
 | server.ingress.ingressClassName | string | `""` |  |
 | server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
 | server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
+| server.podDisruptionBudget | object | `{}` |  |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 | stream.app.port | int | `5008` |  |
@@ -125,7 +127,7 @@ Open Source Webhooks Gateway
 | stream.enabled | bool | `false` |  |
 | stream.env.environment | string | `"oss"` |  |
 | stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
-| stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. Latest tag is used by default |
+| stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. The latest tag is used by default |
 | stream.ingress.annotations | list | `[]` |  |
 | stream.ingress.enabled | bool | `false` | Enable ingress for the stream server |
 | stream.ingress.hosts[0].host | string | `"stream.test.com"` |  |
@@ -173,7 +175,8 @@ Open Source Webhooks Gateway
 | worker.env.tracer.license_key | string | `""` |  |
 | worker.env.tracer.type | string | `""` |  |
 | worker.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. Latest tag is used by default |
+| worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. The latest tag is used by default |
+| worker.podDisruptionBudget | object | `{}` |  |
 | worker.service.port | int | `80` | Port for the worker service |
 | worker.service.type | string | `"ClusterIP"` | Type of service for the worker |
 
