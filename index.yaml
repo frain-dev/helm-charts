@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
+    appVersion: 24.1.1
+    created: "2024-01-31T12:53:48.102102+01:00"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.5.6
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.11.3
+    description: Open Source Webhooks Gateway
+    digest: 2f8e24b090ad10c1b656946188ad98f8451a11a5e4c2300403c6831b1cccc48e
+    keywords:
+    - Webhooks
+    - Kubernetes
+    - Convoy
+    maintainers:
+    - email: engineering@getconvoy.io
+      name: Convoy Engineering Team
+      url: https://getconvoy.io
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-2.1.0/convoy-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
     appVersion: 23.11.1
     created: "2024-01-30T14:39:05.023803+01:00"
     dependencies:
@@ -416,4 +443,4 @@ entries:
     urls:
     - https://charts.bitnami.com/bitnami/redis-17.11.3.tgz
     version: 17.11.3
-generated: "2024-01-30T14:39:05.023852+01:00"
+generated: "2024-01-31T12:53:48.102194+01:00"
