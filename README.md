@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.1.1](https://img.shields.io/badge/AppVersion-24.1.1-informational?style=flat-square)
+![Version: 2.1.1](https://img.shields.io/badge/Version-2.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.1.2](https://img.shields.io/badge/AppVersion-24.1.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -24,7 +24,7 @@ Open Source Webhooks Gateway
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
-| global.convoy.tag | string | `"v24.1.1"` | Docker image tags for all convoy services |
+| global.convoy.tag | string | `"v24.1.2"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
 | global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
@@ -38,7 +38,7 @@ Open Source Webhooks Gateway
 | global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
-| global.externalDatabase.scheme | string | `"postgres"` | scheme for the external database. This is postgres by default |
+| global.externalDatabase.scheme | string | `"postgres"` | Scheme for the external database. This is postgres by default |
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
@@ -47,7 +47,7 @@ Open Source Webhooks Gateway
 | global.externalRedis.host | string | `""` | Host for the external redis |
 | global.externalRedis.password | string | `""` | password for the external redis, ignored in case of secret parameter with non-empty value |
 | global.externalRedis.port | string | `""` | Port for the external redis |
-| global.externalRedis.scheme | string | `""` | scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
+| global.externalRedis.scheme | string | `""` | Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
 | global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalRedis.username | string | `""` | username for the external redis. |
 | global.nativeRedis.enabled | bool | `true` | Enable redis, This will use redis chart, Disable if you use an external redis |
@@ -55,10 +55,6 @@ Open Source Webhooks Gateway
 | global.nativeRedis.password | string | `"convoy"` | password for the redis, ignored in case of secret parameter with non-empty value |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
 | global.nativeRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
-| ingest.app.resources.limits.cpu | string | `"60m"` |  |
-| ingest.app.resources.limits.memory | string | `"60Mi"` |  |
-| ingest.app.resources.requests.cpu | string | `"50m"` |  |
-| ingest.app.resources.requests.memory | string | `"50Mi"` |  |
 | ingest.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | ingest.autoscaling.maxReplicas | int | `10` |  |
 | ingest.autoscaling.minReplicas | int | `1` |  |
@@ -74,12 +70,7 @@ Open Source Webhooks Gateway
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
-| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. it will install before any other services. |
-| server.app.port | int | `5005` |  |
-| server.app.resources.limits.cpu | string | `"50m"` |  |
-| server.app.resources.limits.memory | string | `"60Mi"` |  |
-| server.app.resources.requests.cpu | string | `"40m"` |  |
-| server.app.resources.requests.memory | string | `"50Mi"` |  |
+| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. It will install before any other services. |
 | server.autoscaling.enabled | bool | `false` | Enable autoscaling for the server |
 | server.autoscaling.maxReplicas | int | `10` |  |
 | server.autoscaling.minReplicas | int | `2` |  |
@@ -138,10 +129,6 @@ Open Source Webhooks Gateway
 | stream.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | stream.service.port | int | `80` | Port for the stream service |
 | stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
-| worker.app.resources.limits.cpu | string | `"50m"` |  |
-| worker.app.resources.limits.memory | string | `"20Mi"` |  |
-| worker.app.resources.requests.cpu | string | `"50m"` |  |
-| worker.app.resources.requests.memory | string | `"10Mi"` |  |
 | worker.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | worker.autoscaling.maxReplicas | int | `10` |  |
 | worker.autoscaling.minReplicas | int | `2` |  |

@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy services
     image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
     # -- Docker image tags for all convoy services
-    tag: &tag "v24.1.1"
+    tag: &tag "v24.1.2"
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -36,7 +36,7 @@ global:
     secret: ""
     # -- Username for the external database
     username: &username "postgres"
-    # -- scheme for the external database. This is postgres by default
+    # -- Scheme for the external database. This is postgres by default
     scheme: "postgres"
     # -- Query params for the external database
     options: "sslmode=disable&connect_timeout=30"
@@ -62,7 +62,7 @@ global:
     addresses: ""
     # -- Host for the external redis
     host: ""
-    # -- scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
+    # -- Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
     scheme: ""
     # -- username for the external redis.
     username: ""
@@ -108,15 +108,6 @@ worker:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
-
-  app:
-    resources:
-      limits:
-        cpu: 50m
-        memory: 20Mi
-      requests:
-        cpu: 50m
-        memory: 10Mi
 
   env:
     environment: *environment
@@ -184,15 +175,6 @@ ingest:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
-
-  app:
-    resources:
-      limits:
-        cpu: 60m
-        memory: 60Mi
-      requests:
-        cpu: 50m
-        memory: 50Mi
 
   env:
     environment: *environment
@@ -299,16 +281,6 @@ server:
     # @ignored
     tag: *tag
 
-  app:
-    port: 5005
-    resources:
-      limits:
-        cpu: 50m
-        memory: 60Mi
-      requests:
-        cpu: 40m
-        memory: 50Mi
-
   env:
     environment: *environment
     log_level: *logLevel
@@ -381,7 +353,7 @@ server:
 
 migrate:
   image:
-    # -- Repository to be used by to migrate. The latest tag is used by default. it will install before any other services.
+    # -- Repository to be used by to migrate. The latest tag is used by default. It will install before any other services.
     repository: *image
     # -- Pull policy for the migrate image
     pullPolicy: IfNotPresent

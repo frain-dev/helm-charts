@@ -7,11 +7,11 @@ app:
   port: 5005
   resources:
     limits:
-      cpu: 50m
-      memory: 60Mi
+      cpu: 2000m
+      memory: 2000Mi
     requests:
-      cpu: 40m
-      memory: 50Mi
+      cpu: 1000m
+      memory: 1000Mi
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
