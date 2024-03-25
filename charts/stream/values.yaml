@@ -42,7 +42,7 @@ service:
 
 ingress:
   enabled: false
-  annotations: []
+  annotations: {}
   ingressClassName: ""
   tls:
     - hosts:
@@ -54,3 +54,7 @@ ingress:
         paths:
           - path: /
             pathType: Prefix
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
