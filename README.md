@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 2.1.1](https://img.shields.io/badge/Version-2.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.1.2](https://img.shields.io/badge/AppVersion-24.1.2-informational?style=flat-square)
+![Version: 2.2.1](https://img.shields.io/badge/Version-2.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.1.4](https://img.shields.io/badge/AppVersion-24.1.4-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -94,7 +94,7 @@ Open Source Webhooks Gateway
 | server.env.storage.type | string | `""` |  |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
 | server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. The latest tag is used by default |
-| server.ingress.annotations | list | `[]` |  |
+| server.ingress.annotations | object | `{}` |  |
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
 | server.ingress.hosts[0].host | string | `"test.com"` |  |
 | server.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
@@ -119,7 +119,7 @@ Open Source Webhooks Gateway
 | stream.env.environment | string | `"oss"` |  |
 | stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
 | stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. The latest tag is used by default |
-| stream.ingress.annotations | list | `[]` |  |
+| stream.ingress.annotations | object | `{}` |  |
 | stream.ingress.enabled | bool | `false` | Enable ingress for the stream server |
 | stream.ingress.hosts[0].host | string | `"stream.test.com"` |  |
 | stream.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |

@@ -2,8 +2,8 @@ apiVersion: v1
 entries:
   convoy:
   - apiVersion: v2
-    appVersion: 23.05.5
-    created: "2023-06-05T15:03:20.76877976+01:00"
+    appVersion: 24.1.4
+    created: "2024-03-26T13:51:05.372677+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -14,7 +14,7 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 17.11.3
     description: Open Source Webhooks Gateway
-    digest: dc99a351abd71145f946a11caca7c0112e33d3af2c8de0aa1c4fea65dbc77eb9
+    digest: 84b4b16b547b7477ec1f1871d88a8a4f0c1c9dbb4feb481154e0000bcb8da4c0
     keywords:
     - Webhooks
     - Kubernetes
@@ -23,21 +23,18 @@ entries:
     - email: engineering@getconvoy.io
       name: Convoy Engineering Team
       url: https://getconvoy.io
-    - email: odirionye@gmail.com
-      name: Obinna Odirionye
-      url: https://iamobinna.com
     name: convoy
     type: application
     urls:
-    - https://frain-dev.github.io/helm-charts/convoy-1.0.2.tgz
-    version: 1.0.2
+    - https://frain-dev.github.io/helm-charts/convoy-2.2.1.tgz
+    version: 2.2.1
   postgresql:
   - annotations:
       category: Database
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 15.3.0
-    created: "2023-06-05T15:03:20.783226086+01:00"
+    created: "2024-03-26T13:51:05.375815+01:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -64,7 +61,7 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
     urls:
-    - https://charts.bitnami.com/bitnami/postgresql-12.5.6.tgz
+    - https://frain-dev.github.io/helm-charts/charts/postgresql-12.5.6.tgz
     version: 12.5.6
   redis:
   - annotations:
@@ -72,7 +69,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 7.0.11
-    created: "2023-06-05T15:03:20.802869875+01:00"
+    created: "2024-03-26T13:51:05.379831+01:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -96,6 +93,6 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/redis
     urls:
-    - https://charts.bitnami.com/bitnami/redis-17.11.3.tgz
+    - https://frain-dev.github.io/helm-charts/charts/redis-17.11.3.tgz
     version: 17.11.3
-generated: "2023-06-05T15:03:20.723330749+01:00"
+generated: "2024-03-26T13:51:05.362452+01:00"
