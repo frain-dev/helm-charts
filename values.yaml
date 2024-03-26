@@ -244,7 +244,7 @@ stream:
   ingress:
     # -- Enable ingress for the stream server
     enabled: false
-    annotations: [ ]
+    annotations: {}
     ingressClassName: ""
     tls:
       - hosts:
@@ -318,7 +318,7 @@ server:
   ingress:
     # -- Enable ingress for the server
     enabled: false
-    annotations: [ ]
+    annotations: {}
     ingressClassName: ""
     tls:
       - hosts:

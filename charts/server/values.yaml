@@ -62,7 +62,7 @@ service:
 
 ingress:
   enabled: false
-  annotations: []
+  annotations: {}
   ingressClassName: ""
   tls:
     - hosts:
@@ -86,3 +86,7 @@ autoscaling:
 podDisruptionBudget: {}
 #  maxUnavailable: 1
 #  minAvailable: 1
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

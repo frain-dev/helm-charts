@@ -23,3 +23,7 @@ fullNameOverride: "convoy-migrate"
 
 ingress:
   enabled: false
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -26,7 +26,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-migrate
-          image: bitnami/kubectl:1.24.4
+          image: bitnami/kubectl:1.24.10
           command:
             - /bin/sh
             - -c
@@ -221,3 +221,15 @@ spec:
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
