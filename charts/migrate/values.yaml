@@ -27,3 +27,5 @@ ingress:
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+jobAnnotations: {}
