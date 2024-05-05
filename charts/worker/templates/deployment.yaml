@@ -41,12 +41,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/cmd"]
           args: ["worker"]
+          {{- if .Values.containerSecurityContext }}
+          securityContext:
+          {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
               protocol: TCP
           env:
-
             - name: SERVICE_NAME
               value: {{ .Chart.Name }}
             - name: PORT
@@ -59,8 +62,6 @@ spec:
               value: {{ .Values.env.environment | quote }}
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
-
-
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
               value: {{ .Values.global.externalDatabase.scheme | quote }}
