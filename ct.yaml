@@ -1,0 +1,7 @@
+remote: origin
+chart-dirs:
+  - charts
+target-branch: main
+helm-extra-args: --timeout 8m
+check-version-increment: false
+validate-maintainers: false
