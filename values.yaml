@@ -146,6 +146,15 @@ worker:
         region: ""
         session_token: ""
         endpoint: ""
+  app:
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2000Mi
+      requests:
+        cpu: 1000m
+        memory: 1000m
 
   service:
     # -- Type of service for the worker
@@ -188,6 +197,15 @@ ingest:
       license_key: *tracerLicenseKey
       config_enabled: *tracerConfigEnabled
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
+  app:
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2000Mi
+      requests:
+        cpu: 1000m
+        memory: 1000Mi
 
   service:
     # -- Type of service for the worker
@@ -314,6 +332,15 @@ server:
         region: ""
         session_token: ""
         endpoint: ""
+  app:
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2000Mi
+      requests:
+        cpu: 1000m
+        memory: 1000Mi
 
   ingress:
     # -- Enable ingress for the server
@@ -359,3 +386,11 @@ migrate:
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
+  app:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 60Mi
+      requests:
+        cpu: 40m
+        memory: 50Mi
