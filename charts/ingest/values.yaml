@@ -8,7 +8,6 @@ app:
   port: 5009
   resources:
     limits:
-      cpu: 2000m
       memory: 2000Mi
     requests:
       cpu: 1000m

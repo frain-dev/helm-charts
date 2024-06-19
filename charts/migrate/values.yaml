@@ -7,7 +7,6 @@ app:
   port: 3000
   resources:
     limits:
-      cpu: 50m
       memory: 60Mi
     requests:
       cpu: 40m
