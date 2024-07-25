@@ -24,6 +24,7 @@ env:
     native:
       enabled: true
   log_level: "error"
+  max_response_size: 50
   environment: ""
   host: ""
   tracer:

@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 2.3.0](https://img.shields.io/badge/Version-2.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.4.1](https://img.shields.io/badge/AppVersion-24.4.1-informational?style=flat-square)
+![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.6.4](https://img.shields.io/badge/AppVersion-24.6.4-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -55,6 +55,11 @@ Open Source Webhooks Gateway
 | global.nativeRedis.password | string | `"convoy"` | password for the redis, ignored in case of secret parameter with non-empty value |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
 | global.nativeRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| ingest.app.replicaCount | int | `1` |  |
+| ingest.app.resources.limits.cpu | string | `"2000m"` |  |
+| ingest.app.resources.limits.memory | string | `"2000Mi"` |  |
+| ingest.app.resources.requests.cpu | string | `"1000m"` |  |
+| ingest.app.resources.requests.memory | string | `"1000Mi"` |  |
 | ingest.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | ingest.autoscaling.maxReplicas | int | `10` |  |
 | ingest.autoscaling.minReplicas | int | `1` |  |
@@ -69,8 +74,17 @@ Open Source Webhooks Gateway
 | ingest.podDisruptionBudget | object | `{}` |  |
 | ingest.service.port | int | `80` | Port for the worker service |
 | ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
+| migrate.app.resources.limits.cpu | string | `"50m"` |  |
+| migrate.app.resources.limits.memory | string | `"60Mi"` |  |
+| migrate.app.resources.requests.cpu | string | `"40m"` |  |
+| migrate.app.resources.requests.memory | string | `"50Mi"` |  |
 | migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
 | migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. It will install before any other services. |
+| server.app.replicaCount | int | `1` |  |
+| server.app.resources.limits.cpu | string | `"2000m"` |  |
+| server.app.resources.limits.memory | string | `"2000Mi"` |  |
+| server.app.resources.requests.cpu | string | `"1000m"` |  |
+| server.app.resources.requests.memory | string | `"1000Mi"` |  |
 | server.autoscaling.enabled | bool | `false` | Enable autoscaling for the server |
 | server.autoscaling.maxReplicas | int | `10` |  |
 | server.autoscaling.minReplicas | int | `2` |  |
@@ -81,6 +95,7 @@ Open Source Webhooks Gateway
 | server.env.environment | string | `"oss"` |  |
 | server.env.host | string | `""` |  |
 | server.env.log_level | string | `"error"` |  |
+| server.env.max_response_size | int | `50` | Max response body when ingesting webhooks (might be renamed). Defaults to 50KB |
 | server.env.sign_up_enabled | bool | `false` |  |
 | server.env.storage.enabled | bool | `false` |  |
 | server.env.storage.on_prem.path | string | `""` |  |
@@ -129,6 +144,11 @@ Open Source Webhooks Gateway
 | stream.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | stream.service.port | int | `80` | Port for the stream service |
 | stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
+| worker.app.replicaCount | int | `1` |  |
+| worker.app.resources.limits.cpu | string | `"2000m"` |  |
+| worker.app.resources.limits.memory | string | `"2000Mi"` |  |
+| worker.app.resources.requests.cpu | string | `"1000m"` |  |
+| worker.app.resources.requests.memory | string | `"1000m"` |  |
 | worker.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
 | worker.autoscaling.maxReplicas | int | `10` |  |
 | worker.autoscaling.minReplicas | int | `2` |  |

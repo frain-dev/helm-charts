@@ -304,6 +304,8 @@ server:
     log_level: *logLevel
     host: ""
     sign_up_enabled: false
+    # -- Max response body when ingesting webhooks (might be renamed). Defaults to 50KB
+    max_response_size: 50
     auth:
       jwt:
         enabled: true
