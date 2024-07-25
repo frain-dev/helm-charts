@@ -3,7 +3,6 @@ kind: Job
 metadata:
   name: {{ include "convoy-migrate.fullname" . }}
   annotations:
-    {{- toYaml .Values.jobAnnotations | nindent 4 }}
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation
