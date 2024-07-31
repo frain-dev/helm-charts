@@ -2,6 +2,10 @@ name: Lint and Test Charts
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-test:
     runs-on: ubuntu-latest
@@ -21,7 +25,7 @@ jobs:
           python-version: 3.7
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.2.1
+        uses: helm/chart-testing-action@v2.6.1
 
       - name: Add Bitnami Charts Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -29,17 +33,18 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --target-branch release-0.8)
+          changed=$(ct list-changed --config ct.yaml)
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
 
       - name: Run chart-testing (lint)
-        run: ct lint --config ct.yaml --all
+        run: ct lint --config ct.yaml
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0
         if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
-        run: ct install
+        run: ct install --config ct.yaml --charts .
+        if: steps.list-changed.outputs.changed == 'true'

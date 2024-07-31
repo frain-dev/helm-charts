@@ -57,77 +57,77 @@ spec:
             - name: CONVOY_ENV
               value: {{ .Values.env.environment | quote }}
 
-            {{- if .Values.global.externalDatabase.enabled }}
+            {{- if .Values.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
-              value: {{ .Values.global.externalDatabase.scheme | quote }}
+              value: {{ .Values.externalDatabase.scheme | quote }}
             - name: CONVOY_DB_HOST
-              value: {{ .Values.global.externalDatabase.host | quote }}
+              value: {{ .Values.externalDatabase.host | quote }}
             - name: CONVOY_DB_PORT
-              value: {{ .Values.global.externalDatabase.port | quote }}
+              value: {{ .Values.externalDatabase.port | quote }}
             - name: CONVOY_DB_USERNAME
-              value: {{ .Values.global.externalDatabase.username | quote }}
-            {{- if ne .Values.global.externalDatabase.secret "" }}
+              value: {{ .Values.externalDatabase.username | quote }}
+            {{- if ne .Values.externalDatabase.secret "" }}
             - name: CONVOY_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.global.externalDatabase.secret }}"
+                  name: "{{ .Values.externalDatabase.secret }}"
                   key: password
             {{- else }}
             - name: CONVOY_DB_PASSWORD
-              value: {{ .Values.global.externalDatabase.password | quote }}
+              value: {{ .Values.externalDatabase.password | quote }}
             {{- end }}
             - name: CONVOY_DB_DATABASE
-              value: {{ .Values.global.externalDatabase.database | quote }}
+              value: {{ .Values.externalDatabase.database | quote }}
             - name: CONVOY_DB_OPTIONS
-              value: {{ .Values.global.externalDatabase.options | quote }}
+              value: {{ .Values.externalDatabase.options | quote }}
             {{- end }}
 
-            {{- if .Values.global.nativeRedis.enabled }}
+            {{- if .Values.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST
-              value: {{ .Values.global.nativeRedis.host | quote }}
-            {{- if ne .Values.global.nativeRedis.secret "" }}
+              value: {{ .Values.nativeRedis.host | quote }}
+            {{- if ne .Values.nativeRedis.secret "" }}
             - name: CONVOY_REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.global.nativeRedis.secret }}"
+                  name: "{{ .Values.nativeRedis.secret }}"
                   key: password
             {{- else }}
             - name: CONVOY_REDIS_PASSWORD
-              value: {{ .Values.global.nativeRedis.password | quote }}
+              value: {{ .Values.nativeRedis.password | quote }}
             {{- end }}
             - name: CONVOY_REDIS_PORT
-              value: {{ .Values.global.nativeRedis.port | quote }}
+              value: {{ .Values.nativeRedis.port | quote }}
             - name : CONVOY_REDIS_TYPE
               value: "NATIVE"
             {{- end }}
 
-            {{- if .Values.global.externalRedis.enabled }}
-            {{- if .Values.global.externalRedis.addresses }}
+            {{- if .Values.externalRedis.enabled }}
+            {{- if .Values.externalRedis.addresses }}
             - name: CONVOY_REDIS_CLUSTER_ADDRESSES
-              value: {{ .Values.global.externalRedis.addresses | quote }}
+              value: {{ .Values.externalRedis.addresses | quote }}
             {{- else }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
             - name: CONVOY_REDIS_HOST
-              value: {{ .Values.global.externalRedis.host | quote }}
-            {{- if ne .Values.global.externalRedis.secret "" }}
+              value: {{ .Values.externalRedis.host | quote }}
+            {{- if ne .Values.externalRedis.secret "" }}
             - name: CONVOY_REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.global.externalRedis.secret }}"
+                  name: "{{ .Values.externalRedis.secret }}"
                   key: password
             {{- else }}
             - name: CONVOY_REDIS_PASSWORD
-              value: {{ .Values.global.externalRedis.password | quote }}
+              value: {{ .Values.externalRedis.password | quote }}
             {{- end }}
             - name : CONVOY_REDIS_PORT
-              value: {{ .Values.global.externalRedis.port | quote }}
+              value: {{ .Values.externalRedis.port | quote }}
             - name: CONVOY_REDIS_SCHEME
-              value: {{ .Values.global.externalRedis.scheme | quote }}
+              value: {{ .Values.externalRedis.scheme | quote }}
             - name : CONVOY_REDIS_USERNAME
-              value: {{ .Values.global.externalRedis.username | quote }}
+              value: {{ .Values.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
-              value: {{ .Values.global.externalRedis.database | quote }}
+              value: {{ .Values.externalRedis.database | quote }}
             {{- end }}
             {{- end }}
 

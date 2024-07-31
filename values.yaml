@@ -21,7 +21,7 @@ global:
     # -- NewRelic license key
     tracer_license_key: &tracerLicenseKey ""
 
-  externalDatabase:
+  externalDatabase: &externalDatabase
     # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
     enabled: true
     # -- Host for the external database
@@ -43,7 +43,7 @@ global:
     # -- Port for the external database
     port: 5432
 
-  nativeRedis:
+  nativeRedis: &nativeRedis
     # -- Enable redis, This will use redis chart, Disable if you use an external redis
     enabled: &redisEnabled true
     # -- Host for the redis
@@ -55,7 +55,7 @@ global:
     # -- Port for the redis
     port: 6379
 
-  externalRedis:
+  externalRedis: &externalRedis
     # -- Enable external redis, Enable this if you use an external redis and disable Native redis
     enabled: false
     # -- redis cluster addresses, if set the other values won't be used
@@ -75,7 +75,6 @@ global:
     # -- Port for the external redis
     port: ""
 
-
 # @ignored, used in case of external chart
 postgresql:
   # -- Set to false if you don't want to create a postgres instance
@@ -89,7 +88,6 @@ postgresql:
         password: *userPassword
         database: *postgresDatabase
 
-
 # @ignored, used in case of external chart
 redis:
   # -- Set to false if you don't want to create a redis instance
@@ -101,6 +99,10 @@ redis:
     password: *redisPassword
 
 worker:
+  externalDatabase: *externalDatabase
+  nativeRedis: *nativeRedis
+  externalRedis: *externalRedis
+
   image:
     # -- Repository to be used by the worker. The latest tag is used by default
     repository: *image
@@ -170,13 +172,18 @@ worker:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
 
 ingest:
   enabled: false
+
+  externalDatabase: *externalDatabase
+  nativeRedis: *nativeRedis
+  externalRedis: *externalRedis
+
   image:
     # -- Repository to be used by the worker. The latest tag is used by default
     repository: *image
@@ -221,15 +228,18 @@ ingest:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
   # -- Pod disruption budget
     #  maxUnavailable: 1
     #  minAvailable: 1
 
-
-
 stream:
   enabled: false
+
+  externalDatabase: *externalDatabase
+  nativeRedis: *nativeRedis
+  externalRedis: *externalRedis
+
   image:
     # -- Repository to be used by the stream. The latest tag is used by default
     repository: *image
@@ -291,6 +301,10 @@ stream:
 
 
 server:
+  externalDatabase: *externalDatabase
+  nativeRedis: *nativeRedis
+  externalRedis: *externalRedis
+
   image:
     # -- Repository to be used by the server. The latest tag is used by default
     repository: *image
@@ -374,13 +388,16 @@ server:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
 
-
 migrate:
+  externalDatabase: *externalDatabase
+  nativeRedis: *nativeRedis
+  externalRedis: *externalRedis
+
   image:
     # -- Repository to be used by to migrate. The latest tag is used by default. It will install before any other services.
     repository: *image

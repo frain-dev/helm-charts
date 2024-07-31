@@ -1,9 +1,24 @@
 dependencies:
+- name: ingest
+  repository: ""
+  version: 1.0.0
+- name: migrate
+  repository: ""
+  version: 1.0.0
+- name: server
+  repository: ""
+  version: 1.0.0
+- name: stream
+  repository: ""
+  version: 1.0.0
+- name: worker
+  repository: ""
+  version: 1.0.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 12.5.6
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 17.11.3
-digest: sha256:2c6ff47eb9a3976dbdb1a5b762cdc4343ef1846f63a8f00a612c9da0336602b5
-generated: "2023-06-05T14:49:57.883606542+01:00"
+digest: sha256:f3088c52b8f8dfd4650bd8dcda138168f050a6edbc5195e94453d912ed00b2e8
+generated: "2024-07-31T17:04:22.026668+02:00"

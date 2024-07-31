@@ -3,6 +3,14 @@
 # Declare variables to be passed into your templates.
 
 enabled: true
+
+externalDatabase:
+  enabled: false
+nativeRedis:
+  enabled: false
+externalRedis:
+  enabled: false
+
 app:
   replicaCount: 1
   port: 5009
