@@ -2,7 +2,7 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "2.4.0"
+version: "2.5.0"
 appVersion: "24.6.4"
 keywords:
   - Webhooks
@@ -13,13 +13,21 @@ maintainers:
     email: engineering@getconvoy.io
     url: https://getconvoy.io
 dependencies:
+  - name: "ingest"
+    version: "1.0.0"
+  - name: "migrate"
+    version: "1.0.0"
+  - name: "server"
+    version: "1.0.0"
+  - name: "stream"
+    version: "1.0.0"
+  - name: "worker"
+    version: "1.0.0"
   - name: postgresql
     version: 12.5.6
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
-
   - name: redis
     version: 17.11.3
     repository: https://charts.bitnami.com/bitnami
-    condition: redis.enabled
-
+    condition: redis.enabled3

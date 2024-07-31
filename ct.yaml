@@ -1,6 +1,12 @@
-remote: origin
-chart-dirs:
-  - charts
+charts:
+  - .
+  - charts/ingest
+  - charts/migrate
+  - charts/server
+  - charts/stream
+  - charts/worker
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
 target-branch: main
 helm-extra-args: --timeout 8m
 check-version-increment: false
