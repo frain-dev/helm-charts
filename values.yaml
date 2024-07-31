@@ -10,16 +10,20 @@ global:
     environment: &environment "oss"
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
-    # -- Tracing provider type
+    # -- Tracing provider type ["otel"|"sentry"]
     tracer_type: &tracerType ""
-    # -- NewRelic application name
-    tracer_app_name: &tracerAppName ""
-    # -- NewRelic tracing config enabled
-    tracer_config_enabled: &tracerConfigEnabled true
-    # -- NewRelic distributed tracing config enabled
-    tracer_distributed_tracer_enabled: &tracerDistributedTracingEnabled true
-    # -- NewRelic license key
-    tracer_license_key: &tracerLicenseKey ""
+    # -- OTel Sample rate
+    tracer_otel_sample_rate: &tracerOtelSampleRate 1.0
+    # -- OTel Collector url. Only grpc ingestion urls are supported.
+    tracer_otel_collector_url: &tracerOtelCollectorUrl ""
+    # -- Specifies if OTel collector server certs should be verified or not.
+    tracer_otel_insecure_skip_verify: &tracerOtelInsecureSkipVerify true
+    # -- OTel Auth header name
+    tracer_otel_auth_header_name: &tracerOtelAuthHeaderName ""
+    # -- OTel Auth header value
+    tracer_otel_auth_header_value: &tracerOtelAuthHeaderValue ""
+    # -- Sentry DSN
+    tracer_sentry_dsn: &tracerSentryDsn ""
 
   externalDatabase:
     # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
@@ -125,12 +129,14 @@ worker:
       url: ""
       username: ""
     tracer:
-      type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+      type: *tracerType
+      otel_sample_rate: *tracerOtelSampleRate
+      otel_collector_url: *tracerOtelCollectorUrl
+      otel_insecure_skip_verify: *tracerOtelInsecureSkipVerify
+      otel_auth_header_name: *tracerOtelAuthHeaderName
+      otel_auth_header_value: *tracerOtelAuthHeaderValue
+      sentry_dsn: *tracerSentryDsn
     storage:
       enabled: false
       type: ""
@@ -146,6 +152,18 @@ worker:
         region: ""
         session_token: ""
         endpoint: ""
+  extraEnvs: {}
+  # Examples:
+    # ENV_NAME: value
+    # HOST_IP:
+    #  valueFrom:
+    #    fieldRef:
+    #      fieldPath: status.podIP
+    # SECRET_ENV:
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: thisissecretname
+    #      key: thisissecretkey
   app:
     replicaCount: 1
     resources:
@@ -170,7 +188,7 @@ worker:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
@@ -191,12 +209,26 @@ ingest:
     log_level: *logLevel
     # @ignored
     tracer:
-      type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+      type: *tracerType
+      otel_sample_rate: *tracerOtelSampleRate
+      otel_collector_url: *tracerOtelCollectorUrl
+      otel_insecure_skip_verify: *tracerOtelInsecureSkipVerify
+      otel_auth_header_name: *tracerOtelAuthHeaderName
+      otel_auth_header_value: *tracerOtelAuthHeaderValue
+      sentry_dsn: *tracerSentryDsn
+  extraEnvs: {}
+  # Examples:
+    # ENV_NAME: value
+    # HOST_IP:
+    #  valueFrom:
+    #    fieldRef:
+    #      fieldPath: status.podIP
+    # SECRET_ENV:
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: thisissecretname
+    #      key: thisissecretkey
   app:
     replicaCount: 1
     resources:
@@ -221,12 +253,10 @@ ingest:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
   # -- Pod disruption budget
     #  maxUnavailable: 1
     #  minAvailable: 1
-
-
 
 stream:
   enabled: false
@@ -252,13 +282,26 @@ stream:
     environment: *environment
     # @ignored
     tracer:
-      type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
-
+      type: *tracerType
+      otel_sample_rate: *tracerOtelSampleRate
+      otel_collector_url: *tracerOtelCollectorUrl
+      otel_insecure_skip_verify: *tracerOtelInsecureSkipVerify
+      otel_auth_header_name: *tracerOtelAuthHeaderName
+      otel_auth_header_value: *tracerOtelAuthHeaderValue
+      sentry_dsn: *tracerSentryDsn
+  extraEnvs: {}
+  # Examples:
+    # ENV_NAME: value
+    # HOST_IP:
+    #  valueFrom:
+    #    fieldRef:
+    #      fieldPath: status.podIP
+    # SECRET_ENV:
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: thisissecretname
+    #      key: thisissecretkey
   ingress:
     # -- Enable ingress for the stream server
     enabled: false
@@ -313,12 +356,14 @@ server:
         enabled: true
     # @ignored
     tracer:
-      type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+      type: *tracerType
+      otel_sample_rate: *tracerOtelSampleRate
+      otel_collector_url: *tracerOtelCollectorUrl
+      otel_insecure_skip_verify: *tracerOtelInsecureSkipVerify
+      otel_auth_header_name: *tracerOtelAuthHeaderName
+      otel_auth_header_value: *tracerOtelAuthHeaderValue
+      sentry_dsn: *tracerSentryDsn
     storage:
       enabled: false
       type: ""
@@ -334,6 +379,18 @@ server:
         region: ""
         session_token: ""
         endpoint: ""
+  extraEnvs: {}
+  # Examples:
+    # ENV_NAME: value
+    # HOST_IP:
+    #  valueFrom:
+    #    fieldRef:
+    #      fieldPath: status.podIP
+    # SECRET_ENV:
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: thisissecretname
+    #      key: thisissecretkey
   app:
     replicaCount: 1
     resources:
@@ -374,7 +431,7 @@ server:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget: {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1

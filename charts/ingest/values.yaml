@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 enabled: true
+
 app:
   replicaCount: 1
   port: 5009
@@ -23,11 +24,26 @@ env:
   interval: 500
   tracer:
     enabled: false
-    app_name: ""
-    config_enabled: true
-    distributed_tracer_enabled: true
-    license_key: ""
-    type: ""
+    type: "otel"
+    otel_sample_rate: 1.0
+    otel_collector_url: ""
+    otel_insecure_skip_verify: true
+    otel_auth_header_name: ""
+    otel_auth_header_value: ""
+    sentry_dsn: ""
+
+extraEnvs: {}
+# Examples:
+  # ENV_NAME: value
+  # HOST_IP:
+  #  valueFrom:
+  #    fieldRef:
+  #      fieldPath: status.podIP
+  # SECRET_ENV:
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: thisissecretname
+  #      key: thisissecretkey
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
