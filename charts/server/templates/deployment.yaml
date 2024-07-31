@@ -135,18 +135,34 @@ spec:
             {{- end }}
             {{- end }}
 
-            {{- if .Values.env.tracer.enabled }}
-            - name: CONVOY_NEWRELIC_APP_NAME
-              value: {{ .Values.env.tracer.app_name | quote }}
-            - name: CONVOY_NEWRELIC_LICENSE_KEY
-              value: {{ .Values.env.tracer.license_key | quote }}
-            - name: CONVOY_NEWRELIC_CONFIG_ENABLED
-              value: {{ .Values.env.tracer.config_enabled | quote }}
-            - name: CONVOY_NEWRELIC_DISTRIBUTED_TRACER_ENABLED
-              value: {{ .Values.env.tracer.distributed_tracer_enabled | quote }}
+            {{- if and .Values.env.tracer.enabled }}
             - name: CONVOY_TRACER_PROVIDER
               value: {{ .Values.env.tracer.type | quote }}
+            {{- if eq (lower .Values.env.tracer.type) "otel" }}
+            - name: CONVOY_OTEL_SAMPLE_RATE
+              value: {{ .Values.env.tracer.otel_sample_rate | quote }}
+            - name: CONVOY_OTEL_COLLECTOR_URL
+              value: {{ .Values.env.tracer.otel_collector_url | quote }}
+            - name: CONVOY_OTEL_INSECURE_SKIP_VERIFY
+              value: {{ .Values.env.tracer.otel_insecure_skip_verify | quote }}
+            - name: CONVOY_OTEL_AUTH_HEADER_NAME
+              value: {{ .Values.env.tracer.otel_auth_header_name | quote }}
+            - name: CONVOY_OTEL_AUTH_HEADER_VALUE
+              value: {{ .Values.env.tracer.otel_auth_header_value | quote }}
             {{- end }}
+            {{- if eq (lower .Values.env.tracer.type) "sentry" }}
+            - name: CONVOY_SENTRY_DSN
+              value: {{ .Values.env.tracer.sentry_dsn | quote }}
+            {{- end }}
+            {{- end }}
+
+          {{- with .Values.extraEnvs }}
+            {{- range $key, $value := . }}
+            - name: {{ $key | quote }}
+              {{ if not (kindIs "map" $value) }}value: {{ tpl ( $value | quote ) $ }}{{ else }}
+              {{- tpl (toYaml $value) $ | nindent 14 | trim -}}{{- end -}}
+            {{- end }}
+          {{- end }}
 
             {{- if .Values.env.storage.enabled }}
             - name: CONVOY_STORAGE_POLICY_TYPE

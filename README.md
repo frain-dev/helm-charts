@@ -25,12 +25,14 @@ Open Source Webhooks Gateway
 | global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
 | global.convoy.tag | string | `"v24.1.2"` | Docker image tags for all convoy services |
-| global.convoy.tracer_app_name | string | `""` | NewRelic application name |
-| global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
-| global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
-| global.convoy.tracer_license_key | string | `""` | NewRelic license key |
 | global.convoy.tracer_type | string | `""` | Tracing provider type |
+| global.convoy.tracer_otel_sample_rate | float | `1.0` | OTel Sample rate |
+| global.convoy.tracer_otel_collector_url | string | `true` | OTel Collector url. Only grpc ingestion urls are supported |
+| global.convoy.tracer_otel_insecure_skip_verify | bool | `true` | Specifies if OTel collector server certs should be verified or not |
+| global.convoy.tracer_otel_auth_header_name | string | `""` | OTel Auth header name |
+| global.convoy.tracer_otel_auth_header_value | string | `""` | OTel Auth header value |
+| global.convoy.tracer_sentry_dsn | string | `""` | Sentry DSN |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
 | global.externalDatabase.enabled | bool | `true` | Enable an external database, This will use postgresql chart, Change values if you use an external database |
 | global.externalDatabase.host | string | `"postgresql"` | Host for the external database |
@@ -175,12 +177,14 @@ Open Source Webhooks Gateway
 | worker.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | worker.env.storage.s3.session_token | string | `""` |  |
 | worker.env.storage.type | string | `""` |  |
-| worker.env.tracer.app_name | string | `""` |  |
-| worker.env.tracer.config_enabled | bool | `true` |  |
-| worker.env.tracer.distributed_tracer_enabled | bool | `true` |  |
 | worker.env.tracer.enabled | bool | `false` |  |
-| worker.env.tracer.license_key | string | `""` |  |
-| worker.env.tracer.type | string | `""` |  |
+| worker.env.tracer.otel_sample_rate | float | `1.0` |  |
+| worker.env.tracer.otel_collector_url | string | `""` |  |
+| worker.env.tracer.otel_insecure_skip_verify | bool | `true` |  |
+| worker.env.tracer.otel_auth_header_name | string | `""` |  |
+| worker.env.tracer.otel_auth_header_value | string | `""` |  |
+| worker.env.tracer.sentry_dsn | string | `""` |
+| worker.extraEnvs | object | `{}` | Use this to inject extra ENVs. Check values.yaml to get a hint on object structure |
 | worker.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
 | worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. The latest tag is used by default |
 | worker.podDisruptionBudget | object | `{}` |  |
