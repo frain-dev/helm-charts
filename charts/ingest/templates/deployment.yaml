@@ -47,7 +47,6 @@ spec:
               containerPort: {{ .Values.app.port }}
               protocol: TCP
           env:
-
             - name: SERVICE_NAME
               value: {{ .Chart.Name }}
             - name: PORT
@@ -56,6 +55,9 @@ spec:
               value: {{ .Values.env.log_level | quote }}
             - name: CONVOY_ENV
               value: {{ .Values.env.environment | quote }}
+
+            - name: CONVOY_ANALYTICS_ENABLED
+              value: {{ .Values.env.analytics | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

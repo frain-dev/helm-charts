@@ -27,6 +27,7 @@ env:
   max_response_size: 50
   environment: ""
   host: ""
+  analytics: true
   tracer:
     enabled: false
     app_name: ""
@@ -46,7 +47,6 @@ env:
       region: ""
       session_token: ""
       endpoint: ""
-
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
