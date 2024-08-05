@@ -19,6 +19,7 @@ app:
 
 env:
   environment: ""
+  analytics: true
   tracer:
     enabled: true
     app_name: ""

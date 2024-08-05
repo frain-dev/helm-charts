@@ -60,6 +60,8 @@ spec:
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
 
+            - name: CONVOY_ANALYTICS_ENABLED
+              value: {{ .Values.env.analytics | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

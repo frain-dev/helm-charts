@@ -20,6 +20,8 @@ global:
     tracer_distributed_tracer_enabled: &tracerDistributedTracingEnabled true
     # -- NewRelic license key
     tracer_license_key: &tracerLicenseKey ""
+    # -- Enable usage analytics
+    analytics: &analytics true
 
   externalDatabase:
     # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
@@ -146,6 +148,7 @@ worker:
         region: ""
         session_token: ""
         endpoint: ""
+    analytics: *&analytics
   app:
     replicaCount: 1
     resources:
@@ -197,6 +200,7 @@ ingest:
       license_key: *tracerLicenseKey
       config_enabled: *tracerConfigEnabled
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
+    analytics: *&analytics
   app:
     replicaCount: 1
     resources:
@@ -258,6 +262,7 @@ stream:
       license_key: *tracerLicenseKey
       config_enabled: *tracerConfigEnabled
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
+    analytics: *&analytics
 
   ingress:
     # -- Enable ingress for the stream server
@@ -334,6 +339,8 @@ server:
         region: ""
         session_token: ""
         endpoint: ""
+    analytics: *&analytics
+
   app:
     replicaCount: 1
     resources:
