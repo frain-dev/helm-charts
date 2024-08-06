@@ -381,6 +381,7 @@ server:
 
 
 migrate:
+  jobAnnotations: {}
   image:
     # -- Repository to be used by to migrate. The latest tag is used by default. It will install before any other services.
     repository: *image
