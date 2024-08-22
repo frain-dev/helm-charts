@@ -55,7 +55,7 @@ global:
     # -- Database name for the external redis.
     database: ""
     # -- Port for the external redis
-    port: ""       
+    port: ""
 
 app:
   replicaCount: 1
