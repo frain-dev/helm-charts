@@ -6,12 +6,18 @@ enabled: true
 app:
   replicaCount: 1
   port: 5009
-  resources:
-    limits:
-      memory: 2000Mi
-    requests:
-      cpu: 1000m
-      memory: 1000Mi
+  # It's generally advisable not to set default resource limits,
+  # allowing users to make intentional decisions based on their specific needs.
+  # This approach also helps ensure that the chart can run in environments
+  # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+  # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+  resources: {}
+    # limits:
+    #   cpu: 1000m
+    #   memory: 2000Mi
+    # requests:
+    #   cpu: 1000m
+    #   memory: 1000Mi
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics

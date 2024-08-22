@@ -148,13 +148,18 @@ worker:
         endpoint: ""
   app:
     replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000m
+    # It's generally advisable not to set default resource limits,
+    # allowing users to make intentional decisions based on their specific needs.
+    # This approach also helps ensure that the chart can run in environments
+    # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+    # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+    resources: {}
+      # limits:
+      #   cpu: 1000m
+      #   memory: 2000Mi
+      # requests:
+      #   cpu: 1000m
+      #   memory: 1000Mi
 
   service:
     # -- Type of service for the worker
@@ -199,13 +204,18 @@ ingest:
       distributed_tracer_enabled: *tracerDistributedTracingEnabled
   app:
     replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
+    # It's generally advisable not to set default resource limits,
+    # allowing users to make intentional decisions based on their specific needs.
+    # This approach also helps ensure that the chart can run in environments
+    # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+    # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+    resources: {}
+      # limits:
+      #   cpu: 1000m
+      #   memory: 2000Mi
+      # requests:
+      #   cpu: 1000m
+      #   memory: 1000Mi
 
   service:
     # -- Type of service for the worker
@@ -240,13 +250,18 @@ stream:
 
   app:
     port: 5008
-    resources:
-      limits:
-        cpu: 50m
-        memory: 60Mi
-      requests:
-        cpu: 40m
-        memory: 50Mi
+    # It's generally advisable not to set default resource limits,
+    # allowing users to make intentional decisions based on their specific needs.
+    # This approach also helps ensure that the chart can run in environments
+    # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+    # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+    resources: {}
+      # limits:
+      #   cpu: 1000m
+      #   memory: 2000Mi
+      # requests:
+      #   cpu: 1000m
+      #   memory: 1000Mi
 
   env:
     environment: *environment
@@ -336,13 +351,18 @@ server:
         endpoint: ""
   app:
     replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
+    # It's generally advisable not to set default resource limits,
+    # allowing users to make intentional decisions based on their specific needs.
+    # This approach also helps ensure that the chart can run in environments
+    # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+    # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+    resources: {}
+      # limits:
+      #   cpu: 1000m
+      #   memory: 2000Mi
+      # requests:
+      #   cpu: 1000m
+      #   memory: 1000Mi
 
   ingress:
     # -- Enable ingress for the server
@@ -389,10 +409,15 @@ migrate:
     # @ignored
     tag: *tag
   app:
-    resources:
-      limits:
-        cpu: 50m
-        memory: 60Mi
-      requests:
-        cpu: 40m
-        memory: 50Mi
+    # It's generally advisable not to set default resource limits,
+    # allowing users to make intentional decisions based on their specific needs.
+    # This approach also helps ensure that the chart can run in environments
+    # with limited resources, like Minikube, KinD, etc. If you do wish to define resource limits,
+    # uncomment the lines below, adjust them as needed, and remove the curly braces after 'resources:'.
+    resources: {}
+      # limits:
+      #   cpu: 1000m
+      #   memory: 2000Mi
+      # requests:
+      #   cpu: 1000m
+      #   memory: 1000Mi
