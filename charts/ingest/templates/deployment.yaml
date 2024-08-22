@@ -40,6 +40,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.containerSecurityContext }}
+          securityContext:
+          {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          {{- end }}          
           command: ["/cmd"]
           args: ["ingest", "--interval", "60"]
           ports:

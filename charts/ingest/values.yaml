@@ -2,6 +2,61 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  externalDatabase:
+    # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
+    enabled: true
+    # -- Host for the external database
+    host: "postgresql"
+    # -- Password for the external database
+    postgresPassword: &postgresPassword "postgres"
+    # -- Database name for the external database
+    database: &postgresDatabase "convoy"
+    # -- Password for the external database, ignored in case of secret parameter with non-empty value
+    password: &userPassword "postgres"
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
+    # -- Username for the external database
+    username: &username "postgres"
+    # -- Scheme for the external database. This is postgres by default
+    scheme: "postgres"
+    # -- Query params for the external database
+    options: "sslmode=disable&connect_timeout=30"
+    # -- Port for the external database
+    port: 5432
+
+  nativeRedis:
+    # -- Enable redis, This will use redis chart, Disable if you use an external redis
+    enabled: &redisEnabled true
+    # -- Host for the redis
+    host: "redis-master"
+    # -- password for the redis, ignored in case of secret parameter with non-empty value
+    password: &redisPassword "convoy"
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
+    # -- Port for the redis
+    port: 6379
+
+  externalRedis:
+    # -- Enable external redis, Enable this if you use an external redis and disable Native redis
+    enabled: false
+    # -- redis cluster addresses, if set the other values won't be used
+    addresses: ""
+    # -- Host for the external redis
+    host: ""
+    # -- Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
+    scheme: ""
+    # -- username for the external redis.
+    username: ""
+    # -- password for the external redis, ignored in case of secret parameter with non-empty value
+    password: ""
+    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    secret: ""
+    # -- Database name for the external redis.
+    database: ""
+    # -- Port for the external redis
+    port: ""
+
 enabled: true
 app:
   replicaCount: 1
@@ -56,3 +111,16 @@ podDisruptionBudget: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+# containerSecurityContext holds container level security attributes.
+containerSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: true
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+      - ALL
