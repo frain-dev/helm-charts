@@ -3,6 +3,9 @@ kind: Job
 metadata:
   name: {{ include "convoy-migrate.fullname" . }}
   annotations:
+    {{- if .Values.jobAnnotations }}
+    {{- toYaml .Values.jobAnnotations | nindent 4 }}
+    {{- end }}
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation
@@ -20,6 +23,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          {{- if .Values.containerSecurityContext }}
+          securityContext:
+          {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          {{- end }}          
           command: ["/cmd"]
           args: ["migrate", "up"]
           env:
