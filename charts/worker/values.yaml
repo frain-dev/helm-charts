@@ -29,6 +29,7 @@ env:
     provider: ""
     url: ""
     username: ""
+  analytics: true
   tracer:
     enabled: false
     app_name: ""
