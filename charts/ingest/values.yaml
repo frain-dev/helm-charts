@@ -29,7 +29,6 @@ env:
     distributed_tracer_enabled: true
     license_key: ""
     type: ""
-  analytics: true
 
 image:
   repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
