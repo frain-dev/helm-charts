@@ -1,0 +1,12 @@
+apiVersion: v2
+name: agent
+description: Convoy Agent Chart
+
+
+type: application
+
+
+version: "1.0.0"
+
+
+appVersion: "v24.8.2"

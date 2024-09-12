@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "convoy-worker.fullname" . }}
+  name: {{ include "convoy-agent.fullname" . }}
   labels:
-    {{- include "convoy-worker.labels" . | nindent 4 }}
+    {{- include "convoy-agent.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "convoy-worker.fullname" . }}
+    name: {{ include "convoy-agent.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

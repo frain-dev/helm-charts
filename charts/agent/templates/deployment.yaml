@@ -1,18 +1,17 @@
-{{- if .Values.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "convoy-ingest.fullname" . }}
+  name: {{ include "convoy-agent.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "convoy-ingest.name" . }}
-    helm.sh/chart: {{ include "convoy-ingest.chart" . }}
+    app.kubernetes.io/name: {{ include "convoy-agent.name" . }}
+    helm.sh/chart: {{ include "convoy-agent.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "convoy-ingest.name" . }}
+      app.kubernetes.io/name: {{ include "convoy-agent.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
@@ -22,26 +21,46 @@ spec:
       {{- end }}
         updatedAt: {{ now | quote }}
       labels:
-        app.kubernetes.io/name: {{ include "convoy-ingest.name" . }}
+        app.kubernetes.io/name: {{ include "convoy-agent.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
         - name: wait-for-migrate
-          image: bitnami/kubectl:1.24.10
-          command:
-            - /bin/sh
-            - -c
-            - |
-              until kubectl wait --for=condition=complete --timeout=600s job/convoy-migrate; do
-                echo "Waiting for migrate job to complete..."
-                sleep 5
-              done
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+            {{- if .Values.global.externalDatabase.enabled }}
+            - name: CONVOY_DB_SCHEME
+              value: postgresql
+            - name: CONVOY_DB_HOST
+              value: {{ .Values.global.externalDatabase.host | quote }}
+            - name: CONVOY_DB_PORT
+              value: {{ .Values.global.externalDatabase.port | quote }}
+            - name: CONVOY_DB_USERNAME
+              value: {{ .Values.global.externalDatabase.username | quote }}
+            {{- if ne .Values.global.externalDatabase.secret "" }}
+            - name: CONVOY_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.externalDatabase.secret }}"
+                  key: password
+            {{- else }}
+            - name: CONVOY_DB_PASSWORD
+              value: {{ .Values.global.externalDatabase.password | quote }}
+            {{- end }}
+            - name: CONVOY_DB_DATABASE
+              value: {{ .Values.global.externalDatabase.database | quote }}
+            - name: CONVOY_DB_OPTIONS
+              value: {{ .Values.global.externalDatabase.options | quote }}
+            {{- end }}
+          command: [ "/cmd" ]
+          args: [ "migrate", "up" ]
+
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/cmd"]
-          args: ["ingest", "--interval", "60"]
+          args: ["agent"]
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
@@ -52,14 +71,19 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.env.proxy | quote }}
             - name: CONVOY_LOGGER_LEVEL
               value: {{ .Values.env.log_level | quote }}
             - name: CONVOY_ENV
               value: {{ .Values.env.environment | quote }}
+            - name: CONVOY_SIGNUP_ENABLED
+              value: {{ .Values.env.sign_up_enabled | quote }}
+
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
-              value: {{ .Values.global.externalDatabase.scheme | quote }}
+              value: postgresql
             - name: CONVOY_DB_HOST
               value: {{ .Values.global.externalDatabase.host | quote }}
             - name: CONVOY_DB_PORT
@@ -131,6 +155,32 @@ spec:
             {{- end }}
             {{- end }}
 
+            {{- if .Values.env.smtp.enabled }}
+            - name: CONVOY_SMTP_URL
+              value: {{ .Values.env.smtp.url | quote }}
+            - name: CONVOY_SMTP_USERNAME
+              value: {{ .Values.env.smtp.username | quote }}
+            {{- if ne .Values.env.smtp.secret "" }}
+            - name: CONVOY_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.env.smtp.secret }}"
+                  key: password
+            {{- else }}
+            - name: CONVOY_SMTP_PASSWORD
+              value: {{ .Values.env.smtp.password | quote }}
+            {{- end }}
+            - name: CONVOY_SMTP_FROM
+              value: {{ .Values.env.smtp.from | quote }}
+            - name: CONVOY_SMTP_PORT
+              value: {{ .Values.env.smtp.port | quote }}
+            - name: CONVOY_SMTP_REPLY_TO
+              value: {{ .Values.env.smtp.from | quote }}
+            - name: CONVOY_SMTP_PROVIDER
+              value: {{ .Values.env.smtp.provider | quote }}
+            {{- end }}
+
+
             {{- if .Values.env.tracer.enabled }}
             - name: CONVOY_NEWRELIC_APP_NAME
               value: {{ .Values.env.tracer.app_name | quote }}
@@ -144,6 +194,39 @@ spec:
               value: {{ .Values.env.tracer.type | quote }}
             {{- end }}
 
+            {{- if .Values.env.storage.enabled }}
+            - name: CONVOY_STORAGE_POLICY_TYPE
+              value: {{ .Values.env.storage.type | quote }}
+
+            {{- if eq .Values.env.storage.type "on_prem"}}
+            - name: CONVOY_STORAGE_PREM_PATH
+              value: {{ .Values.env.storage.on_prem.path | quote }}
+            {{- end }}
+
+            {{- if eq .Values.env.storage.type "s3" }}
+            - name: CONVOY_STORAGE_AWS_BUCKET
+              value: {{ .Values.env.storage.s3.bucket | quote }}
+            - name: CONVOY_STORAGE_AWS_ACCESS_KEY
+              value: {{ .Values.env.storage.s3.accessKey | quote }}
+            {{- if ne .Values.env.storage.s3.secret "" }}
+            - name: CONVOY_STORAGE_AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.env.storage.s3.secret }}"
+                  key: secretKey
+            {{- else }}
+            - name: CONVOY_STORAGE_AWS_SECRET_KEY
+              value: {{ .Values.env.storage.s3.secretKey | quote }}
+            {{- end }}
+            - name: CONVOY_STORAGE_AWS_REGION
+              value: {{ .Values.env.storage.s3.region | quote }}
+            - name: CONVOY_STORAGE_AWS_SESSION_TOKEN
+              value: {{ .Values.env.storage.s3.session_token | quote }}
+            - name: CONVOY_STORAGE_AWS_ENDPOINT
+              value: {{ .Values.env.storage.s3.endpoint | quote }}
+            {{- end }}
+
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health
@@ -168,4 +251,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}

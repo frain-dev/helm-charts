@@ -6,12 +6,12 @@ apiVersion: policy/v1
 {{- end }}
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "convoy-worker.fullname" . }}
+  name: {{ include "convoy-agent.fullname" . }}
   labels:
-    {{- include "convoy-worker.labels" . | nindent 4 }}
+    {{- include "convoy-agent.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "convoy-worker.selectorLabels" . | nindent 6 }}
+      {{- include "convoy-agent.selectorLabels" . | nindent 6 }}
   {{- toYaml .Values.podDisruptionBudget | nindent 2 }}
 {{- end -}}
