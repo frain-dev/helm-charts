@@ -1,9 +1,9 @@
 global:
   convoy:
     # -- Docker image tags for all convoy services
-    image: &image "docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"
+    image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy services
-    tag: &tag "v24.1.2"
+    tag: &tag "v24.8.2"
     # -- Logger Level for all convoy services
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -27,17 +27,15 @@ global:
     # -- Host for the external database
     host: "postgresql"
     # -- Password for the external database
-    postgresPassword: &postgresPassword "postgres"
+    postgresPassword: &postgresPassword postgres
     # -- Database name for the external database
-    database: &postgresDatabase "convoy"
+    database: &postgresDatabase convoy
     # -- Password for the external database, ignored in case of secret parameter with non-empty value
-    password: &userPassword "postgres"
+    password: &userPassword postgres
     # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
     secret: ""
     # -- Username for the external database
-    username: &username "postgres"
-    # -- Scheme for the external database. This is postgres by default
-    scheme: "postgres"
+    username: &username postgres
     # -- Query params for the external database
     options: "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
@@ -100,11 +98,11 @@ redis:
     enabled: *redisEnabled
     password: *redisPassword
 
-worker:
+agent:
   image:
-    # -- Repository to be used by the worker. The latest tag is used by default
+    # -- Repository to be used by the agent. The latest tag is used by default
     repository: *image
-    # -- Pull policy for the worker image
+    # -- Pull policy for the agent image
     pullPolicy: IfNotPresent
     # @ignored
     tag: *tag
@@ -157,13 +155,13 @@ worker:
         memory: 1000m
 
   service:
-    # -- Type of service for the worker
+    # -- Type of service for the agent
     type: ClusterIP
-    # -- Port for the worker service
+    # -- Port for the agent service
     port: 80
 
   autoscaling:
-    # -- Enable autoscaling for the worker
+    # -- Enable autoscaling for the agent
     enabled: false
     minReplicas: 2
     maxReplicas: 10
@@ -174,121 +172,6 @@ worker:
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
-
-ingest:
-  enabled: false
-  image:
-    # -- Repository to be used by the worker. The latest tag is used by default
-    repository: *image
-    # -- Pull policy for the worker image
-    pullPolicy: IfNotPresent
-    # @ignored
-    tag: *tag
-
-  env:
-    environment: *environment
-    interval: 60
-    log_level: *logLevel
-    # @ignored
-    tracer:
-      type: *tracerType
-      enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
-  app:
-    replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
-
-  service:
-    # -- Type of service for the worker
-    type: ClusterIP
-    # -- Port for the worker service
-    port: 80
-
-  autoscaling:
-    # -- Enable autoscaling for the worker
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 80
-
-  podDisruptionBudget: { }
-  # -- Pod disruption budget
-    #  maxUnavailable: 1
-    #  minAvailable: 1
-
-
-
-stream:
-  enabled: false
-  image:
-    # -- Repository to be used by the stream. The latest tag is used by default
-    repository: *image
-    # -- Pull policy for the stream image
-    pullPolicy: IfNotPresent
-    # @ignored
-    tag: *tag
-
-  app:
-    port: 5008
-    resources:
-      limits:
-        cpu: 50m
-        memory: 60Mi
-      requests:
-        cpu: 40m
-        memory: 50Mi
-
-  env:
-    environment: *environment
-    # @ignored
-    tracer:
-      type: *tracerType
-      enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
-
-  ingress:
-    # -- Enable ingress for the stream server
-    enabled: false
-    annotations: {}
-    ingressClassName: ""
-    tls:
-      - hosts:
-          - stream.test.com
-        secretName: test-tls-secret
-    hosts:
-      - host: stream.test.com
-        http:
-          paths:
-            - path: /
-              pathType: Prefix
-
-  service:
-    # -- Type of service for the stream
-    type: ClusterIP
-    # -- Port for the stream service
-    port: 80
-
-  autoscaling:
-    # -- Enable autoscaling for the stream
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 80
-
 
 server:
   image:
@@ -378,21 +261,3 @@ server:
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
-
-
-migrate:
-  image:
-    # -- Repository to be used by to migrate. The latest tag is used by default. It will install before any other services.
-    repository: *image
-    # -- Pull policy for the migrate image
-    pullPolicy: IfNotPresent
-    # @ignored
-    tag: *tag
-  app:
-    resources:
-      limits:
-        cpu: 50m
-        memory: 60Mi
-      requests:
-        cpu: 40m
-        memory: 50Mi

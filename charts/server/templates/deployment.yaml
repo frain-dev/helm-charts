@@ -26,15 +26,34 @@ spec:
     spec:
       initContainers:
         - name: wait-for-migrate
-          image: bitnami/kubectl:1.24.10
-          command:
-            - /bin/sh
-            - -c
-            - |
-              until kubectl wait --for=condition=complete --timeout=600s job/convoy-migrate; do
-                echo "Waiting for migrate job to complete..."
-                sleep 5
-              done
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+           {{- if .Values.global.externalDatabase.enabled }}
+            - name: CONVOY_DB_SCHEME
+              value: postgresql
+            - name: CONVOY_DB_HOST
+              value: {{ .Values.global.externalDatabase.host | quote }}
+            - name: CONVOY_DB_PORT
+              value: {{ .Values.global.externalDatabase.port | quote }}
+            - name: CONVOY_DB_USERNAME
+              value: {{ .Values.global.externalDatabase.username | quote }}
+           {{- if ne .Values.global.externalDatabase.secret "" }}
+            - name: CONVOY_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.externalDatabase.secret }}"
+                  key: password
+           {{- else }}
+            - name: CONVOY_DB_PASSWORD
+              value: {{ .Values.global.externalDatabase.password | quote }}
+           {{- end }}
+            - name: CONVOY_DB_DATABASE
+              value: {{ .Values.global.externalDatabase.database | quote }}
+            - name: CONVOY_DB_OPTIONS
+              value: {{ .Values.global.externalDatabase.options | quote }}
+           {{- end }}
+          command: [ "/cmd" ]
+          args: [ "migrate", "up" ]
 
       containers:
         - name: {{ .Chart.Name }}
@@ -63,7 +82,7 @@ spec:
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
-              value: {{ .Values.global.externalDatabase.scheme | quote }}
+              value: postgresql
             - name: CONVOY_DB_HOST
               value: {{ .Values.global.externalDatabase.host | quote }}
             - name: CONVOY_DB_PORT

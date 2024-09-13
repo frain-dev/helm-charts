@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.6.4](https://img.shields.io/badge/AppVersion-24.6.4-informational?style=flat-square)
+![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 24.8.2](https://img.shields.io/badge/AppVersion-24.8.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -21,10 +21,52 @@ Open Source Webhooks Gateway
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| agent.app.replicaCount | int | `1` |  |
+| agent.app.resources.limits.cpu | string | `"2000m"` |  |
+| agent.app.resources.limits.memory | string | `"2000Mi"` |  |
+| agent.app.resources.requests.cpu | string | `"1000m"` |  |
+| agent.app.resources.requests.memory | string | `"1000m"` |  |
+| agent.autoscaling.enabled | bool | `false` | Enable autoscaling for the agent |
+| agent.autoscaling.maxReplicas | int | `10` |  |
+| agent.autoscaling.minReplicas | int | `2` |  |
+| agent.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| agent.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| agent.env.environment | string | `"oss"` |  |
+| agent.env.log_level | string | `"error"` |  |
+| agent.env.proxy | string | `""` |  |
+| agent.env.smtp.enabled | bool | `false` |  |
+| agent.env.smtp.from | string | `""` |  |
+| agent.env.smtp.password | string | `""` | Ignored in case of secret parameter with non-empty value |
+| agent.env.smtp.port | int | `0` |  |
+| agent.env.smtp.provider | string | `""` |  |
+| agent.env.smtp.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| agent.env.smtp.url | string | `""` |  |
+| agent.env.smtp.username | string | `""` |  |
+| agent.env.storage.enabled | bool | `false` |  |
+| agent.env.storage.on_prem.path | string | `""` |  |
+| agent.env.storage.s3.accessKey | string | `""` |  |
+| agent.env.storage.s3.bucket | string | `""` |  |
+| agent.env.storage.s3.endpoint | string | `""` |  |
+| agent.env.storage.s3.region | string | `""` |  |
+| agent.env.storage.s3.secret | string | `""` | If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key |
+| agent.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
+| agent.env.storage.s3.session_token | string | `""` |  |
+| agent.env.storage.type | string | `""` |  |
+| agent.env.tracer.app_name | string | `""` |  |
+| agent.env.tracer.config_enabled | bool | `true` |  |
+| agent.env.tracer.distributed_tracer_enabled | bool | `true` |  |
+| agent.env.tracer.enabled | bool | `false` |  |
+| agent.env.tracer.license_key | string | `""` |  |
+| agent.env.tracer.type | string | `""` |  |
+| agent.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the agent image |
+| agent.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the agent. The latest tag is used by default |
+| agent.podDisruptionBudget | object | `{}` |  |
+| agent.service.port | int | `80` | Port for the agent service |
+| agent.service.type | string | `"ClusterIP"` | Type of service for the agent |
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
-| global.convoy.image | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Docker image tags for all convoy services |
+| global.convoy.image | string | `"getconvoy/convoy"` | Docker image tags for all convoy services |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy services |
-| global.convoy.tag | string | `"v24.1.2"` | Docker image tags for all convoy services |
+| global.convoy.tag | string | `"v24.8.2"` | Docker image tags for all convoy services |
 | global.convoy.tracer_app_name | string | `""` | NewRelic application name |
 | global.convoy.tracer_config_enabled | bool | `true` | NewRelic tracing config enabled |
 | global.convoy.tracer_distributed_tracer_enabled | bool | `true` | NewRelic distributed tracing config enabled |
@@ -38,7 +80,6 @@ Open Source Webhooks Gateway
 | global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
-| global.externalDatabase.scheme | string | `"postgres"` | Scheme for the external database. This is postgres by default |
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
@@ -55,31 +96,6 @@ Open Source Webhooks Gateway
 | global.nativeRedis.password | string | `"convoy"` | password for the redis, ignored in case of secret parameter with non-empty value |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
 | global.nativeRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
-| ingest.app.replicaCount | int | `1` |  |
-| ingest.app.resources.limits.cpu | string | `"2000m"` |  |
-| ingest.app.resources.limits.memory | string | `"2000Mi"` |  |
-| ingest.app.resources.requests.cpu | string | `"1000m"` |  |
-| ingest.app.resources.requests.memory | string | `"1000Mi"` |  |
-| ingest.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
-| ingest.autoscaling.maxReplicas | int | `10` |  |
-| ingest.autoscaling.minReplicas | int | `1` |  |
-| ingest.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| ingest.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| ingest.enabled | bool | `false` |  |
-| ingest.env.environment | string | `"oss"` |  |
-| ingest.env.interval | int | `60` |  |
-| ingest.env.log_level | string | `"error"` |  |
-| ingest.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| ingest.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. The latest tag is used by default |
-| ingest.podDisruptionBudget | object | `{}` |  |
-| ingest.service.port | int | `80` | Port for the worker service |
-| ingest.service.type | string | `"ClusterIP"` | Type of service for the worker |
-| migrate.app.resources.limits.cpu | string | `"50m"` |  |
-| migrate.app.resources.limits.memory | string | `"60Mi"` |  |
-| migrate.app.resources.requests.cpu | string | `"40m"` |  |
-| migrate.app.resources.requests.memory | string | `"50Mi"` |  |
-| migrate.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the migrate image |
-| migrate.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by to migrate. The latest tag is used by default. It will install before any other services. |
 | server.app.replicaCount | int | `1` |  |
 | server.app.resources.limits.cpu | string | `"2000m"` |  |
 | server.app.resources.limits.memory | string | `"2000Mi"` |  |
@@ -108,7 +124,7 @@ Open Source Webhooks Gateway
 | server.env.storage.s3.session_token | string | `""` |  |
 | server.env.storage.type | string | `""` |  |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
-| server.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the server. The latest tag is used by default |
+| server.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the server. The latest tag is used by default |
 | server.ingress.annotations | object | `{}` |  |
 | server.ingress.enabled | bool | `false` | Enable ingress for the server |
 | server.ingress.hosts[0].host | string | `"test.com"` |  |
@@ -120,72 +136,6 @@ Open Source Webhooks Gateway
 | server.podDisruptionBudget | object | `{}` |  |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
-| stream.app.port | int | `5008` |  |
-| stream.app.resources.limits.cpu | string | `"50m"` |  |
-| stream.app.resources.limits.memory | string | `"60Mi"` |  |
-| stream.app.resources.requests.cpu | string | `"40m"` |  |
-| stream.app.resources.requests.memory | string | `"50Mi"` |  |
-| stream.autoscaling.enabled | bool | `false` | Enable autoscaling for the stream |
-| stream.autoscaling.maxReplicas | int | `10` |  |
-| stream.autoscaling.minReplicas | int | `1` |  |
-| stream.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| stream.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| stream.enabled | bool | `false` |  |
-| stream.env.environment | string | `"oss"` |  |
-| stream.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the stream image |
-| stream.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the stream. The latest tag is used by default |
-| stream.ingress.annotations | object | `{}` |  |
-| stream.ingress.enabled | bool | `false` | Enable ingress for the stream server |
-| stream.ingress.hosts[0].host | string | `"stream.test.com"` |  |
-| stream.ingress.hosts[0].http.paths[0].path | string | `"/"` |  |
-| stream.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
-| stream.ingress.ingressClassName | string | `""` |  |
-| stream.ingress.tls[0].hosts[0] | string | `"stream.test.com"` |  |
-| stream.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
-| stream.service.port | int | `80` | Port for the stream service |
-| stream.service.type | string | `"ClusterIP"` | Type of service for the stream |
-| worker.app.replicaCount | int | `1` |  |
-| worker.app.resources.limits.cpu | string | `"2000m"` |  |
-| worker.app.resources.limits.memory | string | `"2000Mi"` |  |
-| worker.app.resources.requests.cpu | string | `"1000m"` |  |
-| worker.app.resources.requests.memory | string | `"1000m"` |  |
-| worker.autoscaling.enabled | bool | `false` | Enable autoscaling for the worker |
-| worker.autoscaling.maxReplicas | int | `10` |  |
-| worker.autoscaling.minReplicas | int | `2` |  |
-| worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| worker.env.environment | string | `"oss"` |  |
-| worker.env.log_level | string | `"error"` |  |
-| worker.env.proxy | string | `""` |  |
-| worker.env.smtp.enabled | bool | `false` |  |
-| worker.env.smtp.from | string | `""` |  |
-| worker.env.smtp.password | string | `""` | Ignored in case of secret parameter with non-empty value |
-| worker.env.smtp.port | int | `0` |  |
-| worker.env.smtp.provider | string | `""` |  |
-| worker.env.smtp.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
-| worker.env.smtp.url | string | `""` |  |
-| worker.env.smtp.username | string | `""` |  |
-| worker.env.storage.enabled | bool | `false` |  |
-| worker.env.storage.on_prem.path | string | `""` |  |
-| worker.env.storage.s3.accessKey | string | `""` |  |
-| worker.env.storage.s3.bucket | string | `""` |  |
-| worker.env.storage.s3.endpoint | string | `""` |  |
-| worker.env.storage.s3.region | string | `""` |  |
-| worker.env.storage.s3.secret | string | `""` | If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key |
-| worker.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
-| worker.env.storage.s3.session_token | string | `""` |  |
-| worker.env.storage.type | string | `""` |  |
-| worker.env.tracer.app_name | string | `""` |  |
-| worker.env.tracer.config_enabled | bool | `true` |  |
-| worker.env.tracer.distributed_tracer_enabled | bool | `true` |  |
-| worker.env.tracer.enabled | bool | `false` |  |
-| worker.env.tracer.license_key | string | `""` |  |
-| worker.env.tracer.type | string | `""` |  |
-| worker.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the worker image |
-| worker.image.repository | string | `"docker.cloudsmith.io/convoy/convoy/frain-dev/convoy"` | Repository to be used by the worker. The latest tag is used by default |
-| worker.podDisruptionBudget | object | `{}` |  |
-| worker.service.port | int | `80` | Port for the worker service |
-| worker.service.type | string | `"ClusterIP"` | Type of service for the worker |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)

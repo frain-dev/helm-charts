@@ -49,9 +49,9 @@ env:
 
 
 image:
-  repository: docker.cloudsmith.io/convoy/convoy/frain-dev/convoy
+  repository: getconvoy/convoy
   pullPolicy: Always
-  tag: v23.05.3
+  tag: v24.8.2
 
 nameOverride: "convoy-server"
 fullNameOverride: "convoy-server"
