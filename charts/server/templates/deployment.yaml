@@ -79,6 +79,8 @@ spec:
               value: {{ .Values.env.log_level | quote }}
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
+            - name: CONVOY_MAX_RESPONSE_SIZE
+              value: {{ .Values.env.max_response_size | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
@@ -155,17 +157,32 @@ spec:
             {{- end }}
 
             {{- if .Values.env.tracer.enabled }}
-            - name: CONVOY_NEWRELIC_APP_NAME
-              value: {{ .Values.env.tracer.app_name | quote }}
-            - name: CONVOY_NEWRELIC_LICENSE_KEY
-              value: {{ .Values.env.tracer.license_key | quote }}
-            - name: CONVOY_NEWRELIC_CONFIG_ENABLED
-              value: {{ .Values.env.tracer.config_enabled | quote }}
-            - name: CONVOY_NEWRELIC_DISTRIBUTED_TRACER_ENABLED
-              value: {{ .Values.env.tracer.distributed_tracer_enabled | quote }}
             - name: CONVOY_TRACER_PROVIDER
               value: {{ .Values.env.tracer.type | quote }}
+            - name: CONVOY_OTEL_SAMPLE_RATE
+              value: {{ .Values.env.tracer.otel.sample_rate | quote }}
+            - name: CONVOY_OTEL_AUTH_HEADER_NAME
+              value: {{ .Values.env.tracer.otel.otel_auth.header_name | quote }}
+            - name: CONVOY_OTEL_AUTH_HEADER_VALUE
+              value: {{ .Values.env.tracer.otel.otel_auth.header_value | quote }}
+            - name: CONVOY_OTEL_COLLECTOR_URL
+              value: {{ .Values.env.tracer.otel.collector_url | quote }}
+            - name: CONVOY_OTEL_INSECURE_SKIP_VERIFY
+              value: {{ .Values.env.tracer.otel.insecure_skip_verify | quote }}
+            - name: CONVOY_SENTRY_DSN
+              value: {{ .Values.env.tracer.sentry.dsn | quote }}
             {{- end }}
+
+            - name: CONVOY_INSTANCE_INGEST_RATE
+              value: {{ .Values.env.instance_ingest_rate | quote }}
+            - name: CONVOY_ENABLE_FEATURE_FLAG
+              value: {{ .Values.env.enable_feature_flag | quote }}
+            - name: CONVOY_ANALYTICS_ENABLED
+              value: {{ .Values.env.analytics_enabled | quote }}
+            - name: CONVOY_ENABLE_PROFILING
+              value: {{ .Values.env.enable_profiling | quote }}
+            - name: CONVOY_API_VERSION
+              value: {{ .Values.env.api_version | quote }}
 
             {{- if .Values.env.storage.enabled }}
             - name: CONVOY_STORAGE_POLICY_TYPE
@@ -198,9 +215,40 @@ spec:
             - name: CONVOY_STORAGE_AWS_ENDPOINT
               value: {{ .Values.env.storage.s3.endpoint | quote }}
             {{- end }}
-
             {{- end }}
 
+            {{- if .Values.env.metrics.enabled }}
+            - name: CONVOY_METRICS_ENABLED
+              value: {{ .Values.env.metrics.enabled | quote }}
+            - name: CONVOY_METRICS_BACKEND
+              value: {{ .Values.env.metrics.metrics_backend | quote }}
+            - name: CONVOY_METRICS_SAMPLE_TIME
+              value: {{ .Values.env.metrics.prometheus_metrics.sample_time }}
+                  {{- end }}
+
+                  {{- if .Values.env.pyroscope.enabled | quote }}
+            - name: CONVOY_ENABLE_PYROSCOPE_PROFILING
+              value: {{ .Values.env.pyroscope.enabled | quote }}
+            - name: CONVOY_PYROSCOPE_URL
+              value: {{ .Values.env.pyroscope.url | quote }}
+            - name: CONVOY_PYROSCOPE_USERNAME
+              value: {{ .Values.env.pyroscope.username | quote }}
+            - name: CONVOY_PYROSCOPE_PASSWORD
+              value: {{ .Values.env.pyroscope.password | quote }}
+            - name: CONVOY_PYROSCOPE_PROFILE_ID
+              value: {{ .Values.env.pyroscope.profile_id | quote }}
+            {{- end }}
+            {{- if .Values.env.retention_policy.enabled }}
+            - name: CONVOY_RETENTION_POLICY
+              value: {{ .Values.env.retention_policy.policy | quote }}
+            - name: CONVOY_RETENTION_POLICY_ENABLED
+              value: {{ .Values.env.retention_policy.enabled | quote }}
+            {{- end}}
+
+            - name: CONVOY_LICENSE_KEY
+              value: {{ .Values.env.license_key | quote }}
+            - name: CONVOY_MAX_RETRY_SECONDS
+              value: {{ .Values.env.max_retry_seconds | quote }}
           livenessProbe:
             httpGet:
               path: /health

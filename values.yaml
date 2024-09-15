@@ -1,25 +1,39 @@
 global:
   convoy:
-    # -- Docker image tags for all convoy services
+    # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
-    # -- Docker image tags for all convoy services
+    # -- Docker image tags for all convoy components
     tag: &tag "v24.8.2"
-    # -- Logger Level for all convoy services
+    # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
     environment: &environment "oss"
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
     # -- Tracing provider type
-    tracer_type: &tracerType ""
-    # -- NewRelic application name
-    tracer_app_name: &tracerAppName ""
-    # -- NewRelic tracing config enabled
-    tracer_config_enabled: &tracerConfigEnabled true
-    # -- NewRelic distributed tracing config enabled
-    tracer_distributed_tracer_enabled: &tracerDistributedTracingEnabled true
-    # -- NewRelic license key
-    tracer_license_key: &tracerLicenseKey ""
+    tracer_type: &tracerType "otel"
+    # -- Open Telemetry auth header name
+    otel_auth_header_name: &otelHeaderName ""
+    # -- Open Telemetry auth header value
+    otel_auth_header_value: &otelHeaderValue ""
+    # -- Open Telemetry sample rate
+    otel_sample_rate: &otelSampleRate 1
+    # -- Open Telemetry collector url
+    otel_collector_url: &otelCollectorUrl ""
+    # -- Open Telemetry insecure skip verify
+    otel_insecure_skip_verify: &otelInsecureSkipVerify true
+    # -- Sentry DSN
+    sentry_dsn: &sentryDsn ""
+    # -- Retention policy duration
+    retention_policy_duration: &retentionPolicyDuration 720h
+    # -- Retention policy enabled
+    retention_policy_enabled: &retentionPolicyEnabled false
+    # -- Enable usage analytics
+    enable_usage_analytics: &enabledUsageAnalytics true
+    # -- API version
+    api_version: &apiVersion "2024-01-01"
+    # -- License Key
+    license_key: &licenseKey ""
 
   externalDatabase:
     # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
@@ -110,6 +124,7 @@ agent:
   env:
     environment: *environment
     proxy: ""
+    sign_up_enabled: false
     log_level: *logLevel
     smtp:
       enabled: false
@@ -122,13 +137,32 @@ agent:
       provider: ""
       url: ""
       username: ""
+      ssl: false
+      reply_to: ""
+    # @ignored
     tracer:
       type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+      otel:
+        otel_auth:
+          header_name: *otelHeaderName
+          header_value: *otelHeaderValue
+        sample_rate: *otelSampleRate
+        collector_url: *otelCollectorUrl
+        insecure_skip_verify: *otelInsecureSkipVerify
+      sentry:
+        dsn: *sentryDsn
+    pyroscope:
+      enabled: false
+      url: ""
+      username: ""
+      password: ""
+      profile_id: ""
+    enable_feature_flag: []
+    retention_policy:
+      policy: *retentionPolicyDuration
+      enabled: *retentionPolicyEnabled
+    analytics_enabled: *enabledUsageAnalytics
     storage:
       enabled: false
       type: ""
@@ -144,15 +178,26 @@ agent:
         region: ""
         session_token: ""
         endpoint: ""
+    consumer_pool_size: 100
+    enable_profiling: false
+    metrics:
+      enabled: false
+      metrics_backend: prometheus
+      prometheus_metrics:
+        sample_time: 5
+    instance_ingest_rate: 100
+    worker_execution_mode: default
+    max_retry_seconds: 7200
+    license_key: *licenseKey
   app:
     replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000m
+    resources: {}
+    # limits:
+    #   cpu: 1000m
+    #   memory: 2000Mi
+    # requests:
+    #   cpu: 1000m
+    #   memory: 1000Mi
 
   service:
     # -- Type of service for the agent
@@ -198,10 +243,26 @@ server:
     tracer:
       type: *tracerType
       enabled: *tracerEnabled
-      app_name: *tracerAppName
-      license_key: *tracerLicenseKey
-      config_enabled: *tracerConfigEnabled
-      distributed_tracer_enabled: *tracerDistributedTracingEnabled
+      otel:
+        otel_auth:
+          header_name: *otelHeaderName
+          header_value: *otelHeaderValue
+        sample_rate: *otelSampleRate
+        collector_url: *otelCollectorUrl
+        insecure_skip_verify: *otelInsecureSkipVerify
+      sentry:
+        dsn: *sentryDsn
+    pyroscope:
+      enabled: false
+      url: ""
+      username: ""
+      password: ""
+      profile_id: ""
+    enable_feature_flag: []
+    retention_policy:
+      policy: *retentionPolicyDuration
+      enabled: *retentionPolicyEnabled
+    analytics_enabled: *enabledUsageAnalytics
     storage:
       enabled: false
       type: ""
@@ -214,18 +275,31 @@ server:
         secretKey: ""
         # -- If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key
         secret: ""
+        prefix: ""
         region: ""
         session_token: ""
         endpoint: ""
+    api_version: *apiVersion
+    analytics:
+      enabled: true
+    enable_profiling: false
+    metrics:
+      enabled: false
+      metrics_backend: prometheus
+      prometheus_metrics:
+        sample_time: 5
+    instance_ingest_rate: 100
+    max_retry_seconds: 7200
+    license_key: *licenseKey
   app:
     replicaCount: 1
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 2000Mi
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
+    resources: {}
+    # limits:
+    #   cpu: 1000m
+    #   memory: 2000Mi
+    # requests:
+    #   cpu: 1000m
+    #   memory: 1000Mi
 
   ingress:
     # -- Enable ingress for the server

@@ -5,12 +5,13 @@
 app:
   replicaCount: 1
   port: 5005
-  resources:
-    limits:
-      memory: 2000Mi
-    requests:
-      cpu: 1000m
-      memory: 1000Mi
+  resources: {}
+  # limits:
+  #   cpu: 1000m
+  #   memory: 2000Mi
+  # requests:
+  #   cpu: 1000m
+  #   memory: 1000Mi
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
@@ -29,11 +30,16 @@ env:
   host: ""
   tracer:
     enabled: false
-    app_name: ""
-    config_enabled: false
-    distributed_tracer_enabled: false
-    license_key: ""
     type: ""
+    otel:
+      otel_auth:
+        header_name: ""
+        header_value: ""
+      sample_rate: 1
+      collector_url: ""
+      insecure_skip_verify: true
+    sentry:
+      dsn: ""
   storage:
     enabled: false
     type: ""
@@ -41,12 +47,35 @@ env:
       path: ""
     s3:
       bucket: ""
+      prefix: ""
       accessKey: ""
       secretKey: ""
       region: ""
       session_token: ""
       endpoint: ""
-
+  api_version: ""
+  pyroscope:
+    enabled: false
+    url: ""
+    username: ""
+    password: ""
+    profile_id: ""
+  enable_feature_flag: []
+  retention_policy:
+    policy: 720h
+    enabled: false
+  analytics:
+    enabled: true
+  enable_profiling: false
+  metrics:
+    enabled: false
+    metrics_backend: prometheus
+    prometheus_metrics:
+      sample_time: 5
+  instance_ingest_rate: 100
+  analytics_enabled: true
+  max_retry_seconds: 7200
+  license_key: ""
 
 image:
   repository: getconvoy/convoy
