@@ -282,6 +282,13 @@ spec:
               value: {{ .Values.env.worker_execution_mode | quote }}
             - name: CONVOY_MAX_RETRY_SECONDS
               value: {{ .Values.env.max_retry_seconds | quote }}
+            - name: CONVOY_DISPATCHER_INSECURE_SKIP_VERIFY
+              value: {{ .Values.env.dispatcher.insecure_skip_verify | quote }}
+            - name: CONVOY_DISPATCHER_ALLOW_LIST
+              value: {{ .Values.env.dispatcher.allow_list | quote }}
+            - name: CONVOY_DISPATCHER_DENY_LIST
+              value: {{ .Values.env.dispatcher.deny_list | quote }}
+              
           livenessProbe:
             httpGet:
               path: /health
