@@ -77,6 +77,10 @@ env:
   max_retry_seconds: 7200
   license_key: ""
 
+# These values serve as defaults for standalone deployment
+# When deployed as a subchart, these can be overridden by parent values:
+# - global.convoy.image
+# - global.convoy.tag
 image:
   repository: getconvoy/convoy
   pullPolicy: Always

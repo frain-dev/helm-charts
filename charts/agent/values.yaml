@@ -79,7 +79,15 @@ env:
   worker_execution_mode: default
   max_retry_seconds: 7200
   license_key: ""
+  dispatcher:
+    insecure_skip_verify: false
+    allow_list: ["0.0.0.0/0"]
+    deny_list: ["127.0.0.1/8", "169.254.169.254/32"]
 
+# These values serve as defaults for standalone deployment
+# When deployed as a subchart, these can be overridden by parent values:
+# - global.convoy.image
+# - global.convoy.tag
 image:
   repository: getconvoy/convoy
   pullPolicy: Always
