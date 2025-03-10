@@ -81,6 +81,36 @@ spec:
               value: {{ .Values.env.sign_up_enabled | quote }}
             - name: CONVOY_MAX_RESPONSE_SIZE
               value: {{ .Values.env.max_response_size | quote }}
+            {{- if .Values.global.convoy.jwt_secret_name }}
+            - name: CONVOY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.convoy.jwt_secret_name }}"
+                  key: jwt_secret
+            - name: CONVOY_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.convoy.jwt_secret_name }}"
+                  key: jwt_refresh_secret
+            {{- else if or .Values.global.convoy.jwt_secret .Values.global.convoy.jwt_refresh_secret }}
+            - name: CONVOY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-server.fullname" . }}-jwt"
+                  key: jwt_secret
+            - name: CONVOY_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-server.fullname" . }}-jwt"
+                  key: jwt_refresh_secret
+            {{- else }}
+            - name: CONVOY_JWT_SECRET
+              value: {{ .Values.env.auth.jwt.secret | quote }}
+            - name: CONVOY_JWT_REFRESH_SECRET
+              value: {{ .Values.env.auth.jwt.refresh_secret | quote }}
+            {{- end }}
+            - name: CONVOY_JWT_REALM_ENABLED
+              value: {{ .Values.env.auth.jwt.enabled | quote }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

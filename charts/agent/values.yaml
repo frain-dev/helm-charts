@@ -91,7 +91,7 @@ env:
 image:
   repository: getconvoy/convoy
   pullPolicy: Always
-  tag: v24.8.2
+  tag: v25.2.2
 
 nameOverride: "convoy-agent"
 fullNameOverride: "convoy-agent"
