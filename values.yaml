@@ -8,6 +8,12 @@ global:
     log_level: &logLevel "error"
     # -- Convoy Environment
     environment: &environment "oss"
+    # -- JWT Secret key
+    jwt_secret: &jwtSecret "convoy-secret"
+    # -- JWT Refresh Secret key
+    jwt_refresh_secret: &jwtRefreshSecret "convoy-refresh-secret"
+    # -- If this secret parameter is not empty, JWT secret values will be ignored. The secrets should be in the 'jwt_secret' and 'jwt_refresh_secret' keys
+    jwt_secret_name: ""
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
     # -- Tracing provider type
@@ -87,7 +93,6 @@ global:
     # -- Port for the external redis
     port: ""
 
-
 # @ignored, used in case of external chart
 postgresql:
   # -- Set to false if you don't want to create a postgres instance
@@ -100,7 +105,6 @@ postgresql:
         username: *username
         password: *userPassword
         database: *postgresDatabase
-
 
 # @ignored, used in case of external chart
 redis:
@@ -217,7 +221,8 @@ agent:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget:
+    {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
@@ -241,6 +246,8 @@ server:
     auth:
       jwt:
         enabled: true
+        secret: *jwtSecret
+        refresh_secret: *jwtRefreshSecret
       native:
         enabled: true
     # @ignored
@@ -335,7 +342,8 @@ server:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  podDisruptionBudget: { }
+  podDisruptionBudget:
+    {}
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1

@@ -22,6 +22,8 @@ env:
   auth:
     jwt:
       enabled: true
+      secret: ""
+      refresh_secret: ""
     native:
       enabled: true
   log_level: "error"
