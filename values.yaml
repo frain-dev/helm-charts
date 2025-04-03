@@ -40,9 +40,9 @@ global:
     api_version: &apiVersion "2024-01-01"
     # -- License Key
     license_key: &licenseKey ""
-    # -- Dispatcher CA Certificate configuration
-    cacert_configmap_name: ""
-    # -- Dispatcher CA Certificate content. If provided, a configmap will be created with this content
+    # -- Dispatcher CA Certificate configuration. If provided, it will use the content of the secret
+    cacert_secret_name: ""
+    # -- Dispatcher CA Certificate content. If provided, a secret will be created with this content
     cacert_content: ""
 
   externalDatabase:
