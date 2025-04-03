@@ -24,6 +24,15 @@ spec:
         app.kubernetes.io/name: {{ include "convoy-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+      volumes:
+        - name: convoy-cacert
+          secret:
+            secretName: {{ if .Values.global.convoy.cacert_secret_name }}{{ .Values.global.convoy.cacert_secret_name }}{{ else }}{{ include "convoy-server.fullname" . }}-cacert{{ end }}
+            items:
+              - key: ca.crt
+                path: ca.crt
+      {{- end }}
       initContainers:
         - name: wait-for-migrate
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -81,6 +90,10 @@ spec:
               value: {{ .Values.env.sign_up_enabled | quote }}
             - name: CONVOY_MAX_RESPONSE_SIZE
               value: {{ .Values.env.max_response_size | quote }}
+            {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+            - name: CONVOY_DISPATCHER_CACERT_PATH
+              value: "/etc/convoy/ca.crt"
+            {{- end }}
             {{- if .Values.global.convoy.jwt_secret_name }}
             - name: CONVOY_JWT_SECRET
               valueFrom:
@@ -291,6 +304,12 @@ spec:
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
+          volumeMounts:
+            {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+            - name: convoy-cacert
+              mountPath: /etc/convoy
+              readOnly: true
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

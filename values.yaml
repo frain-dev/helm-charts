@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v25.2.2"
+    tag: &tag "v25.3.4"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -40,9 +40,13 @@ global:
     api_version: &apiVersion "2024-01-01"
     # -- License Key
     license_key: &licenseKey ""
+    # -- Dispatcher CA Certificate configuration. If provided, it will use the content of the secret
+    cacert_secret_name: ""
+    # -- Dispatcher CA Certificate content. If provided, a secret will be created with this content
+    cacert_content: ""
 
   externalDatabase:
-    # -- Enable an external database, This will use postgresql chart, Change values if you use an external database
+    # -- Enable an external database; This will use postgresql chart, Change values if you use an external database
     enabled: true
     # -- Host for the external database
     host: "postgresql"
@@ -62,7 +66,7 @@ global:
     port: 5432
 
   nativeRedis:
-    # -- Enable redis, This will use redis chart, Disable if you use an external redis
+    # -- Enable redis; This will use redis chart, Disable if you use an external redis
     enabled: &redisEnabled true
     # -- Host for the redis
     host: "redis-master"

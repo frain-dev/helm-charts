@@ -24,6 +24,15 @@ spec:
         app.kubernetes.io/name: {{ include "convoy-agent.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+      volumes:
+        - name: convoy-cacert
+          secret:
+            secretName: {{ if .Values.global.convoy.cacert_secret_name }}{{ .Values.global.convoy.cacert_secret_name }}{{ else }}{{ include "convoy-agent.fullname" . }}-cacert{{ end }}
+            items:
+              - key: ca.crt
+                path: ca.crt
+      {{- end }}
       initContainers:
         - name: wait-for-migrate
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -78,7 +87,10 @@ spec:
               value: {{ .Values.env.environment | quote }}
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
-
+            {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+            - name: CONVOY_DISPATCHER_CACERT_PATH
+              value: "/etc/convoy/ca.crt"
+            {{- end }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
@@ -288,7 +300,6 @@ spec:
               value: {{ .Values.env.dispatcher.allow_list | quote }}
             - name: CONVOY_DISPATCHER_DENY_LIST
               value: {{ .Values.env.dispatcher.deny_list | quote }}
-              
           livenessProbe:
             httpGet:
               path: /health
@@ -301,6 +312,12 @@ spec:
             initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
+          volumeMounts:
+            {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
+            - name: convoy-cacert
+              mountPath: /etc/convoy
+              readOnly: true
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
