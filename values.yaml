@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v25.3.4"
+    tag: &tag "v25.5.2"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -231,6 +231,8 @@ agent:
 #    maxUnavailable: 1
 #    minAvailable: 1
 
+  securityContext: {}
+
 server:
   image:
     # -- Repository to be used by the server. The latest tag is used by default
@@ -351,3 +353,4 @@ server:
     # -- Pod disruption budget
 #    maxUnavailable: 1
 #    minAvailable: 1
+  securityContext: {}

@@ -115,3 +115,4 @@ podDisruptionBudget: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+securityContext: {}
