@@ -156,6 +156,10 @@ spec:
               value: {{ .Values.global.externalDatabase.database | quote }}
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
+            {{- if .Values.global.externalDatabase.readReplicas }}
+            - name: CONVOY_DB_READ_REPLICAS
+              value: {{ .Values.global.externalDatabase.readReplicas | toJson | quote }}
+            {{- end }}
             {{- end }}
 
             {{- if .Values.global.nativeRedis.enabled }}
