@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.4.0](https://img.shields.io/badge/Version-3.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.2.4](https://img.shields.io/badge/AppVersion-25.2.4-informational?style=flat-square)
+![Version: 3.5.0](https://img.shields.io/badge/Version-3.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.5.2](https://img.shields.io/badge/AppVersion-25.5.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -77,6 +77,7 @@ Open Source Webhooks Gateway
 | agent.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the agent image |
 | agent.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the agent. The latest tag is used by default |
 | agent.podDisruptionBudget | object | `{}` |  |
+| agent.securityContext | object | `{}` |  |
 | agent.service.port | int | `80` | Port for the agent service |
 | agent.service.type | string | `"ClusterIP"` | Type of service for the agent |
 | global.convoy.api_version | string | `"2024-01-01"` | API version |
@@ -98,7 +99,7 @@ Open Source Webhooks Gateway
 | global.convoy.retention_policy_duration | string | `"720h"` | Retention policy duration |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
-| global.convoy.tag | string | `"v25.3.4"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v25.5.2"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
@@ -108,6 +109,7 @@ Open Source Webhooks Gateway
 | global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
+| global.externalDatabase.readReplicas | object | `{}` | Read replicas configuration for the external database |
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
@@ -134,6 +136,7 @@ Open Source Webhooks Gateway
 | server.env.analytics.enabled | bool | `true` |  |
 | server.env.analytics_enabled | bool | `true` |  |
 | server.env.api_version | string | `"2024-01-01"` |  |
+| server.env.auth.file.basic | object | `{}` |  |
 | server.env.auth.jwt.enabled | bool | `true` |  |
 | server.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
 | server.env.auth.jwt.secret | string | `"convoy-secret"` |  |
@@ -180,6 +183,7 @@ Open Source Webhooks Gateway
 | server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
 | server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | server.podDisruptionBudget | object | `{}` |  |
+| server.securityContext | object | `{}` |  |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 
