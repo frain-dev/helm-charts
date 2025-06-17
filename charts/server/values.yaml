@@ -26,9 +26,12 @@ env:
       refresh_secret: ""
     native:
       enabled: true
+    file:
+      basic: []
   log_level: "error"
   max_response_size: 50
   environment: ""
+  proxy: ""
   host: ""
   tracer:
     enabled: false

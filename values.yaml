@@ -64,6 +64,15 @@ global:
     options: "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
     port: 5432
+    # -- Read replicas configuration for the external database
+    readReplicas: {}
+#      - scheme: "postgres"
+#        host: ""
+#        username: ""
+#        password: ""
+#        database: "convoy"
+#        port: 5432
+#        options: "sslmode=disable&connect_timeout=30"
 
   nativeRedis:
     # -- Enable redis; This will use redis chart, Disable if you use an external redis
@@ -256,6 +265,8 @@ server:
         refresh_secret: *jwtRefreshSecret
       native:
         enabled: true
+      file:
+        basic: {}
     # @ignored
     tracer:
       type: *tracerType

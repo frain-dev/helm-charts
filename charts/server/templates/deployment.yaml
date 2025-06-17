@@ -88,6 +88,8 @@ spec:
               value: {{ .Chart.Name }}
             - name: PORT
               value: {{ .Values.app.port | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.env.proxy | quote }}
             - name: CONVOY_ENV
               value: {{ .Values.env.environment | quote }}
             - name: CONVOY_HOST
@@ -132,6 +134,10 @@ spec:
             {{- end }}
             - name: CONVOY_JWT_REALM_ENABLED
               value: {{ .Values.env.auth.jwt.enabled | quote }}
+            {{- if .Values.env.auth.file.basic }}
+            - name: CONVOY_BASIC_AUTH_CONFIG
+              value: {{ .Values.env.auth.file.basic | toJson | quote }}
+            {{ end }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
@@ -231,7 +237,7 @@ spec:
             - name: CONVOY_INSTANCE_INGEST_RATE
               value: {{ .Values.env.instance_ingest_rate | quote }}
             - name: CONVOY_ENABLE_FEATURE_FLAG
-              value: {{ .Values.env.enable_feature_flag | quote }}
+              value: {{ join "," .Values.env.enable_feature_flag | quote }}
             - name: CONVOY_ANALYTICS_ENABLED
               value: {{ .Values.env.analytics_enabled | quote }}
             - name: CONVOY_ENABLE_PROFILING
