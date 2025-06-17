@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.3.0](https://img.shields.io/badge/Version-3.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.2.2](https://img.shields.io/badge/AppVersion-25.2.2-informational?style=flat-square)
+![Version: 3.5.0](https://img.shields.io/badge/Version-3.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.5.2](https://img.shields.io/badge/AppVersion-25.5.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -77,9 +77,12 @@ Open Source Webhooks Gateway
 | agent.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the agent image |
 | agent.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the agent. The latest tag is used by default |
 | agent.podDisruptionBudget | object | `{}` |  |
+| agent.securityContext | object | `{}` |  |
 | agent.service.port | int | `80` | Port for the agent service |
 | agent.service.type | string | `"ClusterIP"` | Type of service for the agent |
 | global.convoy.api_version | string | `"2024-01-01"` | API version |
+| global.convoy.cacert_content | string | `""` | Dispatcher CA Certificate content. If provided, a secret will be created with this content |
+| global.convoy.cacert_secret_name | string | `""` | Dispatcher CA Certificate configuration. If provided, it will use the content of the secret |
 | global.convoy.enable_usage_analytics | bool | `true` | Enable usage analytics |
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.image | string | `"getconvoy/convoy"` | Docker image tags for all convoy components |
@@ -96,16 +99,17 @@ Open Source Webhooks Gateway
 | global.convoy.retention_policy_duration | string | `"720h"` | Retention policy duration |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
-| global.convoy.tag | string | `"v25.2.2"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v25.5.2"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
-| global.externalDatabase.enabled | bool | `true` | Enable an external database, This will use postgresql chart, Change values if you use an external database |
+| global.externalDatabase.enabled | bool | `true` | Enable an external database; This will use postgresql chart, Change values if you use an external database |
 | global.externalDatabase.host | string | `"postgresql"` | Host for the external database |
 | global.externalDatabase.options | string | `"sslmode=disable&connect_timeout=30"` | Query params for the external database |
 | global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
+| global.externalDatabase.readReplicas | object | `{}` | Read replicas configuration for the external database |
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
@@ -117,7 +121,7 @@ Open Source Webhooks Gateway
 | global.externalRedis.scheme | string | `""` | Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
 | global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalRedis.username | string | `""` | username for the external redis. |
-| global.nativeRedis.enabled | bool | `true` | Enable redis, This will use redis chart, Disable if you use an external redis |
+| global.nativeRedis.enabled | bool | `true` | Enable redis; This will use redis chart, Disable if you use an external redis |
 | global.nativeRedis.host | string | `"redis-master"` | Host for the redis |
 | global.nativeRedis.password | string | `"convoy"` | password for the redis, ignored in case of secret parameter with non-empty value |
 | global.nativeRedis.port | int | `6379` | Port for the redis |
@@ -132,6 +136,7 @@ Open Source Webhooks Gateway
 | server.env.analytics.enabled | bool | `true` |  |
 | server.env.analytics_enabled | bool | `true` |  |
 | server.env.api_version | string | `"2024-01-01"` |  |
+| server.env.auth.file.basic | object | `{}` |  |
 | server.env.auth.jwt.enabled | bool | `true` |  |
 | server.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
 | server.env.auth.jwt.secret | string | `"convoy-secret"` |  |
@@ -178,8 +183,9 @@ Open Source Webhooks Gateway
 | server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
 | server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | server.podDisruptionBudget | object | `{}` |  |
+| server.securityContext | object | `{}` |  |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
