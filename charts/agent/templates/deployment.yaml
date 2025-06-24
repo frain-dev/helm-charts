@@ -202,9 +202,7 @@ spec:
             - name: CONVOY_SMTP_PROVIDER
               value: {{ .Values.env.smtp.provider | quote }}
             - name: CONVOY_SMTP_SSL
-              value: {{ .Values.env.smtp.ssl }}
-            - name: CONVOY_SMTP_REPLY_TO
-              value: {{ .Values.env.smtp.reply_to | quote }}
+              value: {{ .Values.env.smtp.ssl | toString | quote }}
             {{- end }}
 
 
