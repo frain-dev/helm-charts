@@ -310,6 +310,9 @@ spec:
               value: {{ .Values.env.license_key | quote }}
             - name: CONVOY_MAX_RETRY_SECONDS
               value: {{ .Values.env.max_retry_seconds | quote }}
+            {{- with .Values.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health

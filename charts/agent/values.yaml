@@ -112,6 +112,16 @@ podDisruptionBudget: {}
 #  maxUnavailable: 1
 #  minAvailable: 1
 
+# Extra environment variables to be set in the agent pods
+extraEnvs: []
+  # - name: CUSTOM_ENV_VAR
+  #   value: "custom_value"
+  # - name: SECRET_ENV_VAR
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: my-secret
+  #       key: secret-key
+
 nodeSelector: {}
 tolerations: []
 affinity: {}
