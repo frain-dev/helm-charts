@@ -312,6 +312,9 @@ spec:
               value: {{ join "," .Values.env.dispatcher.allow_list | toJson | quote }}
             - name: CONVOY_DISPATCHER_DENY_LIST
               value: {{ join "," .Values.env.dispatcher.deny_list | toJson | quote }}
+            {{- with .Values.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health
