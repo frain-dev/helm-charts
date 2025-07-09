@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.6.1](https://img.shields.io/badge/Version-3.6.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.6.1](https://img.shields.io/badge/AppVersion-25.6.1-informational?style=flat-square)
+![Version: 3.6.2](https://img.shields.io/badge/Version-3.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.6.7](https://img.shields.io/badge/AppVersion-25.6.7-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -90,6 +90,7 @@ Open Source Webhooks Gateway
 | global.convoy.jwt_secret | string | `"convoy-secret"` | JWT Secret key |
 | global.convoy.jwt_secret_name | string | `""` | If this secret parameter is not empty, JWT secret values will be ignored. The secrets should be in the 'jwt_secret' and 'jwt_refresh_secret' keys |
 | global.convoy.license_key | string | `""` | License Key |
+| global.convoy.license_key_secret_name | string | `""` | If this secret parameter is not empty, the inline license key value will be ignored. The license key should be present in the 'license_key' key of the specified secret. |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy components |
 | global.convoy.otel_auth_header_name | string | `""` | Open Telemetry auth header name |
 | global.convoy.otel_auth_header_value | string | `""` | Open Telemetry auth header value |
@@ -99,7 +100,7 @@ Open Source Webhooks Gateway
 | global.convoy.retention_policy_duration | string | `"720h"` | Retention policy duration |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
-| global.convoy.tag | string | `"v25.5.2"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v25.6.7"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
@@ -110,7 +111,7 @@ Open Source Webhooks Gateway
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
 | global.externalDatabase.readReplicas | object | `{}` | Read replicas configuration for the external database |
-| global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, the password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
 | global.externalRedis.database | string | `""` | Database name for the external redis. |
