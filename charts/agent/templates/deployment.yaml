@@ -294,8 +294,21 @@ spec:
               value: {{ .Values.env.retention_policy.enabled | quote }}
             {{- end}}
 
+             {{- if .Values.global.convoy.license_key_secret_name }}
             - name: CONVOY_LICENSE_KEY
-              value: {{ .Values.env.license_key | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.convoy.license_key_secret_name }}"
+                  key: license_key
+             {{- else if .Values.global.convoy.license_key }}
+            - name: CONVOY_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "convoy-license-key"
+                  key: license_key
+             {{- else }}
+             {{- end }}
+
             - name: CONVOY_ENABLE_FEATURE_FLAG
               value: {{ join "," .Values.env.enable_feature_flag | quote }}
             - name: CONVOY_CONSUMER_POOL_SIZE

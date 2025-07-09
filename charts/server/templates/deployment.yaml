@@ -245,6 +245,21 @@ spec:
             - name: CONVOY_API_VERSION
               value: {{ .Values.env.api_version | quote }}
 
+           {{- if .Values.global.convoy.license_key_secret_name }}
+            - name: CONVOY_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.convoy.license_key_secret_name }}"
+                  key: license_key
+            {{- else if .Values.global.convoy.license_key }}
+            - name: CONVOY_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "convoy-license-key"
+                  key: license_key
+            {{- else }}
+            {{- end }}
+
             {{- if .Values.env.storage.enabled }}
             - name: CONVOY_STORAGE_POLICY_TYPE
               value: {{ .Values.env.storage.type | quote }}
@@ -306,8 +321,6 @@ spec:
               value: {{ .Values.env.retention_policy.enabled | quote }}
             {{- end}}
 
-            - name: CONVOY_LICENSE_KEY
-              value: {{ .Values.env.license_key | quote }}
             - name: CONVOY_MAX_RETRY_SECONDS
               value: {{ .Values.env.max_retry_seconds | quote }}
             {{- with .Values.extraEnvs }}

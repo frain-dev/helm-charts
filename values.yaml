@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v25.5.2"
+    tag: &tag "v25.6.7"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -40,6 +40,9 @@ global:
     api_version: &apiVersion "2024-01-01"
     # -- License Key
     license_key: &licenseKey ""
+    # -- If this secret parameter is not empty, the inline license key value will be ignored.
+    # The license key should be present in the 'license_key' key of the specified secret.
+    license_key_secret_name: ""
     # -- Dispatcher CA Certificate configuration. If provided, it will use the content of the secret
     cacert_secret_name: ""
     # -- Dispatcher CA Certificate content. If provided, a secret will be created with this content
@@ -56,7 +59,7 @@ global:
     database: &postgresDatabase convoy
     # -- Password for the external database, ignored in case of secret parameter with non-empty value
     password: &userPassword postgres
-    # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
+    # -- If this secret parameter is not empty, the password value will be ignored. The password in the secret should be in the 'password' key
     secret: ""
     # -- Username for the external database
     username: &username postgres
