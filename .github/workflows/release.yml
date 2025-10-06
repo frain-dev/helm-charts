@@ -8,15 +8,18 @@ on:
         required: true
   push:
     tags:
-      # Release binary for every tag.
+      # Release binary for every tag.    
       - v*
+
+permissions:
+  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
         with:
           fetch-depth: 0
 
@@ -26,9 +29,9 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4
         with:
-          version: v3.8.1
+          version: v4.3.1
       
       - name: Add Bitnami Charts Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -39,7 +42,7 @@ jobs:
       - name: Package and upload helm chart
         env:
           CR_TOKEN: ${{ secrets.PAT }}
-          CR_VERSION: "1.5.0"
+          CR_VERSION: "1.8.1"
         run: |
           curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"
           tar -xzf cr.tar.gz
@@ -50,7 +53,7 @@ jobs:
           # package chart
           ./cr package .
 
-          # upload chart to github relases
+          # upload chart to github releases
           ./cr upload \
               --owner "$owner" \
               --git-repo "$repo" \
@@ -66,4 +69,3 @@ jobs:
               --index-path ./index.yaml \
               --charts-repo https://$owner.github.io/$repo \
               --push
-        
