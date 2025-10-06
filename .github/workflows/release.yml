@@ -51,7 +51,7 @@ jobs:
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
           
           # package chart
-          ./cr package .
+          ./cr package charts/agent charts/server
 
           # upload chart to github releases
           ./cr upload \
