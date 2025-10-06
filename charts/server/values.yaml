@@ -2,6 +2,52 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  convoy:
+    # Default values for standalone deployment - can be overridden by parent chart
+    license_key: ""
+    license_key_secret_name: ""
+    jwt_secret: "convoy-secret"
+    jwt_refresh_secret: "convoy-refresh-secret"
+    jwt_secret_name: ""
+    cacert_secret_name: ""
+    cacert_content: ""
+    google_oauth_enabled: false
+    google_oauth_client_id: ""
+    google_oauth_redirect_url: ""
+    portal_realm_enabled: false
+    sentry_sample_rate: 1.0
+    read_replica_dsn: ""
+
+  externalDatabase:
+    enabled: true
+    host: "postgresql"
+    password: "postgres"
+    database: "convoy"
+    secret: ""
+    username: "postgres"
+    options: "sslmode=disable&connect_timeout=30"
+    port: 5432
+    readReplicas: {}
+
+  nativeRedis:
+    enabled: true
+    host: "redis-master"
+    password: "convoy"
+    secret: ""
+    port: 6379
+
+  externalRedis:
+    enabled: false
+    addresses: ""
+    host: ""
+    scheme: ""
+    username: ""
+    password: ""
+    secret: ""
+    database: ""
+    port: ""
+
 app:
   replicaCount: 1
   port: 5005

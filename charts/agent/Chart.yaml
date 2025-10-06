@@ -1,12 +1,9 @@
 apiVersion: v2
 name: agent
 description: Convoy Agent Chart
-
-
 type: application
-
-
 version: "3.3.0"
-
-
 appVersion: "v25.9.2"
+maintainers:
+  - name: Convoy Engineering Team
+    email: engineering@getconvoy.io
