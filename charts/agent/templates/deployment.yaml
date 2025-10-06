@@ -323,6 +323,35 @@ spec:
               value: {{ join "," .Values.env.dispatcher.allow_list | toJson | quote }}
             - name: CONVOY_DISPATCHER_DENY_LIST
               value: {{ join "," .Values.env.dispatcher.deny_list | toJson | quote }}
+
+            {{- if .Values.global.convoy.google_oauth_enabled }}
+            # -- Google OAuth SSO configuration
+            - name: CONVOY_GOOGLE_OAUTH_ENABLED
+              value: {{ .Values.global.convoy.google_oauth_enabled | quote }}
+            - name: CONVOY_GOOGLE_OAUTH_CLIENT_ID
+              value: {{ .Values.global.convoy.google_oauth_client_id | quote }}
+            - name: CONVOY_GOOGLE_OAUTH_REDIRECT_URL
+              value: {{ .Values.global.convoy.google_oauth_redirect_url | quote }}
+            {{- end }}
+
+            {{- if .Values.global.convoy.portal_realm_enabled }}
+            # -- Portal Realm authentication
+            - name: CONVOY_PORTAL_REALM_ENABLED
+              value: {{ .Values.global.convoy.portal_realm_enabled | quote }}
+            {{- end }}
+
+            {{- if .Values.global.convoy.sentry_sample_rate }}
+            # -- Sentry error sampling rate
+            - name: CONVOY_SENTRY_SAMPLE_RATE
+              value: {{ .Values.global.convoy.sentry_sample_rate | quote }}
+            {{- end }}
+
+            {{- if .Values.global.convoy.read_replica_dsn }}
+            # -- Database read replica connection
+            - name: CONVOY_READ_REPLICA_DSN
+              value: {{ .Values.global.convoy.read_replica_dsn | quote }}
+            {{- end }}
+
             {{- with .Values.extraEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

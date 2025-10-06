@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.6.2](https://img.shields.io/badge/Version-3.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.6.7](https://img.shields.io/badge/AppVersion-25.6.7-informational?style=flat-square)
+![Version: 3.7.0](https://img.shields.io/badge/Version-3.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.9.2](https://img.shields.io/badge/AppVersion-25.9.2-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -85,6 +85,9 @@ Open Source Webhooks Gateway
 | global.convoy.cacert_secret_name | string | `""` | Dispatcher CA Certificate configuration. If provided, it will use the content of the secret |
 | global.convoy.enable_usage_analytics | bool | `true` | Enable usage analytics |
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
+| global.convoy.google_oauth_client_id | string | `""` | Google OAuth Client ID from Google Cloud Console |
+| global.convoy.google_oauth_enabled | bool | `false` | Enable Google OAuth SSO for user authentication |
+| global.convoy.google_oauth_redirect_url | string | `""` | Google OAuth Redirect URL for callback handling |
 | global.convoy.image | string | `"getconvoy/convoy"` | Docker image tags for all convoy components |
 | global.convoy.jwt_refresh_secret | string | `"convoy-refresh-secret"` | JWT Refresh Secret key |
 | global.convoy.jwt_secret | string | `"convoy-secret"` | JWT Secret key |
@@ -97,10 +100,13 @@ Open Source Webhooks Gateway
 | global.convoy.otel_collector_url | string | `""` | Open Telemetry collector url |
 | global.convoy.otel_insecure_skip_verify | bool | `true` | Open Telemetry insecure skip verify |
 | global.convoy.otel_sample_rate | int | `1` | Open Telemetry sample rate |
+| global.convoy.portal_realm_enabled | bool | `false` | Enable Portal Realm authentication for enhanced security |
+| global.convoy.read_replica_dsn | string | `""` | Database read replica DSN for improved performance |
 | global.convoy.retention_policy_duration | string | `"720h"` | Retention policy duration |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
-| global.convoy.tag | string | `"v25.6.7"` | Docker image tags for all convoy components |
+| global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
+| global.convoy.tag | string | `"v25.9.2"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
