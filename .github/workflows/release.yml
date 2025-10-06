@@ -57,6 +57,7 @@ jobs:
           ./cr upload \
               --owner "$owner" \
               --git-repo "$repo" \
+              --token "$CR_TOKEN" \
               --release-name-template "convoy"
 
           # update index and push to github pages
@@ -65,6 +66,7 @@ jobs:
           ./cr index \
               --owner "$owner" \
               --git-repo "$repo" \
+              --token "$CR_TOKEN" \
               --release-name-template "convoy" \
               --index-path ./index.yaml \
               --charts-repo https://$owner.github.io/$repo \
