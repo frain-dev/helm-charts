@@ -45,3 +45,4 @@ jobs:
           release_name_template: "convoy-{{ .Version }}"
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
+          CR_OWNER: convoy 
