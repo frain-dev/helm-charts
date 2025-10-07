@@ -39,9 +39,9 @@ jobs:
         run: helm dependency build .
 
       - name: Release charts via Chart Releaser
-        uses: helm/chart-releaser-action@v1.7.0
+        uses: helm/chart-releaser-action@v1.8.0
         with:
-          charts_dir: .      
+          charts_dir: charts
           release_name_template: "convoy-{{ .Version }}"
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
