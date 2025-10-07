@@ -39,7 +39,7 @@ jobs:
         run: helm dependency build .
 
       - name: Release charts via Chart Releaser
-        uses: helm/chart-releaser-action@v1.8.0
+        uses: helm/chart-releaser-action@v1.7.0
         with:
           charts_dir: charts
           config: config.yaml
