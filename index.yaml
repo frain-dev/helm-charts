@@ -19,6 +19,7 @@ entries:
     - Webhooks
     - Kubernetes
     - Convoy
+    - Gateway
     maintainers:
     - email: engineering@getconvoy.io
       name: Convoy Engineering Team

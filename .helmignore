@@ -26,7 +26,6 @@
 .github/
 scripts/
 
-.cr-release-packages/
 .helmdocsignore
 
 Makefile
