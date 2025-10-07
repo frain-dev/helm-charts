@@ -2,12 +2,13 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.0"
-appVersion: "25.9.2"
+version: "3.7.1"
+appVersion: "25.9.3"
 keywords:
   - Webhooks
   - Kubernetes
   - Convoy
+  - Gateway
 maintainers:
   - name: Convoy Engineering Team
     email: engineering@getconvoy.io
