@@ -46,6 +46,12 @@ jobs:
           echo "Packaged chart(s):"
           ls -lh .cr-release-packages/
 
+      - name: Copy packaged chart to repository root
+        run: |
+          cp .cr-release-packages/*.tgz .
+          echo "Copied chart package(s) to repository root:"
+          ls -lh *.tgz
+
       - name: Cleanup large dependency folders
         run: |
           rm -rf charts/
@@ -82,7 +88,7 @@ jobs:
 
           # update index and push to github pages
           git config user.email "$owner@users.noreply.github.com"
-          git config user.name "$owner"      
+          git config user.name "$owner"
 
           cr index \
             --owner "$owner" \
@@ -90,5 +96,6 @@ jobs:
             --token "$CR_TOKEN" \
             --release-name-template "convoy-{{ .Version }}" \
             --index-path ./index.yaml \
-            --charts-repo https://$owner.github.io/$repo \
+            --package-path ./ \
+            --charts-repo "https://$owner.github.io/$repo" \
             --push
