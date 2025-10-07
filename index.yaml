@@ -28,7 +28,7 @@ entries:
     type: application
     urls:
     - https://frain-dev.github.io/helm-charts/convoy-3.7.0.tgz
-    version: 2.2.1
+    version: 3.7.0
   postgresql:
   - annotations:
       category: Database
