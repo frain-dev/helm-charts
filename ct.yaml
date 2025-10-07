@@ -8,3 +8,4 @@ upgrade: true
 check-version-increment: true
 debug: true
 validate-maintainers: false
+build-dependencies: true

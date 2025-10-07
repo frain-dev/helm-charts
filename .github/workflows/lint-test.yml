@@ -26,9 +26,6 @@ jobs:
       - name: Add Bitnami Charts Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Build chart dependencies
-        run: helm dependency build
-
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
@@ -44,13 +41,12 @@ jobs:
         uses: helm/kind-action@v1.12.0
         if: steps.list-changed.outputs.changed == 'true'
 
-      # - name: Run chart-testing (install subcharts)
-      #   run: ct install --config ct.yaml
-
       - name: Test main convoy chart installation
         if: steps.list-changed.outputs.changed == 'true'
         run: |
           echo "Testing main convoy chart with root values..."
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm dependency build .
           helm install convoy-test . --values values.yaml --timeout 300s --wait --wait-for-jobs --debug
           helm test convoy-test
           helm uninstall convoy-test
