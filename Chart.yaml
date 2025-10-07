@@ -13,16 +13,6 @@ maintainers:
   - name: Convoy Engineering Team
     email: engineering@getconvoy.io
 dependencies:
-  - name: agent
-    version: "3.3.0"
-    repository: "file://./charts/agent"
-    condition: agent.enabled
-
-  - name: server
-    version: "1.0.0"
-    repository: "file://./charts/server"
-    condition: server.enabled
-
   - name: postgresql
     version: 12.5.6
     repository: https://charts.bitnami.com/bitnami

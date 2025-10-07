@@ -1,15 +1,9 @@
 dependencies:
-- name: agent
-  repository: file://./charts/agent
-  version: 3.3.0
-- name: server
-  repository: file://./charts/server
-  version: 1.0.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 12.5.6
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 17.11.3
-digest: sha256:5998b5135e94986635af3550c7bd537c95c396c21e27a393c54499bfa086b507
-generated: "2025-10-07T11:49:14.263772+01:00"
+digest: sha256:2c6ff47eb9a3976dbdb1a5b762cdc4343ef1846f63a8f00a612c9da0336602b5
+generated: "2025-10-08T00:00:17.296542+01:00"
