@@ -8,7 +8,7 @@ on:
         required: true
   push:
     tags:
-      # Release binary for every tag.    
+    # Release binary for every tag.
       - v*
 
 permissions:
@@ -17,8 +17,9 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
         with:
           fetch-depth: 0
@@ -32,39 +33,56 @@ jobs:
         uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4
         with:
           version: 'v3.19.0'
-      
-      - name: Add Bitnami Charts Repo
+
+      - name: Add Bitnami Repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami  
-      
-      - name: Package and upload helm chart
-        env:
-          CR_TOKEN: ${{ secrets.TEMP_PAT }}
-          CR_VERSION: "1.8.1"
+
+      - name: Build chart dependencies
         run: |
+          helm dependency update .
+          rm -rf charts/
+          echo "Dependencies validated and cleaned."
+
+      - name: Package Helm chart
+        run: |
+          mkdir -p .cr-release-packages
+          helm package . --destination .cr-release-packages
+          echo "Packaged chart(s):"
+          ls -lh .cr-release-packages/
+
+      - name: Install chart-releaser
+        run: |
+          CR_VERSION="1.8.1"
           curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"
           tar -xzf cr.tar.gz
+          sudo mv cr /usr/local/bin/cr
           rm -f cr.tar.gz
+
+      - name: Upload chart to GitHub Releases
+        env:
+          CR_TOKEN: ${{ secrets.TEMP_PAT }}
+        run: |
           owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
-          
-          # package chart
-          ./cr package .
 
-          # upload chart to github releases
-          ./cr upload \
-              --owner "$owner" \
-              --git-repo "$repo" \
-              --token "$CR_TOKEN" \
-              --release-name-template "convoy-{{ .Version }}"
+          cr upload \
+            --owner "$owner" \
+            --git-repo "$repo" \
+            --token "$CR_TOKEN" \
+            --release-name-template "convoy-{{ .Version }}"
 
-          # update index and push to github pages
-          git config user.email "$owner@users.noreply.github.com"
-          git config user.name "$owner"
-          ./cr index \
-              --owner "$owner" \
-              --git-repo "$repo" \
-              --token "$CR_TOKEN" \
-              --release-name-template "convoy-{{ .Version }}" \
-              --index-path ./index.yaml \
-              --charts-repo https://$owner.github.io/$repo \
-              --push
+      - name: Update index and push to GitHub Pages
+        env:
+          CR_TOKEN: ${{ secrets.TEMP_PAT }}
+        run: |
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+
+          cr index \
+            --owner "$owner" \
+            --git-repo "$repo" \
+            --token "$CR_TOKEN" \
+            --release-name-template "convoy-{{ .Version }}" \
+            --index-path ./index.yaml \
+            --charts-repo https://$owner.github.io/$repo \
+            --push
