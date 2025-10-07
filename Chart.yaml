@@ -21,4 +21,3 @@ dependencies:
     version: 17.11.3
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
-

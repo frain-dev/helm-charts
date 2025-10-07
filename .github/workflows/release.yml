@@ -41,7 +41,7 @@ jobs:
       
       - name: Package and upload helm chart
         env:
-          CR_TOKEN: ${{ secrets.PAT }}
+          CR_TOKEN: ${{ secrets.TEMP_PAT }}
           CR_VERSION: "1.8.1"
         run: |
           curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"

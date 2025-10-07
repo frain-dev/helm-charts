@@ -134,10 +134,16 @@ spec:
             {{- end }}
             - name: CONVOY_JWT_REALM_ENABLED
               value: {{ .Values.env.auth.jwt.enabled | quote }}
-            {{- if .Values.env.auth.file.basic }}
+            {{- if ne .Values.env.auth.file.secret "" }}
+            - name: CONVOY_BASIC_AUTH_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.env.auth.file.secret }}"
+                  key: basic_auth_config
+            {{- else if .Values.env.auth.file.basic }}
             - name: CONVOY_BASIC_AUTH_CONFIG
               value: {{ .Values.env.auth.file.basic | toJson | quote }}
-            {{ end }}
+            {{- end }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME

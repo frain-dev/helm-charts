@@ -20,7 +20,7 @@ global:
     read_replica_dsn: ""
 
   externalDatabase:
-    enabled: true
+    enabled: false
     host: "postgresql"
     password: "postgres"
     database: "convoy"
@@ -33,20 +33,20 @@ global:
   nativeRedis:
     enabled: true
     host: "redis-master"
-    password: "convoy"
+    password: ""
     secret: ""
     port: 6379
 
   externalRedis:
     enabled: false
     addresses: ""
-    host: ""
-    scheme: ""
+    host: "redis-master"
+    scheme: "redis"
     username: ""
     password: ""
     secret: ""
-    database: ""
-    port: ""
+    database: "0"
+    port: "6379"
 
 app:
   replicaCount: 1
@@ -74,6 +74,8 @@ env:
       enabled: true
     file:
       basic: []
+      # -- If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key
+      secret: ""
   log_level: "error"
   max_response_size: 50
   environment: ""
@@ -101,6 +103,8 @@ env:
       prefix: ""
       accessKey: ""
       secretKey: ""
+      # -- If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key
+      secret: ""
       region: ""
       session_token: ""
       endpoint: ""
