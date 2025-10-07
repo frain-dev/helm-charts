@@ -42,7 +42,7 @@ jobs:
         uses: helm/chart-releaser-action@v1.8.0
         with:
           charts_dir: charts
-          release_name_template: "convoy-{{ .Version }}"
+          config: config.yaml
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
           CR_OWNER: convoy 
