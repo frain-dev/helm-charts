@@ -36,12 +36,12 @@ jobs:
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Build chart dependencies
-        run: helm dependency build ./charts
+        run: helm dependency build .
 
       - name: Release charts via Chart Releaser
         uses: helm/chart-releaser-action@v1.7.0
         with:
-          charts_dir: charts       
+          charts_dir: .      
           release_name_template: "convoy-{{ .Version }}"
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
