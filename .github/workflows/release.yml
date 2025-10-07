@@ -8,6 +8,7 @@ on:
         required: true
   push:
     tags:
+      # Release binary for every tag.    
       - v*
 
 permissions:
@@ -31,23 +32,39 @@ jobs:
         uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4
         with:
           version: 'v3.19.0'
-
+      
       - name: Add Bitnami Charts Repo
-        run: helm repo add bitnami https://charts.bitnami.com/bitnami
-
-      - name: Build chart dependencies
-        run: helm dependency build .
-
-      - name: Package Helm chart
-        run: |
-          mkdir -p .cr-release-packages
-          cr package .        
-
-      - name: Release charts
-        uses: helm/chart-releaser-action@v1.7.0
-        with:
-          charts_dir: .cr-release-packages
-          skip_packaging: true
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami  
+      
+      - name: Package and upload helm chart
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
-          CR_OWNER: convoy 
+          CR_VERSION: "1.8.1"
+        run: |
+          curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"
+          tar -xzf cr.tar.gz
+          rm -f cr.tar.gz
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+          
+          # package chart
+          ./cr package .
+
+          # upload chart to github releases
+          ./cr upload \
+              --owner "$owner" \
+              --git-repo "$repo" \
+              --token "$CR_TOKEN" \
+              --release-name-template "convoy-{{ .Version }}"
+
+          # update index and push to github pages
+          git config user.email "$owner@users.noreply.github.com"
+          git config user.name "$owner"
+          ./cr index \
+              --owner "$owner" \
+              --git-repo "$repo" \
+              --token "$CR_TOKEN" \
+              --release-name-template "convoy-{{ .Version }}" \
+              --index-path ./index.yaml \
+              --charts-repo https://$owner.github.io/$repo \
+              --push
