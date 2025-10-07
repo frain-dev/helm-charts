@@ -107,25 +107,30 @@ global:
     # -- redis cluster addresses, if set the other values won't be used
     addresses: ""
     # -- Host for the external redis
-    host: ""
+    host: "redis-master"
     # -- Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
-    scheme: ""
+    scheme: "redis"
     # -- username for the external redis.
     username: ""
     # -- password for the external redis, ignored in case of secret parameter with non-empty value
-    password: ""
+    password: "convoy"
     # -- If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key
     secret: ""
     # -- Database name for the external redis.
-    database: ""
+    database: "0"
     # -- Port for the external redis
-    port: ""
+    port: "6379"
 
 # @ignored, used in case of external chart
 postgresql:
   # -- Set to false if you don't want to create a postgres instance
   enabled: true
   fullnameOverride: "postgresql"
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/postgresql
+    tag:  17.6.0-debian-12-r0
+    pullPolicy: IfNotPresent 
   global:
     postgresql:
       auth:
@@ -138,6 +143,11 @@ postgresql:
 redis:
   # -- Set to false if you don't want to create a redis instance
   enabled: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+    tag:  8.2.1-debian-12-r0
+    pullPolicy: IfNotPresent   
   architecture: standalone
   fullnameOverride: "redis"
   auth:
@@ -282,6 +292,8 @@ server:
         enabled: true
       file:
         basic: {}
+        # -- If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key
+        secret: ""
     # @ignored
     tracer:
       type: *tracerType

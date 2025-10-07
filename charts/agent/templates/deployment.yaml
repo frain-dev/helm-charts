@@ -99,6 +99,16 @@ spec:
             - name: CONVOY_DISPATCHER_CACERT_PATH
               value: "/etc/convoy/ca.crt"
             {{- end }}
+            {{- if and .Values.env.auth.file.secret (ne .Values.env.auth.file.secret "") }}
+            - name: CONVOY_BASIC_AUTH_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.env.auth.file.secret }}"
+                  key: basic_auth_config
+            {{- else if .Values.env.auth.file.basic }}
+            - name: CONVOY_BASIC_AUTH_CONFIG
+              value: {{ .Values.env.auth.file.basic | toJson | quote }}
+            {{- end }}
 
             {{- if .Values.global.externalDatabase.enabled }}
             - name: CONVOY_DB_SCHEME
@@ -183,7 +193,7 @@ spec:
               value: {{ .Values.env.smtp.url | quote }}
             - name: CONVOY_SMTP_USERNAME
               value: {{ .Values.env.smtp.username | quote }}
-            {{- if ne .Values.env.smtp.secret "" }}
+            {{- if and .Values.env.smtp.secret (ne .Values.env.smtp.secret "") }}
             - name: CONVOY_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -237,7 +247,7 @@ spec:
               value: {{ .Values.env.storage.s3.bucket | quote }}
             - name: CONVOY_STORAGE_AWS_ACCESS_KEY
               value: {{ .Values.env.storage.s3.accessKey | quote }}
-            {{- if ne .Values.env.storage.s3.secret "" }}
+            {{- if and .Values.env.storage.s3.secret (ne .Values.env.storage.s3.secret "") }}
             - name: CONVOY_STORAGE_AWS_SECRET_KEY
               valueFrom:
                 secretKeyRef:
