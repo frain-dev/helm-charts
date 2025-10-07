@@ -38,11 +38,16 @@ jobs:
       - name: Build chart dependencies
         run: helm dependency build .
 
-      - name: Release charts via Chart Releaser
+      - name: Package Helm chart
+        run: |
+          mkdir -p .cr-release-packages
+          cr package .        
+
+      - name: Release charts
         uses: helm/chart-releaser-action@v1.7.0
         with:
-          charts_dir: charts
-          config: config.yaml
+          charts_dir: .cr-release-packages
+          skip_packaging: true
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
           CR_OWNER: convoy 
