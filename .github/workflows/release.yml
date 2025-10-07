@@ -51,14 +51,14 @@ jobs:
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
           
           # package chart
-          ./cr package charts/agent charts/server
+          ./cr package .
 
           # upload chart to github releases
           ./cr upload \
               --owner "$owner" \
               --git-repo "$repo" \
               --token "$CR_TOKEN" \
-              --release-name-template "convoy-{{ .Name }}-{{ .Version }}"
+              --release-name-template "convoy-{{ .Version }}"
 
           # update index and push to github pages
           git config user.email "$owner@users.noreply.github.com"
@@ -67,7 +67,7 @@ jobs:
               --owner "$owner" \
               --git-repo "$repo" \
               --token "$CR_TOKEN" \
-              --release-name-template "convoy-{{ .Name }}-{{ .Version }}" \
+              --release-name-template "convoy-{{ .Version }}" \
               --index-path ./index.yaml \
               --charts-repo https://$owner.github.io/$repo \
               --push

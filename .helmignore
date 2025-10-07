@@ -21,3 +21,21 @@
 .idea/
 *.tmproj
 .vscode/
+
+# GitHub workflows and CI/CD
+.github/
+scripts/
+
+.cr-release-packages/
+.helmdocsignore
+
+Makefile
+
+# Chart testing
+ct.yaml
+
+# Build artifacts
+pkg/
+bin/
+
+bin/
