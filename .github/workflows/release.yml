@@ -8,7 +8,6 @@ on:
         required: true
   push:
     tags:
-    # Release binary for every tag.
       - v*
 
 permissions:
@@ -34,14 +33,11 @@ jobs:
         with:
           version: 'v3.19.0'
 
-      - name: Add Bitnami Repo
-        run: helm repo add bitnami https://charts.bitnami.com/bitnami  
-
-      - name: Build chart dependencies
+      - name: Add and build dependencies
         run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
           helm dependency update .
-          rm -rf charts/
-          echo "Dependencies validated and cleaned."
+          echo "Dependencies downloaded successfully."
 
       - name: Package Helm chart
         run: |
@@ -50,6 +46,11 @@ jobs:
           echo "Packaged chart(s):"
           ls -lh .cr-release-packages/
 
+      - name: Cleanup large dependency folders
+        run: |
+          rm -rf charts/
+          echo "Cleaned up charts/ directory."
+
       - name: Install chart-releaser
         run: |
           CR_VERSION="1.8.1"
@@ -57,6 +58,7 @@ jobs:
           tar -xzf cr.tar.gz
           sudo mv cr /usr/local/bin/cr
           rm -f cr.tar.gz
+          cr version
 
       - name: Upload chart to GitHub Releases
         env:
