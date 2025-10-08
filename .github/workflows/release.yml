@@ -39,24 +39,6 @@ jobs:
           helm dependency update .
           echo "Dependencies downloaded successfully."
 
-      - name: Package Helm chart
-        run: |
-          mkdir -p .cr-release-packages
-          helm package . --destination .cr-release-packages
-          echo "Packaged chart(s):"
-          ls -lh .cr-release-packages/
-
-      - name: Copy packaged chart to repository root
-        run: |
-          cp .cr-release-packages/*.tgz .
-          echo "Copied chart package(s) to repository root:"
-          ls -lh *.tgz
-
-      - name: Cleanup large dependency folders
-        run: |
-          rm -rf charts/
-          echo "Cleaned up charts/ directory."
-
       - name: Install chart-releaser
         run: |
           CR_VERSION="1.8.1"
@@ -66,27 +48,29 @@ jobs:
           rm -f cr.tar.gz
           cr version
 
-      - name: Upload chart to GitHub Releases
+      - name: Upload packaged chart and update index
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
         run: |
+          set -e
           owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
 
+          mkdir -p .cr-release-packages
+
+          echo "Packaging Helm chart..."
+          helm package . --destination .cr-release-packages
+          echo "Packaged chart(s):"
+          ls -lh .cr-release-packages/
+
+          echo "Uploading chart to GitHub Releases..."
           cr upload \
             --owner "$owner" \
             --git-repo "$repo" \
             --token "$CR_TOKEN" \
             --release-name-template "convoy-{{ .Version }}"
 
-      - name: Update index and push to GitHub Pages
-        env:
-          CR_TOKEN: ${{ secrets.TEMP_PAT }}
-        run: |
-          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
-          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
-
-          # update index and push to github pages
+          echo "Updating index and pushing to gh-pages..."
           git config user.email "$owner@users.noreply.github.com"
           git config user.name "$owner"
 
@@ -96,6 +80,5 @@ jobs:
             --token "$CR_TOKEN" \
             --release-name-template "convoy-{{ .Version }}" \
             --index-path ./index.yaml \
-            --package-path ./ \
             --charts-repo "https://$owner.github.io/$repo" \
             --push
