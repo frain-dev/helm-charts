@@ -27,8 +27,8 @@ entries:
     name: convoy
     type: application
     urls:
-    - https://frain-dev.github.io/helm-charts/convoy-3.7.0.tgz
-    version: 3.7.0
+    - https://frain-dev.github.io/helm-charts/convoy-3.7.1.tgz
+    version: 3.7.1
   postgresql:
   - annotations:
       category: Database
