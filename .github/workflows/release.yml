@@ -39,38 +39,44 @@ jobs:
           helm dependency update .
           echo "Dependencies downloaded successfully."
 
+      - name: Package Helm chart
+        run: |
+          mkdir -p .cr-release-packages
+          helm package . --destination .cr-release-packages
+          echo "Packaged chart(s):"
+          ls -lh .cr-release-packages/
+
       - name: Install chart-releaser
         run: |
-          CR_VERSION="1.8.1"
+          CR_VERSION="1.5.0"
           curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v${CR_VERSION}/chart-releaser_${CR_VERSION}_linux_amd64.tar.gz"
           tar -xzf cr.tar.gz
           sudo mv cr /usr/local/bin/cr
           rm -f cr.tar.gz
           cr version
 
-      - name: Upload packaged chart and update index
+      - name: Upload chart to GitHub Releases
         env:
           CR_TOKEN: ${{ secrets.TEMP_PAT }}
         run: |
-          set -e
           owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
 
-          mkdir -p .cr-release-packages
-
-          echo "Packaging Helm chart..."
-          helm package . --destination .cr-release-packages
-          echo "Packaged chart(s):"
-          ls -lh .cr-release-packages/
-
-          echo "Uploading chart to GitHub Releases..."
           cr upload \
             --owner "$owner" \
             --git-repo "$repo" \
             --token "$CR_TOKEN" \
             --release-name-template "convoy-{{ .Version }}"
 
-          echo "Updating index and pushing to gh-pages..."
+      - name: Update index and push to GitHub Pages
+        env:
+          CR_TOKEN: ${{ secrets.TEMP_PAT }}
+        run: |
+          ls
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+
+          # update index and push to github pages
           git config user.email "$owner@users.noreply.github.com"
           git config user.name "$owner"
 
