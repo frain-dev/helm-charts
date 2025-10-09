@@ -143,6 +143,7 @@ Open Source Webhooks Gateway
 | server.env.analytics.enabled | bool | `true` |  |
 | server.env.analytics_enabled | bool | `true` |  |
 | server.env.api_version | string | `"2024-01-01"` |  |
+| server.env.auth.file.secret | string | `basic-auth` | If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key |
 | server.env.auth.file.basic | object | `{}` |  |
 | server.env.auth.jwt.enabled | bool | `true` |  |
 | server.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
