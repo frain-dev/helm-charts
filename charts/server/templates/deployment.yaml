@@ -94,6 +94,8 @@ spec:
               value: {{ .Values.env.environment | quote }}
             - name: CONVOY_HOST
               value: {{ .Values.env.host | quote }}
+            - name: CONVOY_ROOT_PATH
+              value: {{ .Values.env.root_path | quote }}              
             - name: CONVOY_LOGGER_LEVEL
               value: {{ .Values.env.log_level | quote }}
             - name: CONVOY_SIGNUP_ENABLED

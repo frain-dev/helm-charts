@@ -81,13 +81,13 @@ global:
     port: 5432
     # -- Read replicas configuration for the external database
     readReplicas: {}
-#      - scheme: "postgres"
-#        host: ""
-#        username: ""
-#        password: ""
-#        database: "convoy"
-#        port: 5432
-#        options: "sslmode=disable&connect_timeout=30"
+  #      - scheme: "postgres"
+  #        host: ""
+  #        username: ""
+  #        password: ""
+  #        database: "convoy"
+  #        port: 5432
+  #        options: "sslmode=disable&connect_timeout=30"
 
   nativeRedis:
     # -- Enable redis; This will use redis chart, Disable if you use an external redis
@@ -129,8 +129,8 @@ postgresql:
   image:
     registry: docker.io
     repository: bitnamilegacy/postgresql
-    tag:  17.6.0-debian-12-r0
-    pullPolicy: IfNotPresent 
+    tag: 17.6.0-debian-12-r0
+    pullPolicy: IfNotPresent
   global:
     postgresql:
       auth:
@@ -146,7 +146,7 @@ redis:
   image:
     registry: docker.io
     repository: bitnamilegacy/redis
-    tag:  8.2.1-debian-12-r0
+    tag: 8.2.1-debian-12-r0
     pullPolicy: IfNotPresent
   architecture: standalone
   fullnameOverride: "redis"
@@ -264,8 +264,8 @@ agent:
   podDisruptionBudget:
     {}
     # -- Pod disruption budget
-#    maxUnavailable: 1
-#    minAvailable: 1
+  #    maxUnavailable: 1
+  #    minAvailable: 1
 
   securityContext: {}
 
@@ -284,6 +284,8 @@ server:
     environment: *environment
     log_level: *logLevel
     host: ""
+    # -- Configure root patth for convoy server e.g. "/convoy"
+    root_path: ""
     sign_up_enabled: false
     # -- Max response body when ingesting webhooks (might be renamed). Defaults to 50KB
     max_response_size: 50
@@ -393,6 +395,6 @@ server:
   podDisruptionBudget:
     {}
     # -- Pod disruption budget
-#    maxUnavailable: 1
-#    minAvailable: 1
+  #    maxUnavailable: 1
+  #    minAvailable: 1
   securityContext: {}

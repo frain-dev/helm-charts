@@ -81,6 +81,7 @@ env:
   environment: ""
   proxy: ""
   host: ""
+  root_path: ""
   tracer:
     enabled: false
     type: ""
@@ -186,7 +187,8 @@ podDisruptionBudget: {}
 #  minAvailable: 1
 
 # Extra environment variables to be set in the server pods
-extraEnvs: []
+extraEnvs:
+  []
   # - name: CUSTOM_ENV_VAR
   #   value: "custom_value"
   # - name: SECRET_ENV_VAR
