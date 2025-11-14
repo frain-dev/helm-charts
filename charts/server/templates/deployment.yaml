@@ -335,10 +335,10 @@ spec:
             - name: CONVOY_METRICS_BACKEND
               value: {{ .Values.env.metrics.metrics_backend | quote }}
             - name: CONVOY_METRICS_SAMPLE_TIME
-              value: {{ .Values.env.metrics.prometheus_metrics.sample_time }}
-                  {{- end }}
+              value: {{ .Values.env.metrics.prometheus_metrics.sample_time | quote }}
+            {{- end }}
 
-                  {{- if .Values.env.pyroscope.enabled | quote }}
+            {{- if .Values.env.pyroscope.enabled }}
             - name: CONVOY_ENABLE_PYROSCOPE_PROFILING
               value: {{ .Values.env.pyroscope.enabled | quote }}
             - name: CONVOY_PYROSCOPE_URL
