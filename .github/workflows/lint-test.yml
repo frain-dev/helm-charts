@@ -23,9 +23,6 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.2.1
 
-      - name: Add Bitnami Charts Repo
-        run: helm repo add bitnami https://charts.bitnami.com/bitnami
-
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
@@ -45,7 +42,6 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         run: |
           echo "Testing main convoy chart with root values..."
-          helm repo add bitnami https://charts.bitnami.com/bitnami
           helm dependency build .
           helm install convoy-test . --values values.yaml --timeout 300s --wait --wait-for-jobs --debug
           helm test convoy-test

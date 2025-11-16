@@ -35,7 +35,6 @@ jobs:
 
       - name: Add and build dependencies
         run: |
-          helm repo add bitnami https://charts.bitnami.com/bitnami
           helm dependency update .
           echo "Dependencies downloaded successfully."
 
