@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | postgresql | 12.5.6 |
-| https://charts.bitnami.com/bitnami | redis | 17.11.3 |
+| oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
+| oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
 ## Values
 
