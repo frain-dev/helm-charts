@@ -91,7 +91,7 @@ spec:
             - name: HTTP_PROXY
               value: {{ .Values.env.proxy | quote }}
             - name: CONVOY_ENV
-              value: {{ .Values.env.environment | quote }}
+              value: {{ .Values.global.convoy.environment | quote }}
             - name: CONVOY_HOST
               value: {{ .Values.env.host | quote }}
             - name: CONVOY_ROOT_PATH
@@ -240,6 +240,12 @@ spec:
               value: {{ .Values.env.tracer.otel.insecure_skip_verify | quote }}
             - name: CONVOY_SENTRY_DSN
               value: {{ .Values.env.tracer.sentry.dsn | quote }}
+            - name: CONVOY_SENTRY_DEBUG
+              value: {{ .Values.env.tracer.sentry.debug | quote }}
+            {{- if .Values.env.tracer.sentry.environment }}
+            - name: CONVOY_SENTRY_ENVIRONMENT
+              value: {{ .Values.global.convoy.environment | quote }}
+            {{- end }}
             {{- end }}
 
             - name: CONVOY_INSTANCE_INGEST_RATE
