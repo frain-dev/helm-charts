@@ -18,6 +18,7 @@ global:
     portal_realm_enabled: false
     sentry_sample_rate: 1.0
     read_replica_dsn: ""
+    environment: ""
 
   externalDatabase:
     enabled: false
@@ -94,6 +95,8 @@ env:
       insecure_skip_verify: true
     sentry:
       dsn: ""
+      debug: false
+      environment: ""
   storage:
     enabled: false
     type: ""
@@ -187,8 +190,7 @@ podDisruptionBudget: {}
 #  minAvailable: 1
 
 # Extra environment variables to be set in the server pods
-extraEnvs:
-  []
+extraEnvs: []
   # - name: CUSTOM_ENV_VAR
   #   value: "custom_value"
   # - name: SECRET_ENV_VAR
