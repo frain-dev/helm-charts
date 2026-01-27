@@ -365,16 +365,6 @@ spec:
             {{- with .Values.extraEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
-            initialDelaySeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
-            initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
           volumeMounts:
