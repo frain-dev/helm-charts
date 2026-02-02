@@ -30,7 +30,11 @@ global:
     otel_insecure_skip_verify: &otelInsecureSkipVerify true
     # -- Sentry DSN
     sentry_dsn: &sentryDsn ""
-    # -- Retention policy duration
+    # -- Sentry debug mode
+    sentry_debug: &sentryDebug false
+    # -- Sentry environment
+    sentry_environment: *environment
+
     retention_policy_duration: &retentionPolicyDuration 720h
     # -- Retention policy enabled
     retention_policy_enabled: &retentionPolicyEnabled false
@@ -196,6 +200,8 @@ agent:
         insecure_skip_verify: *otelInsecureSkipVerify
       sentry:
         dsn: *sentryDsn
+        debug: *sentryDebug
+        environment: *environment
     pyroscope:
       enabled: false
       url: ""
@@ -282,8 +288,7 @@ agent:
             periodSeconds: 60
         selectPolicy: Max
 
-  podDisruptionBudget:
-    {}
+  podDisruptionBudget: {}
     # -- Pod disruption budget
   #    maxUnavailable: 1
   #    minAvailable: 1
@@ -334,6 +339,8 @@ server:
         insecure_skip_verify: *otelInsecureSkipVerify
       sentry:
         dsn: *sentryDsn
+        debug: *sentryDebug
+        environment: *environment
     pyroscope:
       enabled: false
       url: ""
@@ -434,8 +441,7 @@ server:
             periodSeconds: 60
         selectPolicy: Max
 
-  podDisruptionBudget:
-    {}
+  podDisruptionBudget: {}
     # -- Pod disruption budget
   #    maxUnavailable: 1
   #    minAvailable: 1

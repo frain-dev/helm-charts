@@ -98,6 +98,8 @@ env:
       insecure_skip_verify: true
     sentry:
       dsn: ""
+      debug: false
+      environment: ""
   pyroscope:
     enabled: false
     url: ""

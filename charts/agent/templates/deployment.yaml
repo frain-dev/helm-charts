@@ -231,6 +231,12 @@ spec:
               value: {{ .Values.env.tracer.otel.insecure_skip_verify | quote }}
             - name: CONVOY_SENTRY_DSN
               value: {{ .Values.env.tracer.sentry.dsn | quote }}
+            - name: CONVOY_SENTRY_DEBUG
+              value: {{ .Values.env.tracer.sentry.debug | quote }}
+            {{- if .Values.env.tracer.sentry.environment }}
+            - name: CONVOY_SENTRY_ENVIRONMENT
+              value: {{ .Values.env.tracer.sentry.environment | quote }}
+            {{- end }}
             {{- end }}
 
             {{- if .Values.env.storage.enabled }}
