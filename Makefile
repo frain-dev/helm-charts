@@ -1,4 +1,7 @@
 ct:
 	ct lint --config ct.yaml --all
 
-.PHONY: ct
+docs:
+	helm-docs
+
+.PHONY: ct docs

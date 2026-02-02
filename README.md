@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.1](https://img.shields.io/badge/Version-3.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.9.2](https://img.shields.io/badge/AppVersion-25.9.2-informational?style=flat-square)
+![Version: 3.7.5](https://img.shields.io/badge/Version-3.7.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.1.4](https://img.shields.io/badge/AppVersion-v26.1.4-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -23,11 +23,28 @@ Open Source Webhooks Gateway
 |-----|------|---------|-------------|
 | agent.app.replicaCount | int | `1` |  |
 | agent.app.resources | object | `{}` |  |
+| agent.autoscaling.behavior.scaleDown.policies[0].periodSeconds | int | `60` |  |
+| agent.autoscaling.behavior.scaleDown.policies[0].type | string | `"Percent"` |  |
+| agent.autoscaling.behavior.scaleDown.policies[0].value | int | `50` |  |
+| agent.autoscaling.behavior.scaleDown.policies[1].periodSeconds | int | `60` |  |
+| agent.autoscaling.behavior.scaleDown.policies[1].type | string | `"Pods"` |  |
+| agent.autoscaling.behavior.scaleDown.policies[1].value | int | `2` |  |
+| agent.autoscaling.behavior.scaleDown.selectPolicy | string | `"Min"` |  |
+| agent.autoscaling.behavior.scaleDown.stabilizationWindowSeconds | int | `300` |  |
+| agent.autoscaling.behavior.scaleUp.policies[0].periodSeconds | int | `60` |  |
+| agent.autoscaling.behavior.scaleUp.policies[0].type | string | `"Percent"` |  |
+| agent.autoscaling.behavior.scaleUp.policies[0].value | int | `100` |  |
+| agent.autoscaling.behavior.scaleUp.policies[1].periodSeconds | int | `60` |  |
+| agent.autoscaling.behavior.scaleUp.policies[1].type | string | `"Pods"` |  |
+| agent.autoscaling.behavior.scaleUp.policies[1].value | int | `2` |  |
+| agent.autoscaling.behavior.scaleUp.selectPolicy | string | `"Max"` |  |
+| agent.autoscaling.behavior.scaleUp.stabilizationWindowSeconds | int | `0` |  |
 | agent.autoscaling.enabled | bool | `false` | Enable autoscaling for the agent |
 | agent.autoscaling.maxReplicas | int | `10` |  |
 | agent.autoscaling.minReplicas | int | `2` |  |
 | agent.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | agent.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| agent.enabled | bool | `true` | Enable the agent component |
 | agent.env.analytics_enabled | bool | `true` |  |
 | agent.env.consumer_pool_size | int | `100` |  |
 | agent.env.dispatcher.allow_list[0] | string | `"0.0.0.0/0"` |  |
@@ -102,11 +119,13 @@ Open Source Webhooks Gateway
 | global.convoy.otel_sample_rate | int | `1` | Open Telemetry sample rate |
 | global.convoy.portal_realm_enabled | bool | `false` | Enable Portal Realm authentication for enhanced security |
 | global.convoy.read_replica_dsn | string | `""` | Database read replica DSN for improved performance |
-| global.convoy.retention_policy_duration | string | `"720h"` | Retention policy duration |
+| global.convoy.retention_policy_duration | string | `"720h"` |  |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
+| global.convoy.sentry_debug | bool | `false` | Sentry debug mode |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
+| global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
 | global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
-| global.convoy.tag | string | `"v25.9.2"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v26.1.4"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
@@ -120,12 +139,12 @@ Open Source Webhooks Gateway
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, the password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |
-| global.externalRedis.database | string | `""` | Database name for the external redis. |
+| global.externalRedis.database | string | `"0"` | Database name for the external redis. |
 | global.externalRedis.enabled | bool | `false` | Enable external redis, Enable this if you use an external redis and disable Native redis |
-| global.externalRedis.host | string | `""` | Host for the external redis |
-| global.externalRedis.password | string | `""` | password for the external redis, ignored in case of secret parameter with non-empty value |
-| global.externalRedis.port | string | `""` | Port for the external redis |
-| global.externalRedis.scheme | string | `""` | Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
+| global.externalRedis.host | string | `"redis-master"` | Host for the external redis |
+| global.externalRedis.password | string | `"convoy"` | password for the external redis, ignored in case of secret parameter with non-empty value |
+| global.externalRedis.port | string | `"6379"` | Port for the external redis |
+| global.externalRedis.scheme | string | `"redis"` | Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
 | global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalRedis.username | string | `""` | username for the external redis. |
 | global.nativeRedis.enabled | bool | `true` | Enable redis; This will use redis chart, Disable if you use an external redis |
@@ -135,16 +154,33 @@ Open Source Webhooks Gateway
 | global.nativeRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
 | server.app.replicaCount | int | `1` |  |
 | server.app.resources | object | `{}` |  |
+| server.autoscaling.behavior.scaleDown.policies[0].periodSeconds | int | `60` |  |
+| server.autoscaling.behavior.scaleDown.policies[0].type | string | `"Percent"` |  |
+| server.autoscaling.behavior.scaleDown.policies[0].value | int | `50` |  |
+| server.autoscaling.behavior.scaleDown.policies[1].periodSeconds | int | `60` |  |
+| server.autoscaling.behavior.scaleDown.policies[1].type | string | `"Pods"` |  |
+| server.autoscaling.behavior.scaleDown.policies[1].value | int | `2` |  |
+| server.autoscaling.behavior.scaleDown.selectPolicy | string | `"Min"` |  |
+| server.autoscaling.behavior.scaleDown.stabilizationWindowSeconds | int | `300` |  |
+| server.autoscaling.behavior.scaleUp.policies[0].periodSeconds | int | `60` |  |
+| server.autoscaling.behavior.scaleUp.policies[0].type | string | `"Percent"` |  |
+| server.autoscaling.behavior.scaleUp.policies[0].value | int | `100` |  |
+| server.autoscaling.behavior.scaleUp.policies[1].periodSeconds | int | `60` |  |
+| server.autoscaling.behavior.scaleUp.policies[1].type | string | `"Pods"` |  |
+| server.autoscaling.behavior.scaleUp.policies[1].value | int | `2` |  |
+| server.autoscaling.behavior.scaleUp.selectPolicy | string | `"Max"` |  |
+| server.autoscaling.behavior.scaleUp.stabilizationWindowSeconds | int | `0` |  |
 | server.autoscaling.enabled | bool | `false` | Enable autoscaling for the server |
 | server.autoscaling.maxReplicas | int | `10` |  |
 | server.autoscaling.minReplicas | int | `2` |  |
 | server.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | server.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| server.enabled | bool | `true` | Enable the server component |
 | server.env.analytics.enabled | bool | `true` |  |
 | server.env.analytics_enabled | bool | `true` |  |
 | server.env.api_version | string | `"2024-01-01"` |  |
-| server.env.auth.file.secret | string | `basic-auth` | If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key |
 | server.env.auth.file.basic | object | `{}` |  |
+| server.env.auth.file.secret | string | `""` | If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key |
 | server.env.auth.jwt.enabled | bool | `true` |  |
 | server.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
 | server.env.auth.jwt.secret | string | `"convoy-secret"` |  |
@@ -168,6 +204,7 @@ Open Source Webhooks Gateway
 | server.env.pyroscope.username | string | `""` |  |
 | server.env.retention_policy.enabled | bool | `false` |  |
 | server.env.retention_policy.policy | string | `"720h"` |  |
+| server.env.root_path | string | `""` | Configure root patth for convoy server e.g. "/convoy" |
 | server.env.sign_up_enabled | bool | `false` |  |
 | server.env.storage.enabled | bool | `false` |  |
 | server.env.storage.on_prem.path | string | `""` |  |
@@ -191,7 +228,7 @@ Open Source Webhooks Gateway
 | server.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
 | server.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | server.podDisruptionBudget | object | `{}` |  |
-| server.securityContext | object | `{}` |  |
+| server.securityContext | object | `{}` | Pod disruption budget    maxUnavailable: 1    minAvailable: 1 |
 | server.service.port | int | `80` | Port for the server service |
 | server.service.type | string | `"ClusterIP"` | Type of service for the server |
 

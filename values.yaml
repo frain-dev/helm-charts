@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v25.9.2"
+    tag: &tag "v26.1.4"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
