@@ -2,8 +2,8 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.4"
-appVersion: "25.12.6"
+version: "3.7.5"
+appVersion: "v26.1.4"
 keywords:
   - Webhooks
   - Kubernetes
@@ -12,6 +12,7 @@ keywords:
 maintainers:
   - name: Convoy Engineering Team
     email: engineering@getconvoy.io
+    url: https://getconvoy.io
 dependencies:
   - name: postgresql
     version: 12.5.6
