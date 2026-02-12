@@ -17,6 +17,33 @@ Open Source Webhooks Gateway
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
+## Installation
+
+### Add the Helm repository
+
+```bash
+helm repo add convoy https://frain-dev.github.io/helm-charts
+helm repo update
+```
+
+### Install the chart
+
+```bash
+helm install convoy convoy/convoy
+```
+
+### Install with custom values
+
+```bash
+helm install convoy convoy/convoy --values values.yaml
+```
+
+### Install from local chart
+
+```bash
+helm install convoy .
+```
+
 ## Values
 
 | Key | Type | Default | Description |
