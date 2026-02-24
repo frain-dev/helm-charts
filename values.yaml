@@ -114,6 +114,14 @@ global:
     host: "redis-master"
     # -- Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel
     scheme: "redis"
+    # -- Redis Sentinel master name (required when scheme is redis-sentinel)
+    sentinelMasterName: "mymaster"
+    # -- Redis Sentinel auth username (optional)
+    sentinelUsername: ""
+    # -- Redis Sentinel auth password (optional)
+    sentinelPassword: ""
+    # -- Secret containing sentinel password; key: password. If set, sentinelPassword is ignored
+    sentinelSecret: ""
     # -- username for the external redis.
     username: ""
     # -- password for the external redis, ignored in case of secret parameter with non-empty value

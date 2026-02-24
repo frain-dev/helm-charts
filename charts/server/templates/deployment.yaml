@@ -199,6 +199,26 @@ spec:
             {{- if .Values.global.externalRedis.addresses }}
             - name: CONVOY_REDIS_CLUSTER_ADDRESSES
               value: {{ .Values.global.externalRedis.addresses | quote }}
+            {{- if eq .Values.global.externalRedis.scheme "redis-sentinel" }}
+            - name: CONVOY_REDIS_SCHEME
+              value: {{ .Values.global.externalRedis.scheme | quote }}
+            - name: CONVOY_REDIS_SENTINEL_MASTER_NAME
+              value: {{ .Values.global.externalRedis.sentinelMasterName | default "mymaster" | quote }}
+            {{- if ne .Values.global.externalRedis.sentinelSecret "" }}
+            - name: CONVOY_REDIS_SENTINEL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.externalRedis.sentinelSecret }}"
+                  key: password
+            {{- else if .Values.global.externalRedis.sentinelPassword }}
+            - name: CONVOY_REDIS_SENTINEL_PASSWORD
+              value: {{ .Values.global.externalRedis.sentinelPassword | quote }}
+            {{- end }}
+            {{- if .Values.global.externalRedis.sentinelUsername }}
+            - name: CONVOY_REDIS_SENTINEL_USERNAME
+              value: {{ .Values.global.externalRedis.sentinelUsername | quote }}
+            {{- end }}
+            {{- end }}
             {{- else }}
             - name: CONVOY_REDIS_TYPE
               value: "EXTERNAL"
@@ -222,6 +242,24 @@ spec:
               value: {{ .Values.global.externalRedis.username | quote }}
             - name: CONVOY_REDIS_DATABASE
               value: {{ .Values.global.externalRedis.database | quote }}
+            {{- if eq .Values.global.externalRedis.scheme "redis-sentinel" }}
+            - name: CONVOY_REDIS_SENTINEL_MASTER_NAME
+              value: {{ .Values.global.externalRedis.sentinelMasterName | default "mymaster" | quote }}
+            {{- if ne .Values.global.externalRedis.sentinelSecret "" }}
+            - name: CONVOY_REDIS_SENTINEL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.global.externalRedis.sentinelSecret }}"
+                  key: password
+            {{- else if .Values.global.externalRedis.sentinelPassword }}
+            - name: CONVOY_REDIS_SENTINEL_PASSWORD
+              value: {{ .Values.global.externalRedis.sentinelPassword | quote }}
+            {{- end }}
+            {{- if .Values.global.externalRedis.sentinelUsername }}
+            - name: CONVOY_REDIS_SENTINEL_USERNAME
+              value: {{ .Values.global.externalRedis.sentinelUsername | quote }}
+            {{- end }}
+            {{- end }}
             {{- end }}
             {{- end }}
 
