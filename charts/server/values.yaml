@@ -177,6 +177,27 @@ ingress:
           - path: /
             pathType: Prefix
 
+gateway:
+  # -- Enable Gateway API for the server
+  enabled: false
+  # -- Whether to create a Gateway resource
+  create: false
+  # -- Annotations for the HTTPRoute
+  annotations: {}
+  # -- Hostnames for the HTTPRoute
+  hostnames:
+    - test.com
+  # -- Parent refs for the HTTPRoute (e.g., the Gateway)
+  parentRefs:
+    - name: convoy-gateway
+      # namespace: gateway-system
+  # -- Rules for the HTTPRoute
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
 autoscaling:
   enabled: true
   minReplicas: 1
