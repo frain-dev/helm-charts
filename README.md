@@ -244,6 +244,12 @@ helm install convoy .
 | server.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
 | server.env.storage.s3.session_token | string | `""` |  |
 | server.env.storage.type | string | `""` |  |
+| server.gateway.annotations | object | `{}` | Annotations for the HTTPRoute |
+| server.gateway.create | bool | `false` | Whether to create a Gateway resource |
+| server.gateway.enabled | bool | `false` | Enable Gateway API for the server |
+| server.gateway.hostnames | list | `["test.com"]` | Hostnames for the HTTPRoute |
+| server.gateway.parentRefs | list | `[{"name":"convoy-gateway","namespace":"gateway-system"}]` | Parent refs for the HTTPRoute (e.g., the Gateway) |
+| server.gateway.rules | list | `[{"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Rules for the HTTPRoute |
 | server.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the server image |
 | server.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the server. The latest tag is used by default |
 | server.ingress.annotations | object | `{}` |  |
