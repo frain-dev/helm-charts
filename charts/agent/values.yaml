@@ -159,6 +159,10 @@ service:
   type: ClusterIP
   port: 80
 
+rollout:
+  enabled: false
+  strategy: {}
+
 autoscaling:
   enabled: true
   minReplicas: 2

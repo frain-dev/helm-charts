@@ -162,6 +162,10 @@ service:
   type: ClusterIP
   port: 80
 
+rollout:
+  enabled: false
+  strategy: {}
+
 ingress:
   enabled: false
   annotations: {}
