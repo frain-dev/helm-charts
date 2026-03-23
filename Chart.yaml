@@ -2,7 +2,7 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.5"
+version: "3.7.6"
 appVersion: "v26.1.4"
 keywords:
   - Webhooks

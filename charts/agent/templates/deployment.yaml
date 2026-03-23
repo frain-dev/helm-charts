@@ -375,9 +375,9 @@ spec:
             - name: CONVOY_DISPATCHER_INSECURE_SKIP_VERIFY
               value: {{ .Values.env.dispatcher.insecure_skip_verify | quote }}
             - name: CONVOY_DISPATCHER_ALLOW_LIST
-              value: {{ join "," .Values.env.dispatcher.allow_list | toJson | quote }}
+              value: {{ join "," .Values.env.dispatcher.allow_list | quote }}
             - name: CONVOY_DISPATCHER_DENY_LIST
-              value: {{ join "," .Values.env.dispatcher.deny_list | toJson | quote }}
+              value: {{ join "," .Values.env.dispatcher.deny_list | quote }}
 
             {{- if .Values.global.convoy.google_oauth_enabled }}
             # -- Google OAuth SSO configuration
