@@ -3,7 +3,7 @@ name: convoy
 description: Open Source Webhooks Gateway
 type: application
 version: "3.7.6"
-appVersion: "v26.1.4"
+appVersion: "v26.3.5"
 keywords:
   - Webhooks
   - Kubernetes
@@ -23,3 +23,14 @@ dependencies:
     version: 17.11.3
     repository: oci://registry-1.docker.io/bitnamicharts
     condition: redis.enabled
+
+  # Vendored subcharts under charts/agent and charts/server (see charts/ directory).
+  - name: agent
+    version: 3.7.6
+    repository: ""
+    condition: agent.enabled
+
+  - name: server
+    version: 3.7.6
+    repository: ""
+    condition: server.enabled

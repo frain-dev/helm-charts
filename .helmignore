@@ -24,6 +24,7 @@
 
 # GitHub workflows and CI/CD
 .github/
+ci/
 scripts/
 
 .helmdocsignore

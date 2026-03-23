@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.5](https://img.shields.io/badge/Version-3.7.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.1.4](https://img.shields.io/badge/AppVersion-v26.1.4-informational?style=flat-square)
+![Version: 3.7.6](https://img.shields.io/badge/Version-3.7.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.5](https://img.shields.io/badge/AppVersion-v26.3.5-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -152,7 +152,7 @@ helm install convoy .
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
 | global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
-| global.convoy.tag | string | `"v26.1.4"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v26.3.5"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |

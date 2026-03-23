@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v26.1.4"
+    tag: &tag "v26.3.5"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -158,8 +158,14 @@ redis:
   image:
     registry: docker.io
     repository: bitnamilegacy/redis
-    tag: 8.2.1-debian-12-r0
+    tag: &redisImageTag 8.2.1-debian-12-r0
     pullPolicy: IfNotPresent
+  sentinel:
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/redis-sentinel
+      tag: *redisImageTag
+      pullPolicy: IfNotPresent
   architecture: standalone
   fullnameOverride: "redis"
   auth:
