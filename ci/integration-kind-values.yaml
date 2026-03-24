@@ -1,0 +1,32 @@
+global:
+  nativeRedis:
+    enabled: false
+  externalRedis:
+    enabled: true
+    host: redis
+    port: "26379"
+    scheme: redis-sentinel
+    sentinelMasterName: mymaster
+    sentinelPassword: convoy
+    password: convoy
+
+redis:
+  architecture: replication
+  sentinel:
+    enabled: true
+    masterSet: mymaster
+    quorum: 2
+  replica:
+    replicaCount: 2
+    persistence:
+      enabled: false
+  master:
+    persistence:
+      enabled: false
+  auth:
+    sentinel: true
+
+postgresql:
+  primary:
+    persistence:
+      enabled: false

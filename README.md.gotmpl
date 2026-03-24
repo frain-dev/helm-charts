@@ -1,0 +1,47 @@
+{{ template "chart.header" . }}
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+## Installation
+
+### Add the Helm repository
+
+```bash
+helm repo add convoy https://frain-dev.github.io/helm-charts
+helm repo update
+```
+
+### Install the chart
+
+```bash
+helm install convoy convoy/convoy
+```
+
+### Install with custom values
+
+```bash
+helm install convoy convoy/convoy --values values.yaml
+```
+
+### Install from local chart
+
+```bash
+helm install convoy .
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{- if not .SkipVersionFooter }}
+{{ template "helm-docs.versionFooter" . }}
+{{- end }}
