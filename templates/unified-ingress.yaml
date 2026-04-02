@@ -1,0 +1,93 @@
+{{- if .Values.unifiedIngress.enabled }}
+{{- if not (and .Values.server.enabled .Values.agent.enabled) }}
+{{- fail "unifiedIngress.enabled requires both server.enabled and agent.enabled" }}
+{{- end }}
+{{- if .Values.server.ingress.enabled }}
+{{- fail "Set server.ingress.enabled to false when using unifiedIngress (one Ingress routes to both services)" }}
+{{- end }}
+{{- if .Values.agent.ingress.enabled }}
+{{- fail "Set agent.ingress.enabled to false when using unifiedIngress (one Ingress routes to both services)" }}
+{{- end }}
+{{- if .Values.server.gateway.enabled }}
+{{- fail "Set server.gateway.enabled to false when using unifiedIngress" }}
+{{- end }}
+{{- $serverSvc := coalesce .Values.unifiedIngress.serverServiceName .Values.server.fullNameOverride }}
+{{- $agentSvc := coalesce .Values.unifiedIngress.agentServiceName .Values.agent.fullNameOverride }}
+{{- if not $serverSvc }}
+{{- fail "unifiedIngress: set unifiedIngress.serverServiceName or server.fullNameOverride so the server Service name is known" }}
+{{- end }}
+{{- if not $agentSvc }}
+{{- fail "unifiedIngress: set unifiedIngress.agentServiceName or agent.fullNameOverride so the agent Service name is known" }}
+{{- end }}
+{{- $serverPort := .Values.unifiedIngress.server.servicePort | default .Values.server.service.port }}
+{{- $agentPort := .Values.unifiedIngress.agent.servicePort | default .Values.agent.service.port }}
+{{- $mode := .Values.unifiedIngress.mode | default "prefix" }}
+{{- if and (ne $mode "prefix") (ne $mode "split") }}
+{{- fail "unifiedIngress.mode must be prefix or split" }}
+{{- end }}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: apiextensions.k8s.io/v1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-unified
+  labels:
+    {{- include "convoy.labels" . | nindent 4 }}
+  {{- with .Values.unifiedIngress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.unifiedIngress.ingressClassName }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
+  {{- if .Values.unifiedIngress.tls }}
+  tls:
+    {{- range .Values.unifiedIngress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.unifiedIngress.host | quote }}
+      http:
+        paths:
+{{- if eq $mode "split" }}
+{{- range .Values.unifiedIngress.split.agentPaths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $agentSvc }}
+                port:
+                  number: {{ $agentPort }}
+{{- end }}
+          - path: {{ .Values.unifiedIngress.split.serverPath.path }}
+            pathType: {{ .Values.unifiedIngress.split.serverPath.pathType }}
+            backend:
+              service:
+                name: {{ $serverSvc }}
+                port:
+                  number: {{ $serverPort }}
+{{- else }}
+          - path: {{ .Values.unifiedIngress.server.path }}
+            pathType: {{ .Values.unifiedIngress.server.pathType }}
+            backend:
+              service:
+                name: {{ $serverSvc }}
+                port:
+                  number: {{ $serverPort }}
+          - path: {{ .Values.unifiedIngress.agent.path }}
+            pathType: {{ .Values.unifiedIngress.agent.pathType }}
+            backend:
+              service:
+                name: {{ $agentSvc }}
+                port:
+                  number: {{ $agentPort }}
+{{- end }}
+{{- end }}

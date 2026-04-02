@@ -100,7 +100,7 @@ spec:
             - name: CONVOY_ROOT_PATH
               value: {{ .Values.env.root_path | quote }}              
             - name: CONVOY_LOGGER_LEVEL
-              value: {{ .Values.env.log_level | quote }}
+              value: {{ coalesce .Values.env.log_level .Values.global.convoy.log_level "error" | quote }}
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
             - name: CONVOY_MAX_RESPONSE_SIZE
