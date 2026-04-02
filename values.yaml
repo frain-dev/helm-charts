@@ -1,10 +1,10 @@
 global:
   convoy:
-    # -- Docker image tags for all convoy components
+    # -- Image repository for server and agent containers.
     image: &image "getconvoy/convoy"
-    # -- Docker image tags for all convoy components
+    # -- Image tag (AppVersion default if unset in subchart).
     tag: &tag "v26.3.5"
-    # -- Logger Level for all convoy components
+    # -- Default CONVOY_LOGGER_LEVEL for server and agent when their env.log_level is unset (empty). Allowed: debug, info, warn, warning, error, fatal.
     log_level: &logLevel "error"
     # -- Convoy Environment
     environment: &environment "oss"
@@ -133,6 +133,46 @@ global:
     # -- Port for the external redis
     port: "6379"
 
+# -- Single Ingress for server and agent on one host. Mutually exclusive with server.ingress, agent.ingress, and server.gateway.
+unifiedIngress:
+  # -- Create the parent-chart Ingress resource.
+  enabled: false
+  # -- prefix: traffic under server.path and agent.path to each Service; set CONVOY_ROOT_PATH to match. split: split.agentPaths to agent, then split.serverPath to server (root_path usually "").
+  mode: prefix
+  # -- IngressClassName (e.g. nginx). Omitted in the manifest when empty.
+  ingressClassName: ""
+  # -- Annotations on the Ingress object.
+  annotations: {}
+  # -- Hostname for spec.rules (HTTP Host).
+  host: webhook.example.com
+  # -- TLS entries (hosts + secretName per entry).
+  tls: []
+  # -- Server Service name override. Default: server.fullNameOverride, else Helm-generated name from the release.
+  serverServiceName: ""
+  # -- Agent Service name override. Default: agent.fullNameOverride, else Helm-generated name from the release.
+  agentServiceName: ""
+  server:
+    # -- Backend path for the server (prefix mode only).
+    path: /server
+    pathType: Prefix
+    # -- Backend Service port number; defaults to server.service.port.
+    servicePort: null
+  agent:
+    # -- Backend path for the agent (prefix mode only).
+    path: /agent
+    pathType: Prefix
+    # -- Backend Service port number; defaults to agent.service.port.
+    servicePort: null
+  split:
+    # -- Agent routes (split mode). List specific prefixes before split.serverPath so they win over a catch-all /.
+    agentPaths:
+      - path: /ingest
+        pathType: Prefix
+    # -- Server route for all other paths (split mode); typically / with Prefix.
+    serverPath:
+      path: /
+      pathType: Prefix
+
 # @ignored, used in case of external chart
 postgresql:
   # -- Set to false if you don't want to create a postgres instance
@@ -187,7 +227,10 @@ agent:
     environment: *environment
     proxy: ""
     sign_up_enabled: false
-    log_level: *logLevel
+    # -- CONVOY_LOGGER_LEVEL for the agent container. Empty: use global.convoy.log_level.
+    log_level: ""
+    # -- CONVOY_ROOT_PATH; must match the agent Ingress path when using prefix routing (e.g. /agent).
+    root_path: ""
     smtp:
       enabled: false
       from: ""
@@ -273,6 +316,23 @@ agent:
     # -- Port for the agent service
     port: 80
 
+  ingress:
+    # -- Agent-only Ingress. Disable when unifiedIngress.enabled is true.
+    enabled: false
+    # -- Annotations on the Ingress.
+    annotations: {}
+    # -- IngressClassName. Omitted when empty.
+    ingressClassName: ""
+    # -- TLS configuration.
+    tls: []
+    # -- List of host rules; each entry sets spec.rules[].host and http.paths (all backends point at this chart's Service).
+    hosts:
+      - host: agent.example.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+
   autoscaling:
     # -- Enable autoscaling for the agent
     enabled: false
@@ -322,9 +382,11 @@ server:
 
   env:
     environment: *environment
-    log_level: *logLevel
+    # -- CONVOY_LOGGER_LEVEL for the server container. Empty: use global.convoy.log_level.
+    log_level: ""
+    # -- CONVOY_HOST (public URL host for links; optional in many installs).
     host: ""
-    # -- Configure root patth for convoy server e.g. "/convoy"
+    # -- CONVOY_ROOT_PATH. Match the path prefix in server.ingress or unifiedIngress (prefix/split) so generated URLs align.
     root_path: ""
     sign_up_enabled: false
     # -- Max response body when ingesting webhooks (might be renamed). Defaults to 50KB
@@ -405,14 +467,18 @@ server:
     #   memory: 1000Mi
 
   ingress:
-    # -- Enable ingress for the server
+    # -- Server-only Ingress. Disable when unifiedIngress.enabled is true.
     enabled: true
+    # -- Annotations on the Ingress.
     annotations: {}
+    # -- IngressClassName. Omitted when empty.
     ingressClassName: ""
+    # -- TLS configuration.
     tls:
       - hosts:
           - test.com
         secretName: test-tls-secret
+    # -- Host rules; paths route to this chart's Service (service.port).
     hosts:
       - host: test.com
         http:

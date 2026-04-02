@@ -72,6 +72,8 @@ env:
   proxy: ""
   sign_up_enabled: false
   log_level: "error"
+  # -- Base path when exposed behind a path-prefix (e.g. Ingress path /agent). Sets CONVOY_ROOT_PATH. Use "" when each service has its own hostname.
+  root_path: ""
   auth:
     file:
       basic: []
@@ -166,6 +168,18 @@ service:
 rollout:
   enabled: false
   strategy: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+  ingressClassName: ""
+  tls: []
+  hosts:
+    - host: agent.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
 
 autoscaling:
   enabled: true

@@ -93,11 +93,13 @@ spec:
             - name: HTTP_PROXY
               value: {{ .Values.env.proxy | quote }}
             - name: CONVOY_LOGGER_LEVEL
-              value: {{ .Values.env.log_level | quote }}
+              value: {{ coalesce .Values.env.log_level .Values.global.convoy.log_level "error" | quote }}
             - name: CONVOY_ENV
               value: {{ .Values.env.environment | quote }}
             - name: CONVOY_SIGNUP_ENABLED
               value: {{ .Values.env.sign_up_enabled | quote }}
+            - name: CONVOY_ROOT_PATH
+              value: {{ .Values.env.root_path | quote }}
             {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
             - name: CONVOY_DISPATCHER_CACERT_PATH
               value: "/etc/convoy/ca.crt"
