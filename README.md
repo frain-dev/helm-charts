@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.6](https://img.shields.io/badge/Version-3.7.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.5](https://img.shields.io/badge/AppVersion-v26.3.5-informational?style=flat-square)
+![Version: 3.7.7](https://img.shields.io/badge/Version-3.7.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.7](https://img.shields.io/badge/AppVersion-v26.3.7-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -78,6 +78,7 @@ helm install convoy .
 | agent.env.dispatcher.deny_list[0] | string | `"127.0.0.1/8"` |  |
 | agent.env.dispatcher.deny_list[1] | string | `"169.254.169.254/32"` |  |
 | agent.env.dispatcher.insecure_skip_verify | bool | `false` |  |
+| agent.env.auth.jwt.enabled | bool | `true` |  |
 | agent.env.enable_feature_flag | list | `[]` |  |
 | agent.env.enable_profiling | bool | `false` |  |
 | agent.env.environment | string | `"oss"` |  |
@@ -135,7 +136,7 @@ helm install convoy .
 | global.convoy.image | string | `"getconvoy/convoy"` | Docker image tags for all convoy components |
 | global.convoy.jwt_refresh_secret | string | `"convoy-refresh-secret"` | JWT Refresh Secret key |
 | global.convoy.jwt_secret | string | `"convoy-secret"` | JWT Secret key |
-| global.convoy.jwt_secret_name | string | `""` | If this secret parameter is not empty, JWT secret values will be ignored. The secrets should be in the 'jwt_secret' and 'jwt_refresh_secret' keys |
+| global.convoy.jwt_secret_name | string | `""` | Existing Kubernetes Secret name for JWT secrets. Recommended for production. When set, JWT secret values are ignored; the secret must contain 'jwt_secret' and 'jwt_refresh_secret' keys. |
 | global.convoy.license_key | string | `""` | License Key |
 | global.convoy.license_key_secret_name | string | `""` | If this secret parameter is not empty, the inline license key value will be ignored. The license key should be present in the 'license_key' key of the specified secret. |
 | global.convoy.log_level | string | `"error"` | Logger Level for all convoy components |
@@ -152,7 +153,7 @@ helm install convoy .
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
 | global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
-| global.convoy.tag | string | `"v26.3.5"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v26.3.7"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |

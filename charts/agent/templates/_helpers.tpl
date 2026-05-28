@@ -49,3 +49,11 @@ Selector labels
 app.kubernetes.io/name: {{ include "convoy-agent.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{- define "convoy-agent.jwtSecretName" -}}
+{{- if .Values.global.convoy.jwt_secret_name -}}
+{{- .Values.global.convoy.jwt_secret_name -}}
+{{- else -}}
+{{- include "convoy-agent.fullname" . }}-jwt
+{{- end -}}
+{{- end }}

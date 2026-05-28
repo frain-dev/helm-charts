@@ -64,6 +64,18 @@ spec:
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
            {{- end }}
+            - name: CONVOY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-server.jwtSecretName" . }}"
+                  key: jwt_secret
+            - name: CONVOY_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-server.jwtSecretName" . }}"
+                  key: jwt_refresh_secret
+            - name: CONVOY_JWT_REALM_ENABLED
+              value: {{ .Values.env.auth.jwt.enabled | quote }}
           command: [ "/cmd" ]
           args: [ "migrate", "up" ]
           {{- with .Values.securityContext }}

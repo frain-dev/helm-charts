@@ -73,6 +73,8 @@ env:
   sign_up_enabled: false
   log_level: "error"
   auth:
+    jwt:
+      enabled: true
     file:
       basic: []
       # -- If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key
@@ -154,7 +156,7 @@ env:
 image:
   repository: getconvoy/convoy
   pullPolicy: IfNotPresent
-  tag: v26.3.5
+  tag: v26.3.7
 
 nameOverride: "convoy-agent"
 fullNameOverride: "convoy-agent"

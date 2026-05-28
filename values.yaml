@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v26.3.5"
+    tag: &tag "v26.3.7"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -12,7 +12,7 @@ global:
     jwt_secret: &jwtSecret "convoy-secret"
     # -- JWT Refresh Secret key
     jwt_refresh_secret: &jwtRefreshSecret "convoy-refresh-secret"
-    # -- If this secret parameter is not empty, JWT secret values will be ignored. The secrets should be in the 'jwt_secret' and 'jwt_refresh_secret' keys
+    # -- Existing Kubernetes Secret name for JWT secrets. Recommended for production. When set, JWT secret values are ignored; the secret must contain 'jwt_secret' and 'jwt_refresh_secret' keys.
     jwt_secret_name: ""
     # -- Tracing config for all convoy services
     tracer_enabled: &tracerEnabled false
@@ -188,6 +188,9 @@ agent:
     proxy: ""
     sign_up_enabled: false
     log_level: *logLevel
+    auth:
+      jwt:
+        enabled: true
     smtp:
       enabled: false
       from: ""
