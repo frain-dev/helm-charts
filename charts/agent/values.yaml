@@ -75,6 +75,8 @@ env:
   auth:
     jwt:
       enabled: true
+      secret: "convoy-secret"
+      refresh_secret: "convoy-refresh-secret"
     file:
       basic: []
       # -- If this secret parameter is not empty, basic auth inline value will be ignored. The basic auth config should be in the 'basic_auth_config' key

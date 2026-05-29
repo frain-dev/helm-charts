@@ -191,6 +191,8 @@ agent:
     auth:
       jwt:
         enabled: true
+        secret: *jwtSecret
+        refresh_secret: *jwtRefreshSecret
     smtp:
       enabled: false
       from: ""
