@@ -62,6 +62,25 @@ spec:
             - name: CONVOY_DB_OPTIONS
               value: {{ .Values.global.externalDatabase.options | quote }}
             {{- end }}
+            {{- if or .Values.global.convoy.jwt_secret_name .Values.global.convoy.jwt_secret .Values.global.convoy.jwt_refresh_secret }}
+            - name: CONVOY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-agent.jwtSecretName" . }}"
+                  key: jwt_secret
+            - name: CONVOY_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-agent.jwtSecretName" . }}"
+                  key: jwt_refresh_secret
+            {{- else }}
+            - name: CONVOY_JWT_SECRET
+              value: {{ .Values.env.auth.jwt.secret | quote }}
+            - name: CONVOY_JWT_REFRESH_SECRET
+              value: {{ .Values.env.auth.jwt.refresh_secret | quote }}
+            {{- end }}
+            - name: CONVOY_JWT_REALM_ENABLED
+              value: {{ .Values.env.auth.jwt.enabled | quote }}
           command: [ "/cmd" ]
           args: [ "migrate", "up" ]
           {{- with .Values.securityContext }}
@@ -100,6 +119,25 @@ spec:
             - name: CONVOY_DISPATCHER_CACERT_PATH
               value: "/etc/convoy/ca.crt"
             {{- end }}
+            {{- if or .Values.global.convoy.jwt_secret_name .Values.global.convoy.jwt_secret .Values.global.convoy.jwt_refresh_secret }}
+            - name: CONVOY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-agent.jwtSecretName" . }}"
+                  key: jwt_secret
+            - name: CONVOY_JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "convoy-agent.jwtSecretName" . }}"
+                  key: jwt_refresh_secret
+            {{- else }}
+            - name: CONVOY_JWT_SECRET
+              value: {{ .Values.env.auth.jwt.secret | quote }}
+            - name: CONVOY_JWT_REFRESH_SECRET
+              value: {{ .Values.env.auth.jwt.refresh_secret | quote }}
+            {{- end }}
+            - name: CONVOY_JWT_REALM_ENABLED
+              value: {{ .Values.env.auth.jwt.enabled | quote }}
             {{- if and .Values.env.auth.file.secret (ne .Values.env.auth.file.secret "") }}
             - name: CONVOY_BASIC_AUTH_CONFIG
               valueFrom:

@@ -2,8 +2,8 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.6"
-appVersion: "v26.3.5"
+version: "3.7.7"
+appVersion: "v26.3.7"
 keywords:
   - Webhooks
   - Kubernetes
@@ -26,11 +26,11 @@ dependencies:
 
   # Vendored subcharts under charts/agent and charts/server (see charts/ directory).
   - name: agent
-    version: 3.7.6
+    version: 3.7.7
     repository: ""
     condition: agent.enabled
 
   - name: server
-    version: 3.7.6
+    version: 3.7.7
     repository: ""
     condition: server.enabled
