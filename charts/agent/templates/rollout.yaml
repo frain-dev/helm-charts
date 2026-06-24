@@ -313,6 +313,27 @@ spec:
             - name: CONVOY_STORAGE_AWS_PREFIX
               value: {{ .Values.env.storage.s3.prefix | quote }}
             {{- end }}
+
+            {{- if eq .Values.env.storage.type "azure_blob" }}
+            - name: CONVOY_STORAGE_AZURE_ACCOUNT_NAME
+              value: {{ .Values.env.storage.azure_blob.account_name | quote }}
+            {{- if and .Values.env.storage.azure_blob.secret (ne .Values.env.storage.azure_blob.secret "") }}
+            - name: CONVOY_STORAGE_AZURE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.env.storage.azure_blob.secret }}"
+                  key: accountKey
+            {{- else }}
+            - name: CONVOY_STORAGE_AZURE_ACCOUNT_KEY
+              value: {{ .Values.env.storage.azure_blob.account_key | quote }}
+            {{- end }}
+            - name: CONVOY_STORAGE_AZURE_CONTAINER_NAME
+              value: {{ .Values.env.storage.azure_blob.container_name | quote }}
+            - name: CONVOY_STORAGE_AZURE_ENDPOINT
+              value: {{ .Values.env.storage.azure_blob.endpoint | quote }}
+            - name: CONVOY_STORAGE_AZURE_PREFIX
+              value: {{ .Values.env.storage.azure_blob.prefix | quote }}
+            {{- end }}
             {{- end }}
 
             - name: CONVOY_INSTANCE_INGEST_RATE
