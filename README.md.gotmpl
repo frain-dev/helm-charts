@@ -40,6 +40,47 @@ helm install convoy convoy/convoy --values values.yaml
 helm install convoy .
 ```
 
+## Object Storage
+
+Convoy supports `s3`, `on_prem`, and `azure_blob` storage backends, selected via
+`server.env.storage.type` (and `agent.env.storage.type`).
+
+### Using a Kubernetes Secret for credentials
+
+For both S3 and Azure Blob you can keep credentials out of your values by referencing
+an existing Kubernetes Secret. Note that **the key name inside the Secret differs by
+backend** — they are intentionally not symmetric:
+
+| Backend | Values field | Required key inside the Secret |
+| --- | --- | --- |
+| S3 | `storage.s3.secret` | `secretKey` |
+| Azure Blob | `storage.azure_blob.secret` | `accountKey` |
+
+Example Azure Blob secret:
+
+```bash
+kubectl create secret generic convoy-azure-storage \
+  --from-literal=accountKey='<your-azure-account-key>'
+```
+
+```yaml
+server:
+  env:
+    storage:
+      enabled: true
+      type: azure_blob
+      azure_blob:
+        account_name: myaccount
+        container_name: convoy-archive
+        secret: convoy-azure-storage   # must contain key "accountKey"
+```
+
+> **Upgrade note (Azure Blob):** Earlier deployments enabled Azure Blob through the
+> `extraEnvs` workaround and typically created their Secret with the key `account_key`.
+> The native `storage.azure_blob.secret` integration reads the key as **`accountKey`**
+> (camelCase). If you are migrating off `extraEnvs`, recreate the Secret with the
+> `accountKey` key, otherwise the account key will not be injected.
+
 {{ template "chart.valuesSection" . }}
 
 {{- if not .SkipVersionFooter }}

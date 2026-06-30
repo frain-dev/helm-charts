@@ -116,6 +116,15 @@ env:
       region: ""
       session_token: ""
       endpoint: ""
+    azure_blob:
+      account_name: ""
+      # -- Ignored in case of secret parameter with non-empty value
+      account_key: ""
+      # -- If this secret parameter is not empty, account_key value will be ignored. The account key should be in the 'accountKey' key
+      secret: ""
+      container_name: ""
+      endpoint: ""
+      prefix: ""
   api_version: ""
   pyroscope:
     enabled: false

@@ -239,6 +239,7 @@ agent:
         path: ""
       s3:
         bucket: ""
+        prefix: ""
         accessKey: ""
         # -- Ignored in case of secret parameter with non-empty value
         secretKey: ""
@@ -247,6 +248,15 @@ agent:
         region: ""
         session_token: ""
         endpoint: ""
+      azure_blob:
+        account_name: ""
+        # -- Ignored in case of secret parameter with non-empty value
+        account_key: ""
+        # -- If this secret parameter is not empty, account_key value will be ignored. The account key should be in the 'accountKey' key
+        secret: ""
+        container_name: ""
+        endpoint: ""
+        prefix: ""
     consumer_pool_size: 100
     enable_profiling: false
     metrics:
@@ -387,6 +397,15 @@ server:
         region: ""
         session_token: ""
         endpoint: ""
+      azure_blob:
+        account_name: ""
+        # -- Ignored in case of secret parameter with non-empty value
+        account_key: ""
+        # -- If this secret parameter is not empty, account_key value will be ignored. The account key should be in the 'accountKey' key
+        secret: ""
+        container_name: ""
+        endpoint: ""
+        prefix: ""
     api_version: *apiVersion
     analytics:
       enabled: true

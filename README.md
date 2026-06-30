@@ -14,6 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
+|  | agent | 3.7.7 |
+|  | server | 3.7.7 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -44,6 +46,47 @@ helm install convoy convoy/convoy --values values.yaml
 helm install convoy .
 ```
 
+## Object Storage
+
+Convoy supports `s3`, `on_prem`, and `azure_blob` storage backends, selected via
+`server.env.storage.type` (and `agent.env.storage.type`).
+
+### Using a Kubernetes Secret for credentials
+
+For both S3 and Azure Blob you can keep credentials out of your values by referencing
+an existing Kubernetes Secret. Note that **the key name inside the Secret differs by
+backend** — they are intentionally not symmetric:
+
+| Backend | Values field | Required key inside the Secret |
+| --- | --- | --- |
+| S3 | `storage.s3.secret` | `secretKey` |
+| Azure Blob | `storage.azure_blob.secret` | `accountKey` |
+
+Example Azure Blob secret:
+
+```bash
+kubectl create secret generic convoy-azure-storage \
+  --from-literal=accountKey='<your-azure-account-key>'
+```
+
+```yaml
+server:
+  env:
+    storage:
+      enabled: true
+      type: azure_blob
+      azure_blob:
+        account_name: myaccount
+        container_name: convoy-archive
+        secret: convoy-azure-storage   # must contain key "accountKey"
+```
+
+> **Upgrade note (Azure Blob):** Earlier deployments enabled Azure Blob through the
+> `extraEnvs` workaround and typically created their Secret with the key `account_key`.
+> The native `storage.azure_blob.secret` integration reads the key as **`accountKey`**
+> (camelCase). If you are migrating off `extraEnvs`, recreate the Secret with the
+> `accountKey` key, otherwise the account key will not be injected.
+
 ## Values
 
 | Key | Type | Default | Description |
@@ -73,14 +116,14 @@ helm install convoy .
 | agent.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | agent.enabled | bool | `true` | Enable the agent component |
 | agent.env.analytics_enabled | bool | `true` |  |
+| agent.env.auth.jwt.enabled | bool | `true` |  |
+| agent.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
+| agent.env.auth.jwt.secret | string | `"convoy-secret"` |  |
 | agent.env.consumer_pool_size | int | `100` |  |
 | agent.env.dispatcher.allow_list[0] | string | `"0.0.0.0/0"` |  |
 | agent.env.dispatcher.deny_list[0] | string | `"127.0.0.1/8"` |  |
 | agent.env.dispatcher.deny_list[1] | string | `"169.254.169.254/32"` |  |
 | agent.env.dispatcher.insecure_skip_verify | bool | `false` |  |
-| agent.env.auth.jwt.enabled | bool | `true` |  |
-| agent.env.auth.jwt.refresh_secret | string | `"convoy-refresh-secret"` |  |
-| agent.env.auth.jwt.secret | string | `"convoy-secret"` |  |
 | agent.env.enable_feature_flag | list | `[]` |  |
 | agent.env.enable_profiling | bool | `false` |  |
 | agent.env.environment | string | `"oss"` |  |
@@ -110,11 +153,18 @@ helm install convoy .
 | agent.env.smtp.ssl | bool | `false` |  |
 | agent.env.smtp.url | string | `""` |  |
 | agent.env.smtp.username | string | `""` |  |
+| agent.env.storage.azure_blob.account_key | string | `""` | Ignored in case of secret parameter with non-empty value |
+| agent.env.storage.azure_blob.account_name | string | `""` |  |
+| agent.env.storage.azure_blob.container_name | string | `""` |  |
+| agent.env.storage.azure_blob.endpoint | string | `""` |  |
+| agent.env.storage.azure_blob.prefix | string | `""` |  |
+| agent.env.storage.azure_blob.secret | string | `""` | If this secret parameter is not empty, account_key value will be ignored. The account key should be in the 'accountKey' key |
 | agent.env.storage.enabled | bool | `false` |  |
 | agent.env.storage.on_prem.path | string | `""` |  |
 | agent.env.storage.s3.accessKey | string | `""` |  |
 | agent.env.storage.s3.bucket | string | `""` |  |
 | agent.env.storage.s3.endpoint | string | `""` |  |
+| agent.env.storage.s3.prefix | string | `""` |  |
 | agent.env.storage.s3.region | string | `""` |  |
 | agent.env.storage.s3.secret | string | `""` | If this secret parameter is not empty, secretKey value will be ignored. The password in the secret should be in the 'secretKey' key |
 | agent.env.storage.s3.secretKey | string | `""` | Ignored in case of secret parameter with non-empty value |
@@ -176,6 +226,10 @@ helm install convoy .
 | global.externalRedis.port | string | `"6379"` | Port for the external redis |
 | global.externalRedis.scheme | string | `"redis"` | Scheme for the external redis. This can be redis, rediss, redis-socket or redis-sentinel |
 | global.externalRedis.secret | string | `""` | If this secret parameter is not empty, password value will be ignored. The password in the secret should be in the 'password' key |
+| global.externalRedis.sentinelMasterName | string | `"mymaster"` | Redis Sentinel master name (required when scheme is redis-sentinel) |
+| global.externalRedis.sentinelPassword | string | `""` | Redis Sentinel auth password (optional) |
+| global.externalRedis.sentinelSecret | string | `""` | Secret containing sentinel password; key: password. If set, sentinelPassword is ignored |
+| global.externalRedis.sentinelUsername | string | `""` | Redis Sentinel auth username (optional) |
 | global.externalRedis.username | string | `""` | username for the external redis. |
 | global.nativeRedis.enabled | bool | `true` | Enable redis; This will use redis chart, Disable if you use an external redis |
 | global.nativeRedis.host | string | `"redis-master"` | Host for the redis |
@@ -236,6 +290,12 @@ helm install convoy .
 | server.env.retention_policy.policy | string | `"720h"` |  |
 | server.env.root_path | string | `""` | Configure root patth for convoy server e.g. "/convoy" |
 | server.env.sign_up_enabled | bool | `false` |  |
+| server.env.storage.azure_blob.account_key | string | `""` | Ignored in case of secret parameter with non-empty value |
+| server.env.storage.azure_blob.account_name | string | `""` |  |
+| server.env.storage.azure_blob.container_name | string | `""` |  |
+| server.env.storage.azure_blob.endpoint | string | `""` |  |
+| server.env.storage.azure_blob.prefix | string | `""` |  |
+| server.env.storage.azure_blob.secret | string | `""` | If this secret parameter is not empty, account_key value will be ignored. The account key should be in the 'accountKey' key |
 | server.env.storage.enabled | bool | `false` |  |
 | server.env.storage.on_prem.path | string | `""` |  |
 | server.env.storage.s3.accessKey | string | `""` |  |
