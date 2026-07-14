@@ -2,7 +2,7 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.7"
+version: "3.7.8"
 appVersion: "v26.3.7"
 keywords:
   - Webhooks
@@ -13,6 +13,12 @@ maintainers:
   - name: Convoy Engineering Team
     email: engineering@getconvoy.io
     url: https://getconvoy.io
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Azure Blob Storage backend support for object storage (server and agent)
+    - kind: fixed
+      description: SMTP reply-to address now uses env.smtp.reply_to instead of env.smtp.from
 dependencies:
   - name: postgresql
     version: 12.5.6
@@ -26,11 +32,11 @@ dependencies:
 
   # Vendored subcharts under charts/agent and charts/server (see charts/ directory).
   - name: agent
-    version: 3.7.7
+    version: 3.7.8
     repository: ""
     condition: agent.enabled
 
   - name: server
-    version: 3.7.7
+    version: 3.7.8
     repository: ""
     condition: server.enabled
