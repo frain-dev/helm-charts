@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.7](https://img.shields.io/badge/Version-3.7.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.7](https://img.shields.io/badge/AppVersion-v26.3.7-informational?style=flat-square)
+![Version: 3.7.8](https://img.shields.io/badge/Version-3.7.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.7](https://img.shields.io/badge/AppVersion-v26.3.7-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.7 |
-|  | server | 3.7.7 |
+|  | agent | 3.7.8 |
+|  | server | 3.7.8 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
