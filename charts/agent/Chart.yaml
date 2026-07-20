@@ -3,7 +3,7 @@ name: agent
 description: Convoy Agent Chart
 type: application
 version: "3.7.9"
-appVersion: "v26.6.5"
+appVersion: "v26.6.6"
 maintainers:
   - name: Convoy Engineering Team
     email: engineering@getconvoy.io

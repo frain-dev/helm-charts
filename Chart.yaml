@@ -3,7 +3,7 @@ name: convoy
 description: Open Source Webhooks Gateway
 type: application
 version: "3.7.9"
-appVersion: "v26.6.5"
+appVersion: "v26.6.6"
 keywords:
   - Webhooks
   - Kubernetes
@@ -16,7 +16,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump default Convoy image to v26.6.5
+      description: Bump default Convoy image to v26.6.6
 dependencies:
   - name: postgresql
     version: 12.5.6
