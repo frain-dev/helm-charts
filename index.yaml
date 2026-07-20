@@ -17,6 +17,46 @@ entries:
   convoy:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Bump default Convoy image to v26.6.6
+    apiVersion: v2
+    appVersion: v26.6.6
+    created: "2026-07-20T13:36:02.963139749Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 12.5.6
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.11.3
+    - condition: agent.enabled
+      name: agent
+      repository: ""
+      version: 3.7.9
+    - condition: server.enabled
+      name: server
+      repository: ""
+      version: 3.7.9
+    description: Open Source Webhooks Gateway
+    digest: 1073f49d637471e910e50bb600dc21c4359900f6ac43d388e612b0827ffcbb89
+    keywords:
+    - Webhooks
+    - Kubernetes
+    - Convoy
+    - Gateway
+    maintainers:
+    - email: engineering@getconvoy.io
+      name: Convoy Engineering Team
+      url: https://getconvoy.io
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-3.7.9/convoy-3.7.9.tgz
+    version: 3.7.9
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Azure Blob Storage backend support for object storage (server and agent)
         - kind: fixed
@@ -1099,4 +1139,4 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-server-1.0.0/server-1.0.0.tgz
     version: 1.0.0
-generated: "2026-07-14T21:12:50.554816951Z"
+generated: "2026-07-20T13:36:02.963349856Z"
