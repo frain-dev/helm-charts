@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.8](https://img.shields.io/badge/Version-3.7.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.3.7](https://img.shields.io/badge/AppVersion-v26.3.7-informational?style=flat-square)
+![Version: 3.7.9](https://img.shields.io/badge/Version-3.7.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.6.6](https://img.shields.io/badge/AppVersion-v26.6.6-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.8 |
-|  | server | 3.7.8 |
+|  | agent | 3.7.9 |
+|  | server | 3.7.9 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -205,7 +205,7 @@ server:
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
 | global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
-| global.convoy.tag | string | `"v26.3.7"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v26.6.6"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |

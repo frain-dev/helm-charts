@@ -7,9 +7,9 @@ dependencies:
   version: 17.11.3
 - name: agent
   repository: ""
-  version: 3.7.8
+  version: 3.7.9
 - name: server
   repository: ""
-  version: 3.7.8
-digest: sha256:c0a25bbd6d0b354695957006b7016e837828c5ec7595391c2368a8c494c18d38
-generated: "2026-07-14T21:30:04.516488+01:00"
+  version: 3.7.9
+digest: sha256:5860e556b3603032f42ab8edc77e40f1b0a3a84d095ee16e3c69d8182d2218f9
+generated: "2026-07-20T13:11:07.604602+01:00"
