@@ -365,12 +365,19 @@ spec:
               value: {{ .Values.env.pyroscope.profile_id | quote }}
             {{- end }}
 
-            {{- if .Values.env.retention_policy.enabled }}
+            {{/*
+            Rendered independently of enabled. Partition retention is gated on the
+            license alone, so the duration is read either way; gating it on enabled
+            meant a configured duration never reached a licensed instance, which
+            then dropped partitions at its own 720h default. An empty duration is
+            omitted rather than sent, because the server fails to parse it.
+            */}}
+            {{- with .Values.env.retention_policy.policy }}
             - name: CONVOY_RETENTION_POLICY
-              value: {{ .Values.env.retention_policy.policy | quote }}
+              value: {{ . | quote }}
+            {{- end }}
             - name: CONVOY_RETENTION_POLICY_ENABLED
-              value: {{ .Values.env.retention_policy.enabled | quote }}
-            {{- end}}
+              value: {{ .Values.env.retention_policy.enabled | default false | quote }}
 
              {{- if .Values.global.convoy.license_key_secret_name }}
             - name: CONVOY_LICENSE_KEY
