@@ -170,7 +170,7 @@ env:
 image:
   repository: getconvoy/convoy
   pullPolicy: IfNotPresent
-  tag: v26.6.6
+  tag: v26.7.2
 
 nameOverride: "convoy-agent"
 fullNameOverride: "convoy-agent"
