@@ -3,7 +3,7 @@ global:
     # -- Docker image tags for all convoy components
     image: &image "getconvoy/convoy"
     # -- Docker image tags for all convoy components
-    tag: &tag "v26.7.2"
+    tag: &tag "v26.7.3"
     # -- Logger Level for all convoy components
     log_level: &logLevel "error"
     # -- Convoy Environment
@@ -67,6 +67,29 @@ global:
     sentry_sample_rate: &sentrySampleRate 1.0
     # -- Database read replica DSN for improved performance
     read_replica_dsn: &readReplicaDsn ""
+    # -- Connections each Convoy process may open to Postgres. This is Convoy's
+    # own default, stated here because it needs sizing rather than accepting:
+    # multiply it by the number of processes (server, agent, and any ingest or
+    # worker) and keep the total comfortably below the database's max_connections,
+    # or a rolling restart exhausts them. The Postgres queue makes this sharper,
+    # since queue, cache, rate limiter, circuit breaker and lock traffic all move
+    # onto this pool. Blank falls back to Convoy's default.
+    db_max_open_conn: 100
+    # -- Queue provider: redis (default) or postgres. Postgres is experimental and
+    # needs a paid license plus "postgres-queue" in both server.env.enable_feature_flag
+    # and agent.env.enable_feature_flag; rendering fails without it. When postgres, set
+    # redis.enabled to false and size Postgres for queue, cache, rate limiter, circuit
+    # breaker, and lock traffic in addition to application queries.
+    queue_provider: redis
+    postgresQueue:
+      batchSize: 64
+      batchWaitMs: 2
+      writeConcurrency: 8
+      leaseTimeoutSeconds: 90
+      claimBatchSize: 64
+      pollIdleMs: 5
+      cacheLocalReadTtlMs: 1000
+      cacheLocalReadSize: 10000
 
   externalDatabase:
     # -- Enable an external database; This will use postgresql chart, Change values if you use an external database
@@ -87,8 +110,10 @@ global:
     options: "sslmode=disable&connect_timeout=30"
     # -- Port for the external database
     port: 5432
-    # -- Read replicas configuration for the external database
-    readReplicas: {}
+    # -- Read replicas for the external database, as a list of database objects.
+    # Convoy decodes this as a JSON array, so a mapping here is rejected. Reading
+    # from replicas also needs the "read-replicas" feature flag and a license.
+    readReplicas: []
   #      - scheme: "postgres"
   #        host: ""
   #        username: ""

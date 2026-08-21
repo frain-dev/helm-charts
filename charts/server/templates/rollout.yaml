@@ -198,7 +198,9 @@ spec:
             {{- end }}
             {{- end }}
 
-            {{- if .Values.global.nativeRedis.enabled }}
+            {{- include "convoy-server.queueProviderEnv" . | nindent 12 }}
+
+            {{- if and (ne (.Values.global.convoy.queue_provider | default "redis") "postgres") .Values.global.nativeRedis.enabled }}
             - name: CONVOY_REDIS_HOST
               value: {{ .Values.global.nativeRedis.host | quote }}
             {{- if ne .Values.global.nativeRedis.secret "" }}
@@ -217,7 +219,7 @@ spec:
               value: "NATIVE"
             {{- end }}
 
-            {{- if .Values.global.externalRedis.enabled }}
+            {{- if and (ne (.Values.global.convoy.queue_provider | default "redis") "postgres") .Values.global.externalRedis.enabled }}
             {{- if .Values.global.externalRedis.addresses }}
             - name: CONVOY_REDIS_CLUSTER_ADDRESSES
               value: {{ .Values.global.externalRedis.addresses | quote }}
@@ -303,10 +305,20 @@ spec:
               value: {{ .Values.global.convoy.sentry_sample_rate | quote }}
             {{- end }}
 
-            {{- if .Values.global.convoy.read_replica_dsn }}
-            # -- Database read replica connection
-            - name: CONVOY_READ_REPLICA_DSN
-              value: {{ .Values.global.convoy.read_replica_dsn | quote }}
+            {{- if .Values.global.convoy.db_max_open_conn }}
+            # -- Connections this process may open to Postgres. Sized per process,
+            # so the total across workloads must stay under max_connections.
+            - name: CONVOY_DB_MAX_OPEN_CONN
+              value: {{ .Values.global.convoy.db_max_open_conn | quote }}
+            {{- end }}
+
+            {{- if and .Values.global.convoy.read_replica_dsn (not .Values.global.externalDatabase.readReplicas) }}
+            # -- A single read replica given as a DSN. Convoy reads a JSON array of
+            # database objects here, never a bare DSN. externalDatabase.readReplicas
+            # is the full-shape input and wins outright, since both set this same
+            # variable and a container may only carry one value for it.
+            - name: CONVOY_DB_READ_REPLICAS
+              value: {{ list (dict "dsn" .Values.global.convoy.read_replica_dsn) | toJson | quote }}
             {{- end }}
 
            {{- if .Values.global.convoy.license_key_secret_name }}

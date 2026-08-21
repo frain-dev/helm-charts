@@ -18,6 +18,17 @@ global:
     portal_realm_enabled: false
     sentry_sample_rate: 1.0
     read_replica_dsn: ""
+    db_max_open_conn: 100
+    queue_provider: redis
+    postgresQueue:
+      batchSize: 64
+      batchWaitMs: 2
+      writeConcurrency: 8
+      leaseTimeoutSeconds: 90
+      claimBatchSize: 64
+      pollIdleMs: 5
+      cacheLocalReadTtlMs: 1000
+      cacheLocalReadSize: 10000
 
   externalDatabase:
     enabled: false
@@ -28,7 +39,7 @@ global:
     username: "postgres"
     options: "sslmode=disable&connect_timeout=30"
     port: 5432
-    readReplicas: {}
+    readReplicas: []
 
   nativeRedis:
     enabled: true
@@ -170,7 +181,7 @@ env:
 image:
   repository: getconvoy/convoy
   pullPolicy: IfNotPresent
-  tag: v26.7.2
+  tag: v26.7.3
 
 nameOverride: "convoy-agent"
 fullNameOverride: "convoy-agent"
