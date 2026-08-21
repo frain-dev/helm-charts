@@ -18,6 +18,52 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Bump default Convoy image to v26.7.3
+        - kind: added
+          description: global.convoy.queue_provider selects the Redis or Postgres queue, with postgresQueue tuning values
+        - kind: fixed
+          description: Render the dispatcher deny list as CONVOY_DISPATCHER_BLOCK_LIST, the name Convoy reads
+        - kind: fixed
+          description: Render global.convoy.read_replica_dsn as CONVOY_DB_READ_REPLICAS, the name and shape Convoy reads
+    apiVersion: v2
+    appVersion: v26.7.3
+    created: "2026-08-21T18:36:12.82021188Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 12.5.6
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.11.3
+    - condition: agent.enabled
+      name: agent
+      repository: ""
+      version: 3.7.11
+    - condition: server.enabled
+      name: server
+      repository: ""
+      version: 3.7.11
+    description: Open Source Webhooks Gateway
+    digest: 0bc243efa565ba11233f4537989bbe3698b76bfd89f8d3aa90d0d0b1dd6fae26
+    keywords:
+    - Webhooks
+    - Kubernetes
+    - Convoy
+    - Gateway
+    maintainers:
+    - email: engineering@getconvoy.io
+      name: Convoy Engineering Team
+      url: https://getconvoy.io
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-3.7.11/convoy-3.7.11.tgz
+    version: 3.7.11
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump default Convoy image to v26.7.2
     apiVersion: v2
     appVersion: v26.7.2
@@ -1179,4 +1225,4 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-server-1.0.0/server-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-14T07:15:07.698825052Z"
+generated: "2026-08-21T18:36:12.820650641Z"
