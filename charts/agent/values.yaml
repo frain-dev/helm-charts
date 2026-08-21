@@ -18,6 +18,7 @@ global:
     portal_realm_enabled: false
     sentry_sample_rate: 1.0
     read_replica_dsn: ""
+    db_max_open_conn: 100
     queue_provider: redis
     postgresQueue:
       batchSize: 64

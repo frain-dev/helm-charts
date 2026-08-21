@@ -60,6 +60,15 @@ if echo "$OUT_DEFAULT" | grep -q 'CONVOY_DISPATCHER_DENY_LIST'; then
   fail "CONVOY_DISPATCHER_DENY_LIST is not read by Convoy; use CONVOY_DISPATCHER_BLOCK_LIST"
 fi
 
+# --- Pool size: one value per process, and blank defers to Convoy's default ---
+n_pool="$(echo "$OUT_DEFAULT" | grep -c 'name: CONVOY_DB_MAX_OPEN_CONN' || true)"
+[[ "${n_pool}" -eq 2 ]] || fail "expected CONVOY_DB_MAX_OPEN_CONN on server and agent (got ${n_pool})"
+
+OUT_NOPOOL="$(helm template env-contract-nopool . --set global.convoy.db_max_open_conn="")"
+if echo "$OUT_NOPOOL" | grep -q 'CONVOY_DB_MAX_OPEN_CONN'; then
+  fail "a blank db_max_open_conn must not render, so Convoy applies its own default"
+fi
+
 # --- Read replicas: a JSON array of database objects, and only ever one value ---
 OUT_DSN="$(helm template env-contract-dsn . \
   --set global.convoy.read_replica_dsn='postgres://u:p@replica:5432/convoy')"
@@ -100,6 +109,7 @@ echo "$OUT_RO" | grep -qE 'value: "?postgres"?' || fail "rollout: CONVOY_QUEUE_P
 echo "$OUT_RO" | grep -q 'name: CONVOY_POSTGRES_QUEUE_BATCH_SIZE' || fail "rollout: missing Postgres queue tuning env"
 echo "$OUT_RO" | grep -q 'name: CONVOY_DISPATCHER_BLOCK_LIST' || fail "rollout: missing CONVOY_DISPATCHER_BLOCK_LIST"
 echo "$OUT_RO" | grep -q 'name: CONVOY_DB_READ_REPLICAS' || fail "rollout: missing CONVOY_DB_READ_REPLICAS"
+echo "$OUT_RO" | grep -q 'name: CONVOY_DB_MAX_OPEN_CONN' || fail "rollout: missing CONVOY_DB_MAX_OPEN_CONN"
 
 n_ro_redis="$(echo "$OUT_RO" | grep -c 'CONVOY_REDIS_' || true)"
 [[ "${n_ro_redis}" -eq 0 ]] || fail "rollout: Redis env must not render on the Postgres queue (got ${n_ro_redis})"

@@ -180,6 +180,7 @@ server:
 | global.convoy.api_version | string | `"2024-01-01"` | API version |
 | global.convoy.cacert_content | string | `""` | Dispatcher CA Certificate content. If provided, a secret will be created with this content |
 | global.convoy.cacert_secret_name | string | `""` | Dispatcher CA Certificate configuration. If provided, it will use the content of the secret |
+| global.convoy.db_max_open_conn | int | `100` | Connections each Convoy process may open to Postgres. This is Convoy's own default, stated here because it needs sizing rather than accepting: multiply it by the number of processes (server, agent, and any ingest or worker) and keep the total comfortably below the database's max_connections, or a rolling restart exhausts them. The Postgres queue makes this sharper, since queue, cache, rate limiter, circuit breaker and lock traffic all move onto this pool. Blank falls back to Convoy's default. |
 | global.convoy.enable_usage_analytics | bool | `true` | Enable usage analytics |
 | global.convoy.environment | string | `"oss"` | Convoy Environment |
 | global.convoy.google_oauth_client_id | string | `""` | Google OAuth Client ID from Google Cloud Console |

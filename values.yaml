@@ -67,6 +67,14 @@ global:
     sentry_sample_rate: &sentrySampleRate 1.0
     # -- Database read replica DSN for improved performance
     read_replica_dsn: &readReplicaDsn ""
+    # -- Connections each Convoy process may open to Postgres. This is Convoy's
+    # own default, stated here because it needs sizing rather than accepting:
+    # multiply it by the number of processes (server, agent, and any ingest or
+    # worker) and keep the total comfortably below the database's max_connections,
+    # or a rolling restart exhausts them. The Postgres queue makes this sharper,
+    # since queue, cache, rate limiter, circuit breaker and lock traffic all move
+    # onto this pool. Blank falls back to Convoy's default.
+    db_max_open_conn: 100
     # -- Queue provider: redis (default) or postgres. Postgres is experimental and
     # needs a paid license plus "postgres-queue" in both server.env.enable_feature_flag
     # and agent.env.enable_feature_flag; rendering fails without it. When postgres, set

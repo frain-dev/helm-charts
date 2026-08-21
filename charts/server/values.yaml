@@ -19,6 +19,7 @@ global:
     sentry_sample_rate: 1.0
     read_replica_dsn: ""
     environment: ""
+    db_max_open_conn: 100
     queue_provider: redis
     postgresQueue:
       batchSize: 64

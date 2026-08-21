@@ -341,6 +341,13 @@ spec:
               value: {{ .Values.global.convoy.sentry_sample_rate | quote }}
             {{- end }}
 
+            {{- if .Values.global.convoy.db_max_open_conn }}
+            # -- Connections this process may open to Postgres. Sized per process,
+            # so the total across workloads must stay under max_connections.
+            - name: CONVOY_DB_MAX_OPEN_CONN
+              value: {{ .Values.global.convoy.db_max_open_conn | quote }}
+            {{- end }}
+
             {{- if and .Values.global.convoy.read_replica_dsn (not .Values.global.externalDatabase.readReplicas) }}
             # -- A single read replica given as a DSN. Convoy reads a JSON array of
             # database objects here, never a bare DSN. externalDatabase.readReplicas
