@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.10](https://img.shields.io/badge/Version-3.7.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.2](https://img.shields.io/badge/AppVersion-v26.7.2-informational?style=flat-square)
+![Version: 3.7.11](https://img.shields.io/badge/Version-3.7.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.3](https://img.shields.io/badge/AppVersion-v26.7.3-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.10 |
-|  | server | 3.7.10 |
+|  | agent | 3.7.11 |
+|  | server | 3.7.11 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -198,6 +198,15 @@ server:
 | global.convoy.otel_insecure_skip_verify | bool | `true` | Open Telemetry insecure skip verify |
 | global.convoy.otel_sample_rate | int | `1` | Open Telemetry sample rate |
 | global.convoy.portal_realm_enabled | bool | `false` | Enable Portal Realm authentication for enhanced security |
+| global.convoy.postgresQueue.batchSize | int | `64` |  |
+| global.convoy.postgresQueue.batchWaitMs | int | `2` |  |
+| global.convoy.postgresQueue.cacheLocalReadSize | int | `10000` |  |
+| global.convoy.postgresQueue.cacheLocalReadTtlMs | int | `1000` |  |
+| global.convoy.postgresQueue.claimBatchSize | int | `64` |  |
+| global.convoy.postgresQueue.leaseTimeoutSeconds | int | `90` |  |
+| global.convoy.postgresQueue.pollIdleMs | int | `5` |  |
+| global.convoy.postgresQueue.writeConcurrency | int | `8` |  |
+| global.convoy.queue_provider | string | `"redis"` | Queue provider: redis (default) or postgres. Postgres is experimental and needs a paid license plus "postgres-queue" in both server.env.enable_feature_flag and agent.env.enable_feature_flag; rendering fails without it. When postgres, set redis.enabled to false and size Postgres for queue, cache, rate limiter, circuit breaker, and lock traffic in addition to application queries. |
 | global.convoy.read_replica_dsn | string | `""` | Database read replica DSN for improved performance |
 | global.convoy.retention_policy_duration | string | `"720h"` |  |
 | global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
@@ -205,7 +214,7 @@ server:
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
 | global.convoy.sentry_sample_rate | float | `1` | Sentry sample rate for error sampling (0.0 to 1.0) |
-| global.convoy.tag | string | `"v26.7.2"` | Docker image tags for all convoy components |
+| global.convoy.tag | string | `"v26.7.3"` | Docker image tags for all convoy components |
 | global.convoy.tracer_enabled | bool | `false` | Tracing config for all convoy services |
 | global.convoy.tracer_type | string | `"otel"` | Tracing provider type |
 | global.externalDatabase.database | string | `"convoy"` | Database name for the external database |
@@ -215,7 +224,7 @@ server:
 | global.externalDatabase.password | string | `"postgres"` | Password for the external database, ignored in case of secret parameter with non-empty value |
 | global.externalDatabase.port | int | `5432` | Port for the external database |
 | global.externalDatabase.postgresPassword | string | `"postgres"` | Password for the external database |
-| global.externalDatabase.readReplicas | object | `{}` | Read replicas configuration for the external database |
+| global.externalDatabase.readReplicas | list | `[]` | Read replicas for the external database, as a list of database objects. Convoy decodes this as a JSON array, so a mapping here is rejected. Reading from replicas also needs the "read-replicas" feature flag and a license. |
 | global.externalDatabase.secret | string | `""` | If this secret parameter is not empty, the password value will be ignored. The password in the secret should be in the 'password' key |
 | global.externalDatabase.username | string | `"postgres"` | Username for the external database |
 | global.externalRedis.addresses | string | `""` | redis cluster addresses, if set the other values won't be used |

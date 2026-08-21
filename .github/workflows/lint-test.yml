@@ -39,6 +39,12 @@ jobs:
           chmod +x scripts/verify-redis-sentinel-template.sh
           ./scripts/verify-redis-sentinel-template.sh
 
+      - name: Verify env var names Convoy reads (helm template)
+        run: |
+          helm dependency build .
+          chmod +x scripts/verify-env-contract-template.sh
+          ./scripts/verify-env-contract-template.sh
+
       - name: Create kind cluster
         uses: helm/kind-action@v1.12.0
         if: steps.list-changed.outputs.changed == 'true'
