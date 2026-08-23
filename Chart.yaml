@@ -2,8 +2,8 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.11"
-appVersion: "v26.7.3"
+version: "3.7.12"
+appVersion: "v26.7.4"
 keywords:
   - Webhooks
   - Kubernetes
@@ -16,13 +16,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump default Convoy image to v26.7.3
-    - kind: added
-      description: global.convoy.queue_provider selects the Redis or Postgres queue, with postgresQueue tuning values
-    - kind: fixed
-      description: Render the dispatcher deny list as CONVOY_DISPATCHER_BLOCK_LIST, the name Convoy reads
-    - kind: fixed
-      description: Render global.convoy.read_replica_dsn as CONVOY_DB_READ_REPLICAS, the name and shape Convoy reads
+      description: Bump default Convoy image to v26.7.4
 dependencies:
   - name: postgresql
     version: 12.5.6
@@ -36,11 +30,11 @@ dependencies:
 
   # Vendored subcharts under charts/agent and charts/server (see charts/ directory).
   - name: agent
-    version: 3.7.11
+    version: 3.7.12
     repository: ""
     condition: agent.enabled
 
   - name: server
-    version: 3.7.11
+    version: 3.7.12
     repository: ""
     condition: server.enabled
