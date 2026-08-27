@@ -195,7 +195,7 @@ env:
 image:
   repository: getconvoy/convoy
   pullPolicy: Always
-  tag: v26.7.4
+  tag: v26.7.6
 
 nameOverride: "convoy-server"
 fullNameOverride: "convoy-server"
