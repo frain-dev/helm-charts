@@ -126,12 +126,14 @@ env:
     password: ""
     profile_id: ""
   enable_feature_flag: []
-  # enabled gates archiving and backup, not partition deletion. Deletion is gated
-  # by the license alone, so on a licensed instance policy is always in force and
-  # old partitions are dropped at it even when enabled is false.
-  retention_policy:
-    enabled: false
-    policy: 720h
+  # retention.enabled gates licensed partition drop (default true; app default matches).
+  # Keep window: set retention.period (or deprecated retention_policy.policy).
+  # Archiving: set webhook_archiving.enabled (or deprecated retention_policy.enabled).
+  # When those are unset, the chart omits the env vars so app defaults (720h / false)
+  # and extraEnvs CONVOY_RETENTION_POLICY(_ENABLED) migrate still work.
+  retention:
+    enabled: true
+  webhook_archiving: {}
   analytics_enabled: true
   storage:
     enabled: false

@@ -368,18 +368,26 @@ spec:
             {{- end }}
 
             {{/*
-            Rendered independently of enabled. Partition retention is gated on the
-            license alone, so the duration is read either way; gating it on enabled
-            meant a configured duration never reached a licensed instance, which
-            then dropped partitions at its own 720h default. An empty duration is
-            omitted rather than sent, because the server fails to parse it.
+            Retention period (keep window for licensed partition drop) and enable.
+            Webhook archiving is a separate switch; needs usable storage.
+            Emit period / archiving only when values set them (new or deprecated
+            retention_policy.*), and skip when extraEnvs still sets the legacy
+            CONVOY_RETENTION_POLICY(_ENABLED) names so app migrate can apply.
             */}}
-            {{- with .Values.env.retention_policy.policy }}
-            - name: CONVOY_RETENTION_POLICY
+            {{- $skipPeriod := include "convoy-agent.extraEnvNamed" (dict "root" . "name" "CONVOY_RETENTION_POLICY") }}
+            {{- $skipArchiving := include "convoy-agent.extraEnvNamed" (dict "root" . "name" "CONVOY_RETENTION_POLICY_ENABLED") }}
+            {{- with include "convoy-agent.retentionPeriod" . }}
+            {{- if not $skipPeriod }}
+            - name: CONVOY_RETENTION_PERIOD
               value: {{ . | quote }}
             {{- end }}
-            - name: CONVOY_RETENTION_POLICY_ENABLED
-              value: {{ .Values.env.retention_policy.enabled | default false | quote }}
+            {{- end }}
+            - name: CONVOY_RETENTION_ENABLED
+              value: {{ include "convoy-agent.retentionEnabled" . | quote }}
+            {{- if and (include "convoy-agent.webhookArchivingEnabledSet" .) (not $skipArchiving) }}
+            - name: CONVOY_WEBHOOK_ARCHIVING_ENABLED
+              value: {{ include "convoy-agent.webhookArchivingEnabled" . | quote }}
+            {{- end }}
 
              {{- if .Values.global.convoy.license_key_secret_name }}
             - name: CONVOY_LICENSE_KEY

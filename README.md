@@ -140,8 +140,9 @@ server:
 | agent.env.pyroscope.profile_id | string | `""` |  |
 | agent.env.pyroscope.url | string | `""` |  |
 | agent.env.pyroscope.username | string | `""` |  |
-| agent.env.retention_policy.enabled | bool | `false` |  |
-| agent.env.retention_policy.policy | string | `"720h"` |  |
+| agent.env.retention.enabled | bool | `true` | Gate licensed partition drop |
+| agent.env.retention.period | string | | Keep window for partition drop (omit for app default `720h`; deprecated alias `env.retention_policy.policy`) |
+| agent.env.webhook_archiving.enabled | bool | | Gate cold-storage archive/export (omit for app default `false`; deprecated alias `env.retention_policy.enabled`) |
 | agent.env.sign_up_enabled | bool | `false` |  |
 | agent.env.smtp.enabled | bool | `false` |  |
 | agent.env.smtp.from | string | `""` |  |
@@ -209,8 +210,7 @@ server:
 | global.convoy.postgresQueue.writeConcurrency | int | `8` |  |
 | global.convoy.queue_provider | string | `"redis"` | Queue provider: redis (default) or postgres. Postgres is experimental and needs a paid license plus "postgres-queue" in both server.env.enable_feature_flag and agent.env.enable_feature_flag; rendering fails without it. When postgres, set redis.enabled to false and size Postgres for queue, cache, rate limiter, circuit breaker, and lock traffic in addition to application queries. |
 | global.convoy.read_replica_dsn | string | `""` | Database read replica DSN for improved performance |
-| global.convoy.retention_policy_duration | string | `"720h"` |  |
-| global.convoy.retention_policy_enabled | bool | `false` | Retention policy enabled |
+| global.convoy.retention_enabled | bool | `true` | Gate licensed partition drop |
 | global.convoy.sentry_debug | bool | `false` | Sentry debug mode |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |
@@ -296,8 +296,9 @@ server:
 | server.env.pyroscope.profile_id | string | `""` |  |
 | server.env.pyroscope.url | string | `""` |  |
 | server.env.pyroscope.username | string | `""` |  |
-| server.env.retention_policy.enabled | bool | `false` |  |
-| server.env.retention_policy.policy | string | `"720h"` |  |
+| server.env.retention.enabled | bool | `true` | Gate licensed partition drop |
+| server.env.retention.period | string | | Keep window for partition drop (omit for app default `720h`; deprecated alias `env.retention_policy.policy`) |
+| server.env.webhook_archiving.enabled | bool | | Gate cold-storage archive/export (omit for app default `false`; deprecated alias `env.retention_policy.enabled`) |
 | server.env.root_path | string | `""` | Configure root patth for convoy server e.g. "/convoy" |
 | server.env.sign_up_enabled | bool | `false` |  |
 | server.env.storage.azure_blob.account_key | string | `""` | Ignored in case of secret parameter with non-empty value |

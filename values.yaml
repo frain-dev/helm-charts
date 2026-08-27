@@ -35,13 +35,12 @@ global:
     # -- Sentry environment
     sentry_environment: *environment
 
-    # retention_policy_enabled gates archiving and backup, not partition deletion.
-    # Deletion is gated by the license alone, so on a licensed instance the
-    # duration below is always in force and old partitions are dropped at it even
-    # when enabled is false.
-    retention_policy_duration: &retentionPolicyDuration 720h
-    # -- Retention policy enabled
-    retention_policy_enabled: &retentionPolicyEnabled false
+    # Keep window / archiving are optional under server.env / agent.env:
+    #   retention.period, webhook_archiving.enabled
+    # Deprecated aliases still work: retention_policy.policy / .enabled
+    # When unset, chart omits those env vars (app defaults 720h / false;
+    # extraEnvs CONVOY_RETENTION_POLICY(_ENABLED) still migrate).
+    retention_enabled: &retentionEnabled true
     # -- Enable usage analytics
     enable_usage_analytics: &enabledUsageAnalytics true
     # -- API version
@@ -257,9 +256,9 @@ agent:
       password: ""
       profile_id: ""
     enable_feature_flag: []
-    retention_policy:
-      policy: *retentionPolicyDuration
-      enabled: *retentionPolicyEnabled
+    retention:
+      enabled: *retentionEnabled
+    webhook_archiving: {}
     analytics_enabled: *enabledUsageAnalytics
     storage:
       enabled: false
@@ -406,9 +405,9 @@ server:
       password: ""
       profile_id: ""
     enable_feature_flag: []
-    retention_policy:
-      policy: *retentionPolicyDuration
-      enabled: *retentionPolicyEnabled
+    retention:
+      enabled: *retentionEnabled
+    webhook_archiving: {}
     analytics_enabled: *enabledUsageAnalytics
     storage:
       enabled: false
