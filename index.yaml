@@ -18,6 +18,50 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Bump default Convoy image to v26.7.6
+        - kind: changed
+          description: Split retention period/enabled from webhook archiving env knobs
+        - kind: added
+          description: Add server SMTP env knobs on the server chart
+    apiVersion: v2
+    appVersion: v26.7.6
+    created: "2026-08-27T21:13:09.645270973Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 12.5.6
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.11.3
+    - condition: agent.enabled
+      name: agent
+      repository: ""
+      version: 3.7.12
+    - condition: server.enabled
+      name: server
+      repository: ""
+      version: 3.7.12
+    description: Open Source Webhooks Gateway
+    digest: 4a55454c666e48bb4a271dfbb8902df6a7f4cd237b9d1591f9906a339e1c67f7
+    keywords:
+    - Webhooks
+    - Kubernetes
+    - Convoy
+    - Gateway
+    maintainers:
+    - email: engineering@getconvoy.io
+      name: Convoy Engineering Team
+      url: https://getconvoy.io
+    name: convoy
+    type: application
+    urls:
+    - https://github.com/frain-dev/helm-charts/releases/download/convoy-3.7.12/convoy-3.7.12.tgz
+    version: 3.7.12
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump default Convoy image to v26.7.3
         - kind: added
           description: global.convoy.queue_provider selects the Redis or Postgres queue, with postgresQueue tuning values
@@ -1225,4 +1269,4 @@ entries:
     urls:
     - https://github.com/frain-dev/helm-charts/releases/download/convoy-server-1.0.0/server-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-21T18:36:12.820650641Z"
+generated: "2026-08-27T21:13:09.645452623Z"
