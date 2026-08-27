@@ -96,3 +96,75 @@ to set. The paid license the provider also needs cannot be checked from a chart.
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/*
+True when extraEnvs lists an env var with the given name.
+Used to omit chart-rendered CONVOY_RETENTION_PERIOD /
+CONVOY_WEBHOOK_ARCHIVING_ENABLED when operators still set the legacy
+CONVOY_RETENTION_POLICY(_ENABLED) via extraEnvs (app migrate only runs
+when the new keys are absent).
+*/}}
+{{- define "convoy-agent.extraEnvNamed" -}}
+{{- $name := .name -}}
+{{- range (.root.Values.extraEnvs | default list) }}
+{{- if eq (toString .name) $name -}}true{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Keep window for licensed partition drop.
+Prefer env.retention.period; fall back to deprecated env.retention_policy.policy.
+Empty when unset so the env var is omitted and app defaults / extraEnvs
+(CONVOY_RETENTION_POLICY migrate) can apply.
+*/}}
+{{- define "convoy-agent.retentionPeriod" -}}
+{{- $r := .Values.env.retention | default dict -}}
+{{- $legacy := .Values.env.retention_policy | default dict -}}
+{{- if and (hasKey $r "period") $r.period -}}
+{{- $r.period -}}
+{{- else if and (hasKey $legacy "policy") $legacy.policy -}}
+{{- $legacy.policy -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gate licensed partition drop. Default true. No legacy key.
+*/}}
+{{- define "convoy-agent.retentionEnabled" -}}
+{{- $r := .Values.env.retention | default dict -}}
+{{- if hasKey $r "enabled" -}}
+{{- $r.enabled -}}
+{{- else -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Whether to emit CONVOY_WEBHOOK_ARCHIVING_ENABLED.
+True when env.webhook_archiving.enabled or deprecated env.retention_policy.enabled
+is set. Omitted otherwise so app defaults / extraEnvs migrate can apply.
+*/}}
+{{- define "convoy-agent.webhookArchivingEnabledSet" -}}
+{{- $w := .Values.env.webhook_archiving | default dict -}}
+{{- $legacy := .Values.env.retention_policy | default dict -}}
+{{- if or (hasKey $w "enabled") (hasKey $legacy "enabled") -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gate cold-storage archive/export.
+Prefer env.webhook_archiving.enabled; fall back to deprecated
+env.retention_policy.enabled.
+*/}}
+{{- define "convoy-agent.webhookArchivingEnabled" -}}
+{{- $w := .Values.env.webhook_archiving | default dict -}}
+{{- $legacy := .Values.env.retention_policy | default dict -}}
+{{- if hasKey $w "enabled" -}}
+{{- $w.enabled -}}
+{{- else if hasKey $legacy "enabled" -}}
+{{- $legacy.enabled -}}
+{{- else -}}
+false
+{{- end -}}
+{{- end -}}
