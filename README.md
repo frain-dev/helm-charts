@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.12](https://img.shields.io/badge/Version-3.7.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
+![Version: 3.7.13](https://img.shields.io/badge/Version-3.7.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.12 |
-|  | server | 3.7.12 |
+|  | agent | 3.7.13 |
+|  | server | 3.7.13 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -188,6 +188,7 @@ server:
 | global.convoy.google_oauth_enabled | bool | `false` | Enable Google OAuth SSO for user authentication |
 | global.convoy.google_oauth_redirect_url | string | `""` | Google OAuth Redirect URL for callback handling |
 | global.convoy.image | string | `"getconvoy/convoy"` | Docker image tags for all convoy components |
+| global.convoy.imagePullSecrets | list | `[]` | docker-registry secrets used to pull global.convoy.image. Applied to server and agent pods. |
 | global.convoy.jwt_refresh_secret | string | `"convoy-refresh-secret"` | JWT Refresh Secret key |
 | global.convoy.jwt_secret | string | `"convoy-secret"` | JWT Secret key |
 | global.convoy.jwt_secret_name | string | `""` | Existing Kubernetes Secret name for JWT secrets. Recommended for production. When set, JWT secret values are ignored; the secret must contain 'jwt_secret' and 'jwt_refresh_secret' keys. |

@@ -27,6 +27,10 @@ spec:
         app.kubernetes.io/name: {{ include "convoy-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- with .Values.global.convoy.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if or .Values.global.convoy.cacert_secret_name .Values.global.convoy.cacert_content }}
       volumes:
         - name: convoy-cacert
