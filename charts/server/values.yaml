@@ -5,6 +5,7 @@
 global:
   convoy:
     # Default values for standalone deployment - can be overridden by parent chart
+    imagePullSecrets: []
     license_key: ""
     license_key_secret_name: ""
     jwt_secret: "convoy-secret"
