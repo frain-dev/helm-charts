@@ -312,6 +312,30 @@ agent:
     #   cpu: 1000m
     #   memory: 1000Mi
 
+  # The agent serves event intake on its own port, and only events that arrive
+  # there can enter the pipeline data plane. Give it a host of its own when the
+  # pipeline should accept traffic; leave it off and events reach the agent
+  # through the queue instead. The path list is event intake only: the agent
+  # does not serve the rest of the project API, so the control API stays on the
+  # server's host.
+  ingress:
+    # -- Enable ingress for the agent
+    enabled: false
+    annotations: {}
+    ingressClassName: ""
+    tls:
+      - hosts:
+          - test.com
+        secretName: test-tls-secret
+    hosts:
+      - host: test.com
+        http:
+          paths:
+            - path: /ingest
+              pathType: Prefix
+            - path: /api/v1
+              pathType: Prefix
+
   service:
     # -- Type of service for the agent
     type: ClusterIP

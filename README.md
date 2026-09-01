@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.13](https://img.shields.io/badge/Version-3.7.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
+![Version: 3.7.14](https://img.shields.io/badge/Version-3.7.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.13 |
-|  | server | 3.7.13 |
+|  | agent | 3.7.14 |
+|  | server | 3.7.14 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -174,6 +174,16 @@ server:
 | agent.env.worker_execution_mode | string | `"default"` |  |
 | agent.image.pullPolicy | string | `"IfNotPresent"` | Pull policy for the agent image |
 | agent.image.repository | string | `"getconvoy/convoy"` | Repository to be used by the agent. The latest tag is used by default |
+| agent.ingress.annotations | object | `{}` |  |
+| agent.ingress.enabled | bool | `false` | Enable ingress for the agent |
+| agent.ingress.hosts[0].host | string | `"test.com"` |  |
+| agent.ingress.hosts[0].http.paths[0].path | string | `"/ingest"` |  |
+| agent.ingress.hosts[0].http.paths[0].pathType | string | `"Prefix"` |  |
+| agent.ingress.hosts[0].http.paths[1].path | string | `"/api/v1"` |  |
+| agent.ingress.hosts[0].http.paths[1].pathType | string | `"Prefix"` |  |
+| agent.ingress.ingressClassName | string | `""` |  |
+| agent.ingress.tls[0].hosts[0] | string | `"test.com"` |  |
+| agent.ingress.tls[0].secretName | string | `"test-tls-secret"` |  |
 | agent.podDisruptionBudget | object | `{}` |  |
 | agent.securityContext | object | `{}` |  |
 | agent.service.port | int | `80` | Port for the agent service |
