@@ -14,6 +14,16 @@ fail() {
   exit 1
 }
 
+# Value line after env_name in the Deployment with app.kubernetes.io/name: workload.
+deployment_env_value_line() {
+  local yaml=$1 workload=$2 env_name=$3
+  echo "$yaml" | awk -v wl="$workload" -v en="$env_name" '
+    /^kind: Deployment/ { in_dep=0 }
+    $0 ~ ("app.kubernetes.io/name: " wl) { in_dep=1 }
+    in_dep && $0 ~ ("name: " en "$") { getline; print; exit }
+  '
+}
+
 PG_FLAGS=(
   --set global.convoy.queue_provider=postgres
   --set 'server.env.enable_feature_flag={postgres-queue}'
@@ -120,4 +130,42 @@ for stale in CONVOY_DISPATCHER_DENY_LIST CONVOY_READ_REPLICA_DSN; do
   fi
 done
 
-echo "verify-env-contract-template: OK (queue provider, dispatcher, read replicas, rollouts)"
+# --- Retention: global defaults apply to server and agent unless env overrides ---
+OUT_RET_GLOBAL="$(helm template env-contract-ret-global . \
+  --set global.convoy.retention_period=48h \
+  --set global.convoy.webhook_archiving_enabled=false)"
+n_period="$(echo "$OUT_RET_GLOBAL" | grep -c 'name: CONVOY_RETENTION_PERIOD' || true)"
+[[ "${n_period}" -eq 2 ]] || fail "global retention_period: expected on server and agent (got ${n_period})"
+echo "$OUT_RET_GLOBAL" | grep -qE 'value: "?48h"?' || fail "global retention_period: expected 48h"
+n_arch="$(echo "$OUT_RET_GLOBAL" | grep -c 'name: CONVOY_WEBHOOK_ARCHIVING_ENABLED' || true)"
+[[ "${n_arch}" -eq 2 ]] || fail "global webhook_archiving_enabled: expected on server and agent (got ${n_arch})"
+echo "$OUT_RET_GLOBAL" | grep -qE 'value: "?false"?' || fail "global webhook_archiving_enabled: expected false"
+
+RET_OVERRIDE_VALUES="$(mktemp "${TMPDIR:-/tmp}/convoy-ret-override.XXXXXX")"
+trap 'rm -f "${RET_OVERRIDE_VALUES}"' EXIT
+cat > "${RET_OVERRIDE_VALUES}" <<'EOF'
+global:
+  convoy:
+    retention_period: 48h
+server:
+  env:
+    retention:
+      period: 720h
+EOF
+OUT_RET_OVERRIDE="$(helm template env-contract-ret-override . -f "${RET_OVERRIDE_VALUES}")"
+srv_period_line="$(deployment_env_value_line "$OUT_RET_OVERRIDE" convoy-server CONVOY_RETENTION_PERIOD)"
+ag_period_line="$(deployment_env_value_line "$OUT_RET_OVERRIDE" convoy-agent CONVOY_RETENTION_PERIOD)"
+[[ -n "${srv_period_line}" ]] || fail "retention override: server missing CONVOY_RETENTION_PERIOD"
+[[ -n "${ag_period_line}" ]] || fail "retention override: agent missing CONVOY_RETENTION_PERIOD"
+echo "${srv_period_line}" | grep -qE '720h' || fail "retention override: server expected 720h (got ${srv_period_line})"
+echo "${ag_period_line}" | grep -qE '48h' || fail "retention override: agent expected 48h (got ${ag_period_line})"
+
+OUT_RET_LEGACY="$(helm template env-contract-ret-legacy . \
+  --set 'server.extraEnvs[0].name=CONVOY_RETENTION_POLICY' \
+  --set 'server.extraEnvs[0].value=48h' \
+  --set global.convoy.retention_period=48h)"
+if echo "$OUT_RET_LEGACY" | awk '/^kind: Deployment/{d=0} /app.kubernetes.io\/name: convoy-server/{d=1} d' | grep -q 'name: CONVOY_RETENTION_PERIOD'; then
+  fail "legacy extraEnvs CONVOY_RETENTION_POLICY on server must suppress chart-rendered CONVOY_RETENTION_PERIOD"
+fi
+
+echo "verify-env-contract-template: OK (queue provider, dispatcher, read replicas, rollouts, retention globals)"

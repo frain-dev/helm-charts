@@ -37,11 +37,14 @@ global:
     # -- Sentry environment
     sentry_environment: *environment
 
-    # Keep window / archiving are optional under server.env / agent.env:
-    #   retention.period, webhook_archiving.enabled
-    # Deprecated aliases still work: retention_policy.policy / .enabled
-    # When unset, chart omits those env vars (app defaults 720h / false;
-    # extraEnvs CONVOY_RETENTION_POLICY(_ENABLED) still migrate).
+    # Licensed partition drop and keep window. Optional global defaults apply to
+    # server and agent unless overridden under server.env / agent.env:
+    #   retention_enabled (default true)
+    #   retention_period (omit = app default 720h)
+    #   webhook_archiving_enabled (omit = app default false)
+    # Deprecated per-component aliases still work: retention_policy.policy / .enabled
+    # When period / archiving are unset everywhere, chart omits those env vars so
+    # extraEnvs CONVOY_RETENTION_POLICY(_ENABLED) still migrate.
     retention_enabled: &retentionEnabled true
     # -- Enable usage analytics
     enable_usage_analytics: &enabledUsageAnalytics true

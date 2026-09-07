@@ -158,11 +158,10 @@ env:
     password: ""
     profile_id: ""
   enable_feature_flag: []
-  # retention.enabled gates licensed partition drop (default true; app default matches).
-  # Keep window: set retention.period (or deprecated retention_policy.policy).
-  # Archiving: set webhook_archiving.enabled (or deprecated retention_policy.enabled).
-  # When those are unset, the chart omits the env vars so app defaults (720h / false)
-  # and extraEnvs CONVOY_RETENTION_POLICY(_ENABLED) migrate still work.
+  # retention.enabled gates licensed partition drop (default true; global.convoy.retention_enabled when unset here).
+  # Keep window: set retention.period, or global.convoy.retention_period (deprecated: retention_policy.policy).
+  # Archiving: set webhook_archiving.enabled, or global.convoy.webhook_archiving_enabled (deprecated: retention_policy.enabled).
+  # When period / archiving are unset at both levels, chart omits env vars (app defaults 720h / false).
   retention:
     enabled: true
   webhook_archiving: {}
