@@ -1,6 +1,6 @@
 # convoy
 
-![Version: 3.7.13](https://img.shields.io/badge/Version-3.7.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
+![Version: 3.7.14](https://img.shields.io/badge/Version-3.7.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v26.7.6](https://img.shields.io/badge/AppVersion-v26.7.6-informational?style=flat-square)
 
 Open Source Webhooks Gateway
 
@@ -14,8 +14,8 @@ Open Source Webhooks Gateway
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | agent | 3.7.13 |
-|  | server | 3.7.13 |
+|  | agent | 3.7.14 |
+|  | server | 3.7.14 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 12.5.6 |
 | oci://registry-1.docker.io/bitnamicharts | redis | 17.11.3 |
 
@@ -211,7 +211,9 @@ server:
 | global.convoy.postgresQueue.writeConcurrency | int | `8` |  |
 | global.convoy.queue_provider | string | `"redis"` | Queue provider: redis (default) or postgres. Postgres is experimental and needs a paid license plus "postgres-queue" in both server.env.enable_feature_flag and agent.env.enable_feature_flag; rendering fails without it. When postgres, set redis.enabled to false and size Postgres for queue, cache, rate limiter, circuit breaker, and lock traffic in addition to application queries. |
 | global.convoy.read_replica_dsn | string | `""` | Database read replica DSN for improved performance |
-| global.convoy.retention_enabled | bool | `true` | Gate licensed partition drop |
+| global.convoy.retention_enabled | bool | `true` | Gate licensed partition drop on server and agent when env.retention.enabled is unset |
+| global.convoy.retention_period | string | | Keep window for partition drop on server and agent when env.retention.period is unset (omit for app default `720h`; deprecated alias `env.retention_policy.policy`) |
+| global.convoy.webhook_archiving_enabled | bool | | Gate cold-storage archive/export on server and agent when env.webhook_archiving.enabled is unset (omit for app default `false`; deprecated alias `env.retention_policy.enabled`) |
 | global.convoy.sentry_debug | bool | `false` | Sentry debug mode |
 | global.convoy.sentry_dsn | string | `""` | Sentry DSN |
 | global.convoy.sentry_environment | string | `"oss"` | Sentry environment |

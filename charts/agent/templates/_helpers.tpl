@@ -120,10 +120,13 @@ Empty when unset so the env var is omitted and app defaults / extraEnvs
 {{- define "convoy-agent.retentionPeriod" -}}
 {{- $r := .Values.env.retention | default dict -}}
 {{- $legacy := .Values.env.retention_policy | default dict -}}
+{{- $global := .Values.global.convoy | default dict -}}
 {{- if and (hasKey $r "period") $r.period -}}
 {{- $r.period -}}
 {{- else if and (hasKey $legacy "policy") $legacy.policy -}}
 {{- $legacy.policy -}}
+{{- else if and (hasKey $global "retention_period") $global.retention_period -}}
+{{- $global.retention_period -}}
 {{- end -}}
 {{- end -}}
 
@@ -132,8 +135,11 @@ Gate licensed partition drop. Default true. No legacy key.
 */}}
 {{- define "convoy-agent.retentionEnabled" -}}
 {{- $r := .Values.env.retention | default dict -}}
+{{- $global := .Values.global.convoy | default dict -}}
 {{- if hasKey $r "enabled" -}}
 {{- $r.enabled -}}
+{{- else if hasKey $global "retention_enabled" -}}
+{{- $global.retention_enabled -}}
 {{- else -}}
 true
 {{- end -}}
@@ -147,7 +153,8 @@ is set. Omitted otherwise so app defaults / extraEnvs migrate can apply.
 {{- define "convoy-agent.webhookArchivingEnabledSet" -}}
 {{- $w := .Values.env.webhook_archiving | default dict -}}
 {{- $legacy := .Values.env.retention_policy | default dict -}}
-{{- if or (hasKey $w "enabled") (hasKey $legacy "enabled") -}}
+{{- $global := .Values.global.convoy | default dict -}}
+{{- if or (hasKey $w "enabled") (hasKey $legacy "enabled") (hasKey $global "webhook_archiving_enabled") -}}
 true
 {{- end -}}
 {{- end -}}
@@ -160,10 +167,13 @@ env.retention_policy.enabled.
 {{- define "convoy-agent.webhookArchivingEnabled" -}}
 {{- $w := .Values.env.webhook_archiving | default dict -}}
 {{- $legacy := .Values.env.retention_policy | default dict -}}
+{{- $global := .Values.global.convoy | default dict -}}
 {{- if hasKey $w "enabled" -}}
 {{- $w.enabled -}}
 {{- else if hasKey $legacy "enabled" -}}
 {{- $legacy.enabled -}}
+{{- else if hasKey $global "webhook_archiving_enabled" -}}
+{{- $global.webhook_archiving_enabled -}}
 {{- else -}}
 false
 {{- end -}}

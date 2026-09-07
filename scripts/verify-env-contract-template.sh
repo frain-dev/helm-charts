@@ -120,4 +120,33 @@ for stale in CONVOY_DISPATCHER_DENY_LIST CONVOY_READ_REPLICA_DSN; do
   fi
 done
 
-echo "verify-env-contract-template: OK (queue provider, dispatcher, read replicas, rollouts)"
+# --- Retention: global defaults apply to server and agent unless env overrides ---
+OUT_RET_GLOBAL="$(helm template env-contract-ret-global . \
+  --set global.convoy.retention_period=48h \
+  --set global.convoy.webhook_archiving_enabled=false)"
+n_period="$(echo "$OUT_RET_GLOBAL" | grep -c 'name: CONVOY_RETENTION_PERIOD' || true)"
+[[ "${n_period}" -eq 2 ]] || fail "global retention_period: expected on server and agent (got ${n_period})"
+echo "$OUT_RET_GLOBAL" | grep -qE 'value: "?48h"?' || fail "global retention_period: expected 48h"
+n_arch="$(echo "$OUT_RET_GLOBAL" | grep -c 'name: CONVOY_WEBHOOK_ARCHIVING_ENABLED' || true)"
+[[ "${n_arch}" -eq 2 ]] || fail "global webhook_archiving_enabled: expected on server and agent (got ${n_arch})"
+echo "$OUT_RET_GLOBAL" | grep -qE 'value: "?false"?' || fail "global webhook_archiving_enabled: expected false"
+
+OUT_RET_OVERRIDE="$(helm template env-contract-ret-override . \
+  --set global.convoy.retention_period=48h \
+  --set server.env.retention.period=720h)"
+n_srv_period="$(echo "$OUT_RET_OVERRIDE" | awk '/kind: Deployment/{d=0} /name: server/{d=1} d && /name: CONVOY_RETENTION_PERIOD/{c++} END{print c+0}')"
+n_ag_period="$(echo "$OUT_RET_OVERRIDE" | awk '/kind: Deployment/{d=0} /name: agent/{d=1} d && /name: CONVOY_RETENTION_PERIOD/{c++} END{print c+0}')"
+[[ "${n_srv_period}" -eq 1 ]] || fail "retention override: server should keep 720h (got ${n_srv_period} period env blocks)"
+[[ "${n_ag_period}" -eq 1 ]] || fail "retention override: agent should inherit global 48h (got ${n_ag_period} period env blocks)"
+echo "$OUT_RET_OVERRIDE" | awk '/kind: Deployment/{d=0} /name: server/{d=1} d' | grep -qE 'value: "?720h"?' || fail "retention override: server expected 720h"
+echo "$OUT_RET_OVERRIDE" | awk '/kind: Deployment/{d=0} /name: agent/{d=1} d' | grep -qE 'value: "?48h"?' || fail "retention override: agent expected 48h"
+
+OUT_RET_LEGACY="$(helm template env-contract-ret-legacy . \
+  --set 'server.extraEnvs[0].name=CONVOY_RETENTION_POLICY' \
+  --set 'server.extraEnvs[0].value=48h' \
+  --set global.convoy.retention_period=48h)"
+if echo "$OUT_RET_LEGACY" | awk '/kind: Deployment/{d=0} /name: server/{d=1} d' | grep -q 'name: CONVOY_RETENTION_PERIOD'; then
+  fail "legacy extraEnvs CONVOY_RETENTION_POLICY on server must suppress chart-rendered CONVOY_RETENTION_PERIOD"
+fi
+
+echo "verify-env-contract-template: OK (queue provider, dispatcher, read replicas, rollouts, retention globals)"

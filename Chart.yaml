@@ -2,7 +2,7 @@ apiVersion: v2
 name: convoy
 description: Open Source Webhooks Gateway
 type: application
-version: "3.7.13"
+version: "3.7.14"
 appVersion: "v26.7.6"
 keywords:
   - Webhooks
@@ -16,7 +16,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Apply global.convoy.imagePullSecrets to server and agent pods
+      description: Global retention period and webhook archiving defaults for server and agent
 dependencies:
   - name: postgresql
     version: 12.5.6
@@ -30,11 +30,11 @@ dependencies:
 
   # Vendored subcharts under charts/agent and charts/server (see charts/ directory).
   - name: agent
-    version: 3.7.13
+    version: 3.7.14
     repository: ""
     condition: agent.enabled
 
   - name: server
-    version: 3.7.13
+    version: 3.7.14
     repository: ""
     condition: server.enabled
